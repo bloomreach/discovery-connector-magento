@@ -55,16 +55,16 @@ class RemoveSearchResultContainer implements ObserverInterface
                     $layout->unsetElement('sidebar.additional');
                 }
             }
-        } elseif ('catalog_category_index'===$fullActionName && false) {
+        } elseif ('catalog_category_view'===$fullActionName) {
 
             /** @var string|int $isCollectionEnable */
             $isCollectionEnable = $this->getStoreConfigValue(ConfigurationSettingsInterface::COLLECTIONS_ENABLED);
             if (1==$isCollectionEnable) {
                 $layout = $observer->getLayout();
-                $block = $layout->getBlock('search.result');
+                $block = $layout->getBlock('category.products');
                 if ($block) {
                     //you can apply or add you condition here.
-                    $layout->unsetElement('search.result');
+                    $layout->unsetElement('category.products');
                     $layout->unsetElement('sidebar.main');
                     $layout->unsetElement('sidebar.additional');
                 }

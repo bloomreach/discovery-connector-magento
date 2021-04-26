@@ -66,9 +66,10 @@ ini_set('display_errors', 1);
                 infinite_scroll: <?=  1==$escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_INFINITE_SCROLL)) ? 1 : 0; ?>,
                 selector: "<?= $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR); ?>",
                 display_variants: <?=  1==$escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_VARIANTS)) ? 1 : 0; ?>,
-                is_category_page: <?=  (int)$viewModel->isProductListingPage() ?>
+                is_category_page: <?=  (int)$viewModel->isProductListingPage() ?><?php if ($viewModel->isProductListingPage()):$currentCategory = $viewModel->getCurrentCategory();
+                ?>,category_id: "<?= $currentCategory->getId() ?>"
+                <?php endif; ?>
             }
-
         };
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
@@ -145,6 +146,8 @@ ini_set('display_errors', 1);
         </style>
     <?php endif; ?>
     <?php if ($viewModel->isProductListingPage()): ?>
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.13af4826.css"); ?>" rel="stylesheet">
+        <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/category.c4a28bcd.js"); ?>"></script>
         <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS)?? ''; ?>
         <style>
             <?= $plpCss ?>
