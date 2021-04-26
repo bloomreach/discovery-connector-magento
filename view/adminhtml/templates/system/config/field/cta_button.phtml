@@ -1,0 +1,56 @@
+<?php
+/**
+ * Copyright ©Bloomreach. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php /* @var $block \Bloomreach\Connector\Block\System\Config\Form\Field\CtaButtonAbstract */ ?>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="collect-indicator" id="<?= $block->getButtonId(); ?>_span">
+    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
+    <span id="<?= $block->getButtonId(); ?>_message_span"></span>
+</span>
+
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function(jQuery){
+
+        var collectSpan = jQuery('<?= $block->getButtonId(); ?>_span');
+
+        jQuery('#<?= $block->getButtonId(); ?>').click(function () {
+            var params = {};
+            new Ajax.Request('<?= $block->getAjaxUrl() ?>', {
+                parameters:     params,
+                loaderArea:     false,
+                asynchronous:   true,
+                onCreate: function() {
+                    collectSpan.find('.collected').hide();
+                    collectSpan.find('.processing').show();
+                    jQuery('#<?= $block->getButtonId(); ?>_message_span').text('');
+                },
+                onSuccess: function(response) {
+                    collectSpan.find('.processing').hide();
+
+                    var resultText = '';
+                    if (response.status > 200) {
+                        resultText = response.statusText;
+                    } else {
+                        resultText = 'Success';
+                        collectSpan.find('.collected').show();
+                    }
+                    jQuery('#<?= $block->getButtonId(); ?>_message_span').text(resultText);
+
+                    //var json = response.responseJSON;
+
+                }
+            });
+        });
+
+    });
+</script>
+
+

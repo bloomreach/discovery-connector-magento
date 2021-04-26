@@ -1,0 +1,308 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bloomreach_tab" translate="label" sortOrder="220">
+            <label>Bloomreach</label>
+        </tab>
+        <section id="bloomreach_dashboard" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Dashboard</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_dashboard</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Bloomreach: Welcome Onboard</label>
+                <field id="info_note" translate="label" type="note" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Title</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\WelcomeNote</frontend_model>
+                </field>
+                <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Enterprise Grade UI</label>
+                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris. Pellentesque posuere, sapien a cursus euismod, lectus enim semper nunc, et luctus eros mauris eget purus. Vivamus ut tempor tortor.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MarketingCta</frontend_model>
+                </field>
+                <field id="contact_link" translate="label" type="note" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Contact Us</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ContactNote</frontend_model>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_indexing" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Indexing</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_indexing</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Indexing</label>
+                <field id="indexing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Index Catalog</label>
+                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\IndexingCta</frontend_model>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_search" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Search</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_search</resource>
+            <group id="autosuggest" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Autosuggest</label>
+                <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Enable Autosuggest</label>
+                    <comment>Toggle Autosuggest on/off</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="css_selector" translate="label comment" type="text"
+                       sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Css Selector</label>
+                    <comment>Quicksearch input element class or id selector, eg: .search_input or #search_input</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="suggested_terms" translate="label comment" type="text"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Terms</label>
+                    <comment>Suggested Terms</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="suggested_products" translate="label comment" type="text"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Products</label>
+                    <comment>Suggested Products</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="suggested_collection" translate="label comment" type="text"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Collection</label>
+                    <comment>Suggested Collection</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="custom_css" translate="label comment" type="textarea"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Css</label>
+                    <comment>Custom css for autosuggestion</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="reference_link" translate="label comment" type="label"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reference</label>
+                    <comment>link goes here</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="sitesearch" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Sites Search</label>
+                <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Enable Site Search</label>
+                    <comment>Toggle Bloomreach for search result page on/off</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="css_selector" translate="label comment" type="text"
+                       sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Css Selector</label>
+                    <comment>Search result page main content element div class or id selector, eg: .main_container or #main_container</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="items_per_page" translate="label comment" type="text"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Items per page</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="show_variants" translate="label comment" type="select"
+                       sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Variants ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="show_facets" translate="label" type="select"
+                       sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Facets ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="no_of_facets" translate="label" type="text"
+                       sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Facets ?</label>
+                    <depends>
+                        <field id="show_facets">1</field>
+                    </depends>
+                </field>
+                <field id="no_of_facet_options" translate="label comment" type="text"
+                       sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Facet Values ?</label>
+                    <comment>No. of default visible options per facet</comment>
+                    <depends>
+                        <field id="show_facets">1</field>
+                    </depends>
+                </field>
+                <field id="infinite_scroll" translate="label" type="select"
+                       sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Infinite Scroll ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="custom_css" translate="label comment" type="textarea"
+                       sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Css</label>
+                    <comment>Custom css for autosuggestion</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_collections" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Collections</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_collections</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Collections</label>
+                <field id="enabled" translate="label" type="select"
+                       sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Collections</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="css_selector" translate="label comment" type="text"
+                       sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Css Selector</label>
+                    <comment>Category (or Product Listing) page main content element div class or id selector, eg: .main_container or #main_container</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="items_per_page" translate="label comment" type="text"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Items per page</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="show_facets" translate="label" type="select"
+                       sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Facets ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="infinite_scroll" translate="label" type="select"
+                       sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Infinite Scroll ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="custom_css" translate="label comment" type="textarea"
+                       sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Css</label>
+                    <comment>Custom css for autosuggestion</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_optimize" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Optimize</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_optimize</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Optimize</label>
+                <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Marketing</label>
+                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MarketingCta</frontend_model>
+                </field>
+                <field id="search_ranking" translate="label,comment" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Search Ranking</label>
+                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\SearchRankingCta</frontend_model>
+                </field>
+                <field id="merchandising" translate="label,comment" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Merchandising</label>
+                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MerchandisingCta</frontend_model>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_recommendations" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Recommendations</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_recommendations</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Pixel and Recommendations</label>
+                <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Enable Pixel</label>
+                    <comment>Pixel should be enabled to use Recommendation widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_recommendations" translate="label comment" type="select"
+                       sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Recommendation Widget</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If this option is set to "No", then widget will not be loaded on frontend</comment>
+                    <depends>
+                        <field id="enable_pixel">1</field>
+                    </depends>
+                </field>
+                <field id="recommendations_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Recommendation and Marketing</label>
+                    <comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis feugiat arcu. Nullam fermentum nec sem non molestie. Nunc vitae erat placerat, vulputate magna id, consequat ipsum.</comment>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\RecommendationCta</frontend_model>
+                </field>
+            </group>
+        </section>
+        <section id="bloomreach_settings" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Settings</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_settings</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>General Settings</label>
+                <field id="accountid" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+                    <label>Account Id</label>
+                </field>
+                <field id="domain_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
+                    <label>Domain Key</label>
+                </field>
+                <field id="auth_key" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
+                    <label>Auth Key</label>
+                </field>
+                <field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
+                    <label>Tracking Cookie</label>
+                </field>
+                <field id="search_endpoint" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
+                    <label>Search Endpoint</label>
+                </field>
+                <field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
+                    <label>Autosuggest Endpoint</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
