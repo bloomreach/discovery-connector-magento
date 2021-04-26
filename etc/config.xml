@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bloomreach_search>
+            <autosuggest>
+                <enabled>1</enabled>
+                <css_selector>#search</css_selector>
+                <suggested_terms>4</suggested_terms>
+                <suggested_products>5</suggested_products>
+                <suggested_collection>4</suggested_collection>
+            </autosuggest>
+            <sitesearch>
+                <enabled>1</enabled>
+                <css_selector>#maincontent > .columns</css_selector>
+                <items_per_page>16</items_per_page>
+                <show_variants>1</show_variants>
+                <show_facets>1</show_facets>
+                <no_of_facets>5</no_of_facets>
+                <no_of_facet_options>6</no_of_facet_options>
+                <infinite_scroll>1</infinite_scroll>
+            </sitesearch>
+        </bloomreach_search>
+        <bloomreach_collections>
+            <general>
+                <enabled>1</enabled>
+                <css_selector>#maincontent > .columns</css_selector>
+                <items_per_page>16</items_per_page>
+                <show_variants>1</show_variants>
+                <show_facets>1</show_facets>
+                <no_of_facets>5</no_of_facets>
+                <no_of_facet_options>6</no_of_facet_options>
+                <infinite_scroll>1</infinite_scroll>
+            </general>
+        </bloomreach_collections>
+        <bloomreach_recommendations>
+            <general>
+                <enable_pixel>1</enable_pixel>
+                <enable_recommendations>1</enable_recommendations>
+            </general>
+        </bloomreach_recommendations>
+    </default>
+</config>

@@ -1,6 +1,10 @@
 <?php
 namespace Bloomreach\Connector\Block;
 
+/**
+ * Interface ConfigurationSettingsInterface
+ * @package Bloomreach\Connector\Block
+ */
 interface ConfigurationSettingsInterface
 {
     /**
@@ -47,6 +51,9 @@ interface ConfigurationSettingsInterface
     const COLLECTIONS_CSS_SELECTOR = self::COLLECTIONS_PATH . '/css_selector';
     const COLLECTIONS_ITEMS_PER_PAGE = self::COLLECTIONS_PATH . '/items_per_page';
     const COLLECTIONS_SHOW_FACETS = self::COLLECTIONS_PATH . '/show_facets';
+    const COLLECTIONS_NO_OF_FACETS = self::SITESEARCH_PATH . '/no_of_facets';
+    const COLLECTIONS_NO_OF_FACET_OPTIONS = self::SITESEARCH_PATH . '/no_of_facet_options';
+    const COLLECTIONS_SHOW_VARIANTS = self::SITESEARCH_PATH . '/show_variants';
     const COLLECTIONS_INFINITE_SCROLL = self::COLLECTIONS_PATH . '/infinite_scroll';
     const COLLECTIONS_CUSTOM_CSS = self::COLLECTIONS_PATH . '/custom_css';
 

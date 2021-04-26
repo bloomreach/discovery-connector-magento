@@ -3,10 +3,14 @@ namespace Bloomreach\Connector\ViewModel\Head;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
 //use Magento\Catalog\Model\Session as CatalogSession;
+use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Registry;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Sales\Model\Order;
+use Magento\Store\Model\ScopeInterface;
 
 class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
 {
@@ -28,20 +32,29 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     const XML_PATH_EMAIL_RECIPIENT = 'contact/email/recipient_email';
     private Http $request;
     protected Registry $registry;
+    protected Session $_checkoutSession;
+    private Json $jsonSerializer;
 
     /**
      * ScriptInit constructor.
      * @param ScopeConfigInterface $scopeConfig
-     * @param Http $registry
+     * @param Http $request
+     * @param Registry $registry
+     * @param Session $checkoutSession
+     * @param Json $jsonSerializer
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Http $request,
-        Registry $registry
+        Registry $registry,
+        Session $checkoutSession,
+        Json $jsonSerializer
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
         $this->registry = $registry;
+        $this->_checkoutSession = $checkoutSession;
+        $this->jsonSerializer = $jsonSerializer;
         $this->initAppSetting();
     }
 
@@ -72,6 +85,10 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             case 'cms_page_view':
                 $response = 'content';
                 break;
+            case 'checkout_onepage_success':
+                $response = 'checkout_success';
+                // no break
+                break;
             default:
                 $response = 'other';
                 break;
@@ -80,9 +97,40 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
-     * Get catalog session
-     * @return CatalogSession
+     * Get last placed order, it works only on order success page
+     * @return Order
      */
+    public function getLastRealOrder()
+    {
+        return $this->_checkoutSession->getLastRealOrder();
+    }
+
+    /**
+     * Get order line items json data
+     * @param Order $order
+     * @return bool|string
+     */
+    public function getOrderLineItemJson(Order $order)
+    {
+        $response = false;
+        if ($order->getId()) {
+            $orderItems = $order->getAllVisibleItems();
+            $response = [];
+            foreach ($orderItems as $_item) {
+                $response[] = [
+                    "prod_id" => $_item->getProduct()->getId(),
+                    "sku"=> $_item->getSku(),
+                    "name"=> $_item->getName(),
+                    "quantity"=> sprintf('%.2f', $_item->getQtyOrdered()),
+                    "price"=> sprintf('%.2f', $_item->getPriceInclTax())
+                ];
+            }
+            return $this->jsonSerializer->serialize($response);
+        }
+        return $response;
+    }
+
+
     /*public function getCatalogSession()
     {
         return $this->catalogSession;
@@ -116,6 +164,49 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
+     * get loaded page title
+     * @param $block
+     * @return string
+     */
+    public function getCurrentPageTitle($block)
+    {
+        $response = '';
+        try {
+            $response = $block->getLayout()->getBlock('page.main.title')->getPageTitle();
+        } catch (\Exception $e) {
+        }
+        return $response;
+    }
+
+    /**
+     * Get current loaded CMS page, when visitor is on a cms page
+     * @param $block
+     * @return string
+     */
+    public function getCurrentCmsPage($block)
+    {
+        $response = '';
+        try {
+            $response = $block->getLayout()->getBlock('cms_page')->getPage();
+        } catch (\Exception $e) {
+        }
+        return $response;
+    }
+
+    /**
+     * Get Search Term
+     * @return mixed|string
+     */
+    public function getSearchTerm()
+    {
+        $response = '';
+        if ($this->isSearchResultPage()) {
+            $response = $this->request->getParam('q');
+        }
+        return $response;
+    }
+
+    /**
      * Check if current page is search result page
      * @return bool
      */
@@ -125,11 +216,11 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
-     * Sample function returning config value
+     *returning store config value
      **/
     public function getStoreConfigValue($path)
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
     }
 

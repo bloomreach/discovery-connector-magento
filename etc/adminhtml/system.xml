@@ -207,6 +207,29 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="no_of_facets" translate="label" type="text"
+                       sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Facets ?</label>
+                    <depends>
+                        <field id="show_facets">1</field>
+                    </depends>
+                </field>
+                <field id="no_of_facet_options" translate="label comment" type="text"
+                       sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>No. of Facet Values ?</label>
+                    <comment>No. of default visible options per facet</comment>
+                    <depends>
+                        <field id="show_facets">1</field>
+                    </depends>
+                </field>
+                <field id="show_variants" translate="label comment" type="select"
+                       sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Variants ?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
                 <field id="infinite_scroll" translate="label" type="select"
                        sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Infinite Scroll ?</label>
