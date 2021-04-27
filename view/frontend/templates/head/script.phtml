@@ -12,8 +12,6 @@ use Magento\Framework\View\Element\Template;
 /** @var $viewModel ScriptInit */
 
 $viewModel = $block->getViewModel();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 ?>
 <?php if ($viewModel->canInitScript()): ?>
     <script id="bloomreach_connector">
@@ -146,8 +144,8 @@ ini_set('display_errors', 1);
         </style>
     <?php endif; ?>
     <?php if ($viewModel->isProductListingPage()): ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.13af4826.css"); ?>" rel="stylesheet">
-        <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/category.c4a28bcd.js"); ?>"></script>
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.10ad107a.css"); ?>" rel="stylesheet">
+        <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/category.f8822cf3.js"); ?>"></script>
         <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS)?? ''; ?>
         <style>
             <?= $plpCss ?>

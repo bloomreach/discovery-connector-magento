@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
 <page xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <head>
-
-        <!--css src="Bloomreach_Connector::/css/autosuggest.c7fa7518.css"/>
-        <script src="Bloomreach_Connector::js/autosuggest.00d15f41.js"/-->
-
-        <!-- Add external js -->
-        <!-- Add external resources -->
-        <!--css src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" src_type="url" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" src_type="url" />
-        <link src="http://fonts.googleapis.com/css?family=Montserrat" src_type="url" /-->
-
-    </head>
     <body>
         <referenceContainer name="head.additional">
             <block name="bloomreach.connector.init" template="Bloomreach_Connector::head/script.phtml">

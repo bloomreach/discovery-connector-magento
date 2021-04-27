@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Bloomreach\Connector\Observer;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
