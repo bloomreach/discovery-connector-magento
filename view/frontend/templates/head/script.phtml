@@ -13,6 +13,12 @@ use Magento\Framework\View\Element\Template;
 
 $viewModel = $block->getViewModel();
 ?>
+<div class="brsmcustom-loading-mask" style="display: none;">
+    <div class="loader" style="text-align: center;">
+        <img alt="Loading..." src="<?= $block->getViewFileUrl("images/loader-2.gif"); ?>">
+        <p>Please wait...</p>
+    </div>
+</div>
 <?php if ($viewModel->canInitScript()): ?>
     <script id="bloomreach_connector">
         window.bloomreachConnector = {};
@@ -69,6 +75,19 @@ $viewModel = $block->getViewModel();
                 <?php endif; ?>
             }
         };
+        <?php if (($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage()) || ($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage())): ?>
+        /**
+         * Add a loader to main content div while content is being loaded
+         */
+        require([
+            'domReady!'
+        ], function () {
+            // Your Code
+            let domTr = document.querySelector("<?= $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR); ?>");
+            let clm  = document.querySelector(".brsmcustom-loading-mask");
+            domTr.innerHTML = clm.innerHTML;
+        });
+        <?php endif; ?>
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
         <script type="text/javascript">
@@ -134,25 +153,30 @@ $viewModel = $block->getViewModel();
         })();
     </script>
     <?php endif; ?>
-
-    <?php if ($viewModel->isSearchResultPage()): ?>
+    <?php $requireSdk = "'autoSuggestSdk'"; ?>
+    <?php if ($viewModel->isSearchResultPage()): $requireSdk .= ",'productSearchSdk'"; ?>
         <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.7c9af1fc.css"); ?>" rel="stylesheet">
-        <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/product-search.d71d4d48.js"); ?>"></script>
         <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS)?? ''; ?>
         <style>
             <?= $srpCss ?>
         </style>
     <?php endif; ?>
-    <?php if ($viewModel->isProductListingPage()): ?>
+    <?php if ($viewModel->isProductListingPage()): $requireSdk .= ",'collectionSdk'"; ?>
         <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.10ad107a.css"); ?>" rel="stylesheet">
-        <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/category.f8822cf3.js"); ?>"></script>
         <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS)?? ''; ?>
         <style>
             <?= $plpCss ?>
         </style>
     <?php endif; ?>
     <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.c7fa7518.css"); ?>" rel="stylesheet">
-    <script src="<?= $block->getViewFileUrl("Bloomreach_Connector::js/autosuggest.00d15f41.js"); ?>"></script>
+    <script type="text/javascript">
+        require([<?= $requireSdk ?>], function(){
+            window.document.dispatchEvent(new Event("DOMContentLoaded", {
+                bubbles: true,
+                cancelable: true
+            }));
+        });
+    </script>
     <?php $atsCss = $viewModel->getStoreConfigValue($viewModel::SEARCH_CUSTOM_CSS)?? ''; ?>
     <style>
         <?= $atsCss ?>

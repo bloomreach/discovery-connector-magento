@@ -12,14 +12,14 @@
                 <enabled>1</enabled>
                 <css_selector>#search</css_selector>
                 <suggested_terms>4</suggested_terms>
-                <suggested_products>5</suggested_products>
+                <suggested_products>3</suggested_products>
                 <suggested_collection>4</suggested_collection>
             </autosuggest>
             <sitesearch>
                 <enabled>1</enabled>
                 <css_selector>#maincontent > .columns</css_selector>
                 <items_per_page>16</items_per_page>
-                <show_variants>1</show_variants>
+                <show_variants>0</show_variants>
                 <show_facets>1</show_facets>
                 <no_of_facets>5</no_of_facets>
                 <no_of_facet_options>6</no_of_facet_options>
@@ -31,11 +31,11 @@
                 <enabled>1</enabled>
                 <css_selector>#maincontent > .columns</css_selector>
                 <items_per_page>16</items_per_page>
-                <show_variants>1</show_variants>
+                <show_variants>0</show_variants>
                 <show_facets>1</show_facets>
                 <no_of_facets>5</no_of_facets>
                 <no_of_facet_options>6</no_of_facet_options>
-                <infinite_scroll>1</infinite_scroll>
+                <infinite_scroll>0</infinite_scroll>
             </general>
         </bloomreach_collections>
         <bloomreach_recommendations>

@@ -1,6 +1,14 @@
 <?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
+/**
+ * Class IndexingCta
+ * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ */
 class IndexingCta extends CtaButtonAbstract
 {
     /**

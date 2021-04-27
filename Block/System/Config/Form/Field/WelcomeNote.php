@@ -1,9 +1,18 @@
 <?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Phrase as PhraseAlias;
 
+/**
+ * Class WelcomeNote
+ * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ */
 class WelcomeNote extends Field
 {
 
@@ -11,7 +20,7 @@ class WelcomeNote extends Field
      * Returns element html
      *
      * @param AbstractElement $element
-     * @return string
+     * @return PhraseAlias
      */
     protected function _getElementHtml(AbstractElement $element)
     {

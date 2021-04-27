@@ -1,18 +1,27 @@
 <?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 
+/**
+ * Class CtaButtonAbstract
+ * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ */
 abstract class CtaButtonAbstract extends Field
 {
     /**
      * @var string
      */
     protected $_template = 'Bloomreach_Connector::system/config/field/cta_button.phtml';
-    protected $_buttonId;
-    protected $_buttonLabel;
+    protected string $_buttonId;
+    protected string $_buttonLabel;
+
     /**
      * @param Context $context
      * @param array $data
@@ -83,6 +92,7 @@ abstract class CtaButtonAbstract extends Field
      * Generate collect button html
      *
      * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getButtonHtml()
     {

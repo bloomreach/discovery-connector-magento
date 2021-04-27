@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright ©Bloomreach. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
 namespace Bloomreach\Connector\ViewModel\Head;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
@@ -12,6 +16,10 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * Class ScriptInit
+ * @package Bloomreach\Connector\ViewModel\Head
+ */
 class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
 {
     protected $_accId;
@@ -228,7 +236,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if search is enabled
      * @return bool
      */
-    public function isCollectionEnabled()
+    public function isCollectionEnabled(): bool
     {
         $val = $this->getStoreConfigValue(self::COLLECTIONS_ENABLED);
         return (1==$val);
@@ -238,7 +246,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if search is enabled
      * @return bool
      */
-    public function isSearchEnabled()
+    public function isSearchEnabled(): bool
     {
         $val = $this->getStoreConfigValue(self::SITESEARCH_ENABLED);
         return (1==$val);
@@ -248,7 +256,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if auto suggest is enabled
      * @return bool
      */
-    public function isAutoSuggestEnabled()
+    public function isAutoSuggestEnabled(): bool
     {
         $val = $this->getStoreConfigValue(self::SEARCH_ENABLED);
         return (1==$val);
@@ -258,7 +266,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if pixel is enabled
      * @return bool
      */
-    public function isPixelEnabled()
+    public function isPixelEnabled(): bool
     {
         $val = $this->getStoreConfigValue(self::RECOMM_PIXEL_ENABLED);
         return 1==$val;
@@ -268,7 +276,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if recommendation widget is enabled
      * @return bool
      */
-    public function isRecommendationWidgetEnabled()
+    public function isRecommendationWidgetEnabled(): bool
     {
         $isPixelEnabled = $this->isPixelEnabled();
         $val = $this->getStoreConfigValue(self::RECOMM_WIDGET_ENABLED);

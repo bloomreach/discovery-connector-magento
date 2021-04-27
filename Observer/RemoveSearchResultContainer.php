@@ -22,11 +22,16 @@ class RemoveSearchResultContainer implements ObserverInterface
      * @var Http
      */
     private Http $request;
+
+    /**
+     * @var ScopeConfigInterface
+     */
     private ScopeConfigInterface $scopeConfig;
 
     /**
      * RemoveSearchResultContainer constructor.
      * @param Http $request
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         Http $request,
@@ -77,8 +82,10 @@ class RemoveSearchResultContainer implements ObserverInterface
     }
 
     /**
-     *returning store config value
-     **/
+     * returning store config value
+     * @param $path
+     * @return mixed
+     */
     public function getStoreConfigValue($path)
     {
         $storeScope = ScopeInterface::SCOPE_STORE;
