@@ -62,16 +62,6 @@
                 <label translate="true">Number of Products to fetch</label>
                 <value>16</value>
             </parameter>
-            <!--parameter name="block_id" xsi:type="block" visible="true" required="true" sort_order="20">
-                <label translate="true">Block</label>
-                <block class="Magento\Cms\Block\Adminhtml\Block\Widget\Chooser">
-                    <data>
-                        <item name="button" xsi:type="array">
-                            <item name="open" xsi:type="string" translate="true">Select Block...</item>
-                        </item>
-                    </data>
-                </block>
-            </parameter-->
             <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="50">
                 <label translate="true">Template</label>
                 <options>
