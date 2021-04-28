@@ -11,9 +11,10 @@
 var config = {
     map: {
         '*': {
-            productSearchSdk: 'Bloomreach_Connector/js/product-search.d71d4d48',
-            collectionSdk:    'Bloomreach_Connector/js/category.f8822cf3',
-            autoSuggestSdk:   'Bloomreach_Connector/js/autosuggest.00d15f41'
+            productSearchSdk: 'Bloomreach_Connector/js/product-search.26f89326',
+            collectionSdk:    'Bloomreach_Connector/js/category.967a7cac',
+            autoSuggestSdk:   'Bloomreach_Connector/js/autosuggest.23bc422b',
+            pathwaysRecomSdk: 'Bloomreach_Connector/js/pathways-and-recommendations.12e6276f'
         }
     }
 }
