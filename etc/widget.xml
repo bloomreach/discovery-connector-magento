@@ -12,6 +12,56 @@
         <label translate="true">Bloomreach Pathways and Recommendation</label>
         <description translate="true">Recommendation widget</description>
         <parameters>
+            <parameter name="title" xsi:type="text" required="true" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="rec_widget_id" xsi:type="text" required="true" visible="true">
+                <label translate="true">Widget Id</label>
+            </parameter>
+            <parameter name="rec_widget_type" xsi:type="select" required="true" visible="true">
+                <label translate="true">Type</label>
+                <description translate="true">All products - recently added products, New products - products marked as new</description>
+                <options>
+                    <option name="category" value="category" selected="true">
+                        <label translate="true">Category widget</label>
+                    </option>
+                    <option name="keyword" value="keyword">
+                        <label translate="true">Keyword widget</label>
+                    </option>
+                    <option name="global" value="global">
+                        <label translate="true">Global Trending</label>
+                    </option>
+                    <option name="item" value="item">
+                        <label translate="true">Item/Frequently Bought Together</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="category_id" xsi:type="text" required="true" visible="true">
+                <label translate="true">Category Id</label>
+                <depends>
+                    <parameter name="rec_widget_type" value="category" />
+                </depends>
+            </parameter>
+            <parameter name="keyword_query" xsi:type="text" required="true" visible="true">
+                <label translate="true">Keyword/Query</label>
+                <depends>
+                    <parameter name="rec_widget_type" value="keyword" />
+                </depends>
+            </parameter>
+            <parameter name="item_ids" xsi:type="text" required="true" visible="true">
+                <label translate="true">Item Ids</label>
+                <depends>
+                    <parameter name="rec_widget_type" value="item" />
+                </depends>
+            </parameter>
+            <parameter name="products_visible" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
+                <value>4</value>
+            </parameter>
+            <parameter name="products_to_fetch" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to fetch</label>
+                <value>16</value>
+            </parameter>
             <!--parameter name="block_id" xsi:type="block" visible="true" required="true" sort_order="20">
                 <label translate="true">Block</label>
                 <block class="Magento\Cms\Block\Adminhtml\Block\Widget\Chooser">

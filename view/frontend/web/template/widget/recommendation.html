@@ -1,0 +1,14 @@
+<h2 data-bind="text: getWidgetTitle()"></h2>
+<div class="blm-recommendations-widget"
+     data-bind="attr: {
+     'data-id': getWidgetConfig().widget_id,
+     'data-type': getWidgetConfig().widget_type,
+     'data-title': getWidgetTitle(),
+     'data-category-id': getWidgetConfig().category_id,
+     'data-query': getWidgetConfig().query,
+     'data-item-ids': getWidgetConfig().item_ids,
+     'data-number-of-items-to-show': getWidgetConfig().products_visible,
+     'data-number-of-items-to-fetch': getWidgetConfig().products_to_fetch
+     }">
+    <div afterRender="afterRender">...</div>
+</div>

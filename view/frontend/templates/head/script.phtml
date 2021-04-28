@@ -155,7 +155,7 @@ $viewModel = $block->getViewModel();
     <?php endif; ?>
     <?php $requireSdk = "'autoSuggestSdk'"; ?>
     <?php if ($viewModel->isSearchResultPage()): $requireSdk .= ",'productSearchSdk'"; ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.7c9af1fc.css"); ?>" rel="stylesheet">
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.0a41d2f1.css"); ?>" rel="stylesheet">
         <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS)?? ''; ?>
         <style>
             <?= $srpCss ?>
@@ -168,8 +168,9 @@ $viewModel = $block->getViewModel();
             <?= $plpCss ?>
         </style>
     <?php endif; ?>
-    <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.c7fa7518.css"); ?>" rel="stylesheet">
-    <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css"); ?>" rel="stylesheet">
+    <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.bd96933d.css"); ?>" rel="stylesheet">
+    <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.de7d27a0.css"); ?>" rel="stylesheet">
+	<link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css"); ?>" rel="stylesheet">
     <script type="text/javascript">
         require([<?= $requireSdk ?>], function(){
             window.document.dispatchEvent(new Event("DOMContentLoaded", {
