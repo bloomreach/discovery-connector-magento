@@ -7,7 +7,22 @@
 /** @var $block Bloomreach\Connector\Block\Widget\Recommendation */
 ?>
 <?php if ($block->isWidgetVisible()): ?>
-    <div class="widget recommendation pathways-recommendation-widget">
-        <?php /* @noEscape */ // echo $block->getText()?>
+    <div class="widget recommendation pathways-recommendation-widget" data-bind="scope: 'brsmRecommendationWidget'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "brsmRecommendationWidget": {
+                            "component": "Bloomreach_Connector/js/view/recommendation",
+                            "template" : "Bloomreach_Connector/widget/recommendation",
+                            "widgetConfig": <?= $block->getWidgetJsonConfig() ?>
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 <?php endif; ?>
