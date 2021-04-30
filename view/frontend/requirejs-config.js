@@ -11,10 +11,11 @@
 var config = {
     map: {
         '*': {
-            productSearchSdk: 'Bloomreach_Connector/js/product-search.26f89326',
-            collectionSdk:    'Bloomreach_Connector/js/category.967a7cac',
-            autoSuggestSdk:   'Bloomreach_Connector/js/autosuggest.23bc422b',
-            pathwaysRecomSdk: 'Bloomreach_Connector/js/pathways-and-recommendations.12e6276f'
+            productSearchSdk:  'Bloomreach_Connector/js/product-search.82e67233',
+            collectionSdk:     'Bloomreach_Connector/js/category.d3c86a84',
+            autoSuggestSdk:    'Bloomreach_Connector/js/autosuggest.a2a8e13a',
+            pathwaysRecomSdk:  'Bloomreach_Connector/js/pathways-and-recommendations.d003532d',
+            productsEventsSdk: 'Bloomreach_Connector/js/product-events.4e698a52'
         }
     }
 }

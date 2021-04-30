@@ -34,6 +34,9 @@
                     <option name="item" value="item">
                         <label translate="true">Item/Frequently Bought Together</label>
                     </option>
+                    <option name="personalized" value="personalized">
+                        <label translate="true">Personalized Widget/ Past Purchases for logged-in user</label>
+                    </option>
                 </options>
             </parameter>
             <parameter name="category_id" xsi:type="text" required="true" visible="true">

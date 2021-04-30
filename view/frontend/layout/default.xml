@@ -7,8 +7,22 @@
 -->
 <page xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <body>
+        <referenceContainer name="columns">
+            <block name="dynamic.datacontainer" template="Bloomreach_Connector::content/container.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceContainer name="head.additional">
             <block name="bloomreach.connector.init" template="Bloomreach_Connector::head/script.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block name="bloomreach.connector.pixelinit" template="Bloomreach_Connector::foot/pixelinit.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
                 </arguments>

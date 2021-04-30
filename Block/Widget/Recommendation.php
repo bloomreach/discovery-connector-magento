@@ -49,9 +49,9 @@ class Recommendation extends Template implements BlockInterface
      */
     public function isWidgetVisible(): bool
     {
-        $isPixelEnabled = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::RECOMM_PIXEL_ENABLED);
+        //$isPixelEnabled = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::RECOMM_PIXEL_ENABLED);
         $isWidgetEnabled = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::RECOMM_WIDGET_ENABLED);
-        return (1===$isPixelEnabled && 1===$isWidgetEnabled);
+        return 1===$isWidgetEnabled;
     }
 
     /**

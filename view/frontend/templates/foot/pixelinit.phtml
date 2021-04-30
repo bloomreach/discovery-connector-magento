@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Bloomreach\Connector\ViewModel\Head\ScriptInit;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $escaper Escaper */
+/** @var $viewModel ScriptInit */
+
+$viewModel = $block->getViewModel();
+?>
+<?php if ($viewModel->isPixelEnabled()): ?>
+    <div data-bind="scope: 'brsmPixel'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "brsmPixel": {
+                            "component": "Bloomreach_Connector/js/view/pixel",
+                            "template" : "Bloomreach_Connector/widget/pixel",
+                            "widgetConfig": {"account_id": "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>"},
+                            "productEventSdkUrl": "<?= $block->getViewFileUrl("Bloomreach_Connector::js/product-events.929cb026.js") ?>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>
+<?php if (($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage()) || ($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage())): ?>
+   <script type="text/javascript">
+       require(['jquery'],function (jQuery){jQuery("<?= $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR); ?>").append("<div class=\"custom-loader\" style=\"text-align: center;\"><img alt=\"Loading...\" src=\"<?= $block->getViewFileUrl("images/loader-2.gif"); ?>\"> <p>Please wait...</p></div>");});
+   </script>
+<?php endif; ?>

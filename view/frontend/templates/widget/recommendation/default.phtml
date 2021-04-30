@@ -5,9 +5,10 @@
  */
 
 /** @var $block Bloomreach\Connector\Block\Widget\Recommendation */
+$randonId = rand();
 ?>
 <?php if ($block->isWidgetVisible()): ?>
-    <div class="widget recommendation pathways-recommendation-widget" data-bind="scope: 'brsmRecommendationWidget'">
+    <div class="widget recommendation pathways-recommendation-widget" data-bind="scope: 'brsmRecommendationWidget<?= $randonId ?>'">
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
     <script type="text/x-magento-init">
@@ -15,7 +16,7 @@
             "*": {
                 "Magento_Ui/js/core/app": {
                     "components": {
-                        "brsmRecommendationWidget": {
+                        "brsmRecommendationWidget<?= $randonId ?>": {
                             "component": "Bloomreach_Connector/js/view/recommendation",
                             "template" : "Bloomreach_Connector/widget/recommendation",
                             "widgetConfig": <?= $block->getWidgetJsonConfig() ?>

@@ -14,6 +14,7 @@
                     <resource id="Bloomreach_Connector::config_search" title="Search" translate="title" sortOrder="240"/>
                     <resource id="Bloomreach_Connector::config_collections" title="Collections" translate="title" sortOrder="250"/>
                     <resource id="Bloomreach_Connector::config_optimize" title="Optimize" translate="title" sortOrder="260"/>
+                    <resource id="Bloomreach_Connector::config_pixel" title="Pixel" translate="title" sortOrder="265"/>
                     <resource id="Bloomreach_Connector::config_recommendations" title="Recommendations" translate="title" sortOrder="270"/>
                     <resource id="Bloomreach_Connector::config_settings" title="Settings" translate="title" sortOrder="280"/>
                 </resource>
