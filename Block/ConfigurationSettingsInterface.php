@@ -65,6 +65,7 @@ interface ConfigurationSettingsInterface
      * Store config path constant for Recommendations Tab
      */
     const RECOMM_PATH = 'bloomreach_recommendations/general';
-    const RECOMM_PIXEL_ENABLED = self::RECOMM_PATH . '/enable_pixel';
+    const PIXEL_PATH = 'bloomreach_pixel/general';
+    const RECOMM_PIXEL_ENABLED = self::PIXEL_PATH . '/enable_pixel';
     const RECOMM_WIDGET_ENABLED = self::RECOMM_PATH . '/enable_recommendations';
 }

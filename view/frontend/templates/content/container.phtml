@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Bloomreach, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Bloomreach\Connector\ViewModel\Head\ScriptInit;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $escaper Escaper */
+/** @var $viewModel ScriptInit */
+
+$viewModel = $block->getViewModel();
+?>
+<?php if (($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage()) || ($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage())): ?>
+    <div class="brsm-dynamic-datacontainer"></div>
+    <style>
+        #maincontent > .columns > .column.main{display: none;}
+    </style>
+<?php endif; ?>
+

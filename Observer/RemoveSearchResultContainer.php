@@ -67,8 +67,8 @@ class RemoveSearchResultContainer implements ObserverInterface
         } elseif ('catalog_category_view'===$fullActionName) {
 
             /** @var string|int $isCollectionEnable */
-            $isCollectionEnable = $this->getStoreConfigValue(ConfigurationSettingsInterface::COLLECTIONS_ENABLED);
-            if (1==$isCollectionEnable) {
+            $isCollectionEnable = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::COLLECTIONS_ENABLED);
+            if (1===$isCollectionEnable) {
                 $layout = $observer->getLayout();
                 $block = $layout->getBlock('category.products');
                 if ($block) {

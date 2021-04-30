@@ -139,7 +139,7 @@
                 </field>
                 <field id="show_facets" translate="label" type="select"
                        sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show Facets ?</label>
+                    <label>Show Layered Navigation ?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="enabled">1</field>
@@ -147,16 +147,19 @@
                 </field>
                 <field id="no_of_facets" translate="label" type="text"
                        sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>No. of Facets ?</label>
+                    <label>No. of Layered Navigation Filters ?</label>
+                    <comment>No. of default visible filters</comment>
                     <depends>
+                        <field id="enabled">1</field>
                         <field id="show_facets">1</field>
                     </depends>
                 </field>
                 <field id="no_of_facet_options" translate="label comment" type="text"
                        sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>No. of Facet Values ?</label>
-                    <comment>No. of default visible options per facet</comment>
+                    <label>No. of Layered Navigation Values ?</label>
+                    <comment>No. of default visible options per filter</comment>
                     <depends>
+                        <field id="enabled">1</field>
                         <field id="show_facets">1</field>
                     </depends>
                 </field>
@@ -180,14 +183,14 @@
         </section>
         <section id="bloomreach_collections" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Collections</label>
+            <label>Category</label>
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_collections</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>Collections</label>
+                <label>Category Settings</label>
                 <field id="enabled" translate="label" type="select"
                        sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable Collections</label>
+                    <label>Enable For Category</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="css_selector" translate="label comment" type="text"
@@ -207,7 +210,7 @@
                 </field>
                 <field id="show_facets" translate="label" type="select"
                        sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show Facets ?</label>
+                    <label>Show Layered Navigation ?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="enabled">1</field>
@@ -215,16 +218,19 @@
                 </field>
                 <field id="no_of_facets" translate="label" type="text"
                        sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>No. of Facets ?</label>
+                    <label>No. of Layered Navigation Filters ?</label>
+                    <comment>No. of default visible filters</comment>
                     <depends>
+                        <field id="enabled">1</field>
                         <field id="show_facets">1</field>
                     </depends>
                 </field>
                 <field id="no_of_facet_options" translate="label comment" type="text"
                        sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>No. of Facet Values ?</label>
-                    <comment>No. of default visible options per facet</comment>
+                    <label>No. of Layered Navigation Values ?</label>
+                    <comment>No. of default visible options per filter</comment>
                     <depends>
+                        <field id="enabled">1</field>
                         <field id="show_facets">1</field>
                     </depends>
                 </field>
@@ -278,18 +284,27 @@
                 </field>
             </group>
         </section>
-        <section id="bloomreach_recommendations" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="bloomreach_pixel" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Recommendations</label>
+            <label>Pixel</label>
             <tab>bloomreach_tab</tab>
-            <resource>Bloomreach_Connector::config_recommendations</resource>
+            <resource>Bloomreach_Connector::config_pixel</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>Pixel and Recommendations</label>
+                <label>Bloomreach Pixel</label>
                 <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Enable Pixel</label>
                     <comment>Pixel should be enabled to use Recommendation widget</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+            </group>
+        </section>
+        <section id="bloomreach_recommendations" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Recommendations</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_recommendations</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Pathways and Recommendations</label>
                 <field id="enable_recommendations" translate="label comment" type="select"
                        sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Recommendation Widget</label>
@@ -313,22 +328,22 @@
             <resource>Bloomreach_Connector::config_settings</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>General Settings</label>
-                <field id="accountid" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+                <field id="accountid" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Account Id</label>
                 </field>
-                <field id="domain_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
+                <field id="domain_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Domain Key</label>
                 </field>
-                <field id="auth_key" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
+                <field id="auth_key" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Auth Key</label>
                 </field>
-                <field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
+                <field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Tracking Cookie</label>
                 </field>
-                <field id="search_endpoint" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
+                <field id="search_endpoint" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Search Endpoint</label>
                 </field>
-                <field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
+                <field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Autosuggest Endpoint</label>
                 </field>
             </group>

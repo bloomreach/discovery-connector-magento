@@ -95,7 +95,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
                 break;
             case 'checkout_onepage_success':
                 $response = 'checkout_success';
-                // no break
                 break;
             default:
                 $response = 'other';
@@ -137,7 +136,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         }
         return $response;
     }
-
 
     /*public function getCatalogSession()
     {
@@ -218,7 +216,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if current page is search result page
      * @return bool
      */
-    public function isProductListingPage(): bool
+    public function isProductListingPage()
     {
         return 'category' === $this->getCurrentPageName();
     }
@@ -236,7 +234,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if search is enabled
      * @return bool
      */
-    public function isCollectionEnabled(): bool
+    public function isCollectionEnabled()
     {
         $val = $this->getStoreConfigValue(self::COLLECTIONS_ENABLED);
         return (1==$val);
@@ -246,7 +244,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if search is enabled
      * @return bool
      */
-    public function isSearchEnabled(): bool
+    public function isSearchEnabled()
     {
         $val = $this->getStoreConfigValue(self::SITESEARCH_ENABLED);
         return (1==$val);
@@ -256,7 +254,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if auto suggest is enabled
      * @return bool
      */
-    public function isAutoSuggestEnabled(): bool
+    public function isAutoSuggestEnabled()
     {
         $val = $this->getStoreConfigValue(self::SEARCH_ENABLED);
         return (1==$val);
@@ -266,7 +264,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if pixel is enabled
      * @return bool
      */
-    public function isPixelEnabled(): bool
+    public function isPixelEnabled()
     {
         $val = $this->getStoreConfigValue(self::RECOMM_PIXEL_ENABLED);
         return 1==$val;
@@ -276,11 +274,11 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if recommendation widget is enabled
      * @return bool
      */
-    public function isRecommendationWidgetEnabled(): bool
+    public function isRecommendationWidgetEnabled()
     {
-        $isPixelEnabled = $this->isPixelEnabled();
+        // $isPixelEnabled = $this->isPixelEnabled();
         $val = $this->getStoreConfigValue(self::RECOMM_WIDGET_ENABLED);
-        return $isPixelEnabled && (1==$val);
+        return 1==$val;
     }
 
     /**
