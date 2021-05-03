@@ -1,11 +1,19 @@
 <?php
 /**
- * Copyright © Bloomreach, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 
 /** @var $block Bloomreach\Connector\Block\Widget\Recommendation */
-$randonId = rand();
+$randonId = $block->getRandomString();
 ?>
 <?php if ($block->isWidgetVisible()): ?>
     <div class="widget recommendation pathways-recommendation-widget" data-bind="scope: 'brsmRecommendationWidget<?= $randonId ?>'">
@@ -16,10 +24,10 @@ $randonId = rand();
             "*": {
                 "Magento_Ui/js/core/app": {
                     "components": {
-                        "brsmRecommendationWidget<?= $randonId ?>": {
+                        "brsmRecommendationWidget<?=  /* @noEscape */ $randonId ?>": {
                             "component": "Bloomreach_Connector/js/view/recommendation",
                             "template" : "Bloomreach_Connector/widget/recommendation",
-                            "widgetConfig": <?= $block->getWidgetJsonConfig() ?>
+                            "widgetConfig": <?=  /* @noEscape */ $block->getWidgetJsonConfig() ?>
                         }
                     }
                 }

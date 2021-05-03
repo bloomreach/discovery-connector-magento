@@ -1,16 +1,24 @@
 /**
- * Copyright ©Bloomreach. All rights reserved.
- * See LICENSE.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 define(['uiComponent','Magento_Customer/js/customer-data','pathwaysRecomSdk'],
     function (Component, customerData) {
         'use strict';
         return Component.extend({
             initialize: function (config) {
-                var self = this;
-                this._super();
-                this.widgetConfig = config.widgetConfig;
-                this.customer = customerData.get('customer');
+                let self = this;
+                self._super();
+                self.widgetConfig = config.widgetConfig;
+                self.customer = customerData.get('customer');
             },
             getWidgetTitle: function () {
                 return this.widgetConfig.title;
@@ -23,10 +31,6 @@ define(['uiComponent','Magento_Customer/js/customer-data','pathwaysRecomSdk'],
             },
             afterRender: function () {
                 window.BloomreachModules.pathwaysRecommendations.load();
-                /**window.document.dispatchEvent(new Event("DOMContentLoaded", {
-                    bubbles: true,
-                    cancelable: true
-                }));**/
             }
         });
 });

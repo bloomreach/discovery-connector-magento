@@ -1,48 +1,59 @@
 <?php
 /**
- * Copyright ©Bloomreach. All rights reserved.
- * See LICENSE.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 ?>
-<?php /* @var $block \Bloomreach\Connector\Block\System\Config\Form\Field\CtaButtonAbstract */ ?>
+<?php
+use Magento\Framework\Escaper;
+/* @var $block \Bloomreach\Connector\Block\System\Config\Form\Field\CtaButtonAbstract */
+/** @var Escaper $escaper */
+?>
 
-<?php echo $block->getButtonHtml() ?>
-<span class="collect-indicator" id="<?= $block->getButtonId(); ?>_span">
-    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
-    <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
+<?= $block->getButtonHtml() ?>
+<span class="collect-indicator" id="<?= /* @noEscape */ $block->getButtonId(); ?>_span">
+    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/process_spinner.gif')) ?>"/>
+    <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/rule_component_apply.gif')) ?>"/>
     <span id="<?= $block->getButtonId(); ?>_message_span"></span>
 </span>
 
 <script>
     require([
-        'jquery',
-        'prototype'
+        'jquery'
     ], function(jQuery){
 
-        var collectSpan = jQuery('<?= $block->getButtonId(); ?>_span');
+        let collectSpan = jQuery('<?= /* @noEscape */ $block->getButtonId(); ?>_span');
 
-        jQuery('#<?= $block->getButtonId(); ?>').click(function () {
-            var params = {};
-            new Ajax.Request('<?= $block->getAjaxUrl() ?>', {
+        jQuery('#<?= /* @noEscape */ $block->getButtonId(); ?>').click(function () {
+            let params = {};
+            new Ajax.Request('<?= $escaper->escapeUrl($block->getAjaxUrl()) ?>', {
                 parameters:     params,
                 loaderArea:     false,
                 asynchronous:   true,
                 onCreate: function() {
                     collectSpan.find('.collected').hide();
                     collectSpan.find('.processing').show();
-                    jQuery('#<?= $block->getButtonId(); ?>_message_span').text('');
+                    jQuery('#<?= /* @noEscape */ $block->getButtonId(); ?>_message_span').text('');
                 },
                 onSuccess: function(response) {
                     collectSpan.find('.processing').hide();
 
-                    var resultText = '';
+                    let resultText = '';
                     if (response.status > 200) {
                         resultText = response.statusText;
                     } else {
                         resultText = 'Success';
                         collectSpan.find('.collected').show();
                     }
-                    jQuery('#<?= $block->getButtonId(); ?>_message_span').text(resultText);
+                    jQuery('#<?= /* @noEscape */ $block->getButtonId(); ?>_message_span').text(resultText);
 
                     //var json = response.responseJSON;
 
