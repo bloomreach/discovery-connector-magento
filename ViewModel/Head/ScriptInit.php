@@ -1,11 +1,21 @@
 <?php
 /**
- * Copyright ©Bloomreach. All rights reserved.
- * See LICENSE.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
+
 namespace Bloomreach\Connector\ViewModel\Head;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
+
 //use Magento\Catalog\Model\Session as CatalogSession;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -22,12 +32,35 @@ use Magento\Store\Model\ScopeInterface;
  */
 class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
 {
-    protected $_accId;
-    protected $_domainKey;
-    protected $_authKey;
-    protected $_trackingCookie;
-    protected $_searchEp;
-    protected $_autoSuggestEp;
+    /**
+     * @var string
+     */
+    protected string $_accId='';
+
+    /**
+     * @var string
+     */
+    protected string $_domainKey='';
+
+    /**
+     * @var string
+     */
+    protected string $_authKey='';
+
+    /**
+     * @var string
+     */
+    protected string $_trackingCookie='';
+
+    /**
+     * @var string
+     */
+    protected string $_searchEp='';
+
+    /**
+     * @var string
+     */
+    protected string $_autoSuggestEp='';
 
     /**
      * @var ScopeConfigInterface
@@ -38,9 +71,25 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Recipient email config path
      */
     const XML_PATH_EMAIL_RECIPIENT = 'contact/email/recipient_email';
+
+    /**
+     * @var Http
+     */
     private Http $request;
+
+    /**
+     * @var Registry
+     */
     protected Registry $registry;
+
+    /**
+     * @var Session
+     */
     protected Session $_checkoutSession;
+
+    /**
+     * @var Json
+     */
     private Json $jsonSerializer;
 
     /**
@@ -75,9 +124,9 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         $response = '';
         $fullActionName = $this->request->getFullActionName();
         switch ($fullActionName) {
-           case 'catalog_product_view':
-               $response = 'product';
-               break;
+            case 'catalog_product_view':
+                $response = 'product';
+                break;
             case 'catalog_category_view':
                 $response = 'category';
                 break;
@@ -126,10 +175,10 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             foreach ($orderItems as $_item) {
                 $response[] = [
                     "prod_id" => $_item->getProduct()->getId(),
-                    "sku"=> $_item->getSku(),
-                    "name"=> $_item->getName(),
-                    "quantity"=> sprintf('%.2f', $_item->getQtyOrdered()),
-                    "price"=> sprintf('%.2f', $_item->getPriceInclTax())
+                    "sku" => $_item->getSku(),
+                    "name" => $_item->getName(),
+                    "quantity" => sprintf('%.2f', $_item->getQtyOrdered()),
+                    "price" => sprintf('%.2f', $_item->getPriceInclTax())
                 ];
             }
             return $this->jsonSerializer->serialize($response);
@@ -237,7 +286,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function isCollectionEnabled()
     {
         $val = $this->getStoreConfigValue(self::COLLECTIONS_ENABLED);
-        return (1==$val);
+        return (1 == $val);
     }
 
     /**
@@ -247,7 +296,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function isSearchEnabled()
     {
         $val = $this->getStoreConfigValue(self::SITESEARCH_ENABLED);
-        return (1==$val);
+        return (1 == $val);
     }
 
     /**
@@ -257,7 +306,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function isAutoSuggestEnabled()
     {
         $val = $this->getStoreConfigValue(self::SEARCH_ENABLED);
-        return (1==$val);
+        return (1 == $val);
     }
 
     /**
@@ -267,7 +316,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function isPixelEnabled()
     {
         $val = $this->getStoreConfigValue(self::RECOMM_PIXEL_ENABLED);
-        return 1==$val;
+        return 1 == $val;
     }
 
     /**
@@ -278,7 +327,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     {
         // $isPixelEnabled = $this->isPixelEnabled();
         $val = $this->getStoreConfigValue(self::RECOMM_WIDGET_ENABLED);
-        return 1==$val;
+        return 1 == $val;
     }
 
     /**

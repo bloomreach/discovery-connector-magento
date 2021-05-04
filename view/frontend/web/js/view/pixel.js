@@ -1,6 +1,14 @@
 /**
- * Copyright ©Bloomreach. All rights reserved.
- * See LICENSE.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEventsSdk'],
     function (jQuery, Component, customerData) {
@@ -34,7 +42,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
             initWidgetProductAttr: function () {
                 try {
                     jQuery('.block.widget.block-products-list li.product-item form[data-role="tocart-form"] button.action.tocart.primary').each(function () {
-                        var form = jQuery(this).closest('form');
+                        let form = jQuery(this).closest('form');
                         jQuery(this).attr('data-blm-add-to-cart', '');
                         jQuery(this).attr('data-blm-add-to-cart-sku', form.attr('data-product-sku'));
                         jQuery(this).attr('data-blm-add-to-cart-prod-id', form.find('input[name="product"]').val());

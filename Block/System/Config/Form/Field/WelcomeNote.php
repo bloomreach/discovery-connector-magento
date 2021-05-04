@@ -1,7 +1,15 @@
 <?php
 /**
- * Copyright © Bloomreach, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 

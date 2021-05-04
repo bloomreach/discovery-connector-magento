@@ -1,17 +1,26 @@
 <?php
 /**
- * Copyright © Bloomreach, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 namespace Bloomreach\Connector\Block\Widget;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Widget\Block\BlockInterface;
-use Magento\Framework\Serialize\Serializer\Json;
 
 /**
  * Class Recommendation
@@ -23,23 +32,36 @@ class Recommendation extends Template implements BlockInterface
      * @var ScopeConfigInterface
      */
     private ScopeConfigInterface $scopeConfig;
+
+    /**
+     * @var Json
+     */
     private Json $jsonSerializer;
+
+    /**
+     * @var Random
+     */
+    private Random $randomGenerator;
 
     /**
      * Recommendation constructor.
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
+     * @param Json $jsonSerializer
+     * @param Random $randomGenerator
      * @param array $data
      */
     public function __construct(
         Context $context,
         ScopeConfigInterface $scopeConfig,
         Json $jsonSerializer,
+        Random $randomGenerator,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->scopeConfig = $scopeConfig;
         $this->jsonSerializer = $jsonSerializer;
+        $this->randomGenerator = $randomGenerator;
     }
 
     /**
@@ -80,5 +102,15 @@ class Recommendation extends Template implements BlockInterface
     {
         $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
+    }
+
+    /**
+     * Get Random String upto 5 chars
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getRandomString()
+    {
+        return $this->randomGenerator->getRandomString(5);
     }
 }
