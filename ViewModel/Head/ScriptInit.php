@@ -201,6 +201,40 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
+     * Check if infinite scroll enabled for search
+     * @return int
+     */
+    public function isSearchInfiniteScrollEnabled()
+    {
+        if ($this->isMobileDevice()) {
+            return 0;
+        }
+        return 1 == $this->getStoreConfigValue(self::SITESEARCH_INFINITE_SCROLL) ? 1 : 0;
+    }
+
+    /**
+     * Check if infinite scroll enabled for collection
+     * @return int
+     */
+    public function isCollectionInfiniteScrollEnabled()
+    {
+        if ($this->isMobileDevice()) {
+            return 0;
+        }
+        return 1 == $this->getStoreConfigValue(self::COLLECTIONS_INFINITE_SCROLL) ? 1 : 0;
+    }
+
+    /**
+     * Check if device is mobile
+     * @return bool
+     */
+    public function isMobileDevice()
+    {
+        $ua = strtolower($this->request->getServer('HTTP_USER_AGENT'));
+        return is_numeric(strpos($ua, "mobile"));
+    }
+
+    /**
      * Get current product id
      * @return mixed
      */
