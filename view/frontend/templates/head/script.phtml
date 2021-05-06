@@ -38,7 +38,7 @@ $viewModel = $block->getViewModel();
                 facets_included: <?=  1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_FACETS)) ? 1 : 0; ?>,
                 initial_number_of_facets: <?=  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACETS)); ?>,
                 initial_number_of_facet_values: <?=  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACET_OPTIONS)); ?>,
-                infinite_scroll: <?=  1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_INFINITE_SCROLL)) ? 1 : 0; ?>,
+                infinite_scroll: <?= /* @noEscape */ $viewModel->isSearchInfiniteScrollEnabled()  ?>,
                 sorting_options: [{label: "<?= __("Relevance") ?>", value: ""}, {
                     label: "<?= __("Price (low - high)") ?>",
                     value: "price+asc"
@@ -71,7 +71,7 @@ $viewModel = $block->getViewModel();
                 facets_included: <?=  /* @noEscape */ 1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_FACETS)) ? 1 : 0; ?>,
                 initial_number_of_facets: <?=  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACETS)); ?>,
                 initial_number_of_facet_values: <?=  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACET_OPTIONS)); ?>,
-                infinite_scroll: <?=  /* @noEscape */ 1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_INFINITE_SCROLL)) ? 1 : 0; ?>,
+                infinite_scroll: <?=  /* @noEscape */ $viewModel->isCollectionInfiniteScrollEnabled(); ?>,
                 selector: "<?= $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR); ?>",
                 display_variants: <?=  /* @noEscape */  1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_VARIANTS)) ? 1 : 0; ?>,
                 is_category_page: <?=  /* @noEscape */ (int)$viewModel->isProductListingPage() ?><?php if ($viewModel->isProductListingPage()):$currentCategory = $viewModel->getCurrentCategory();
