@@ -25,7 +25,7 @@
             </autosuggest>
             <sitesearch>
                 <enabled>1</enabled>
-                <css_selector>#maincontent > .columns > .brsm-dynamic-datacontainer</css_selector>
+                <css_selector>#maincontent > .columns</css_selector>
                 <items_per_page>16</items_per_page>
                 <show_variants>0</show_variants>
                 <show_facets>1</show_facets>
@@ -37,7 +37,7 @@
         <bloomreach_collections>
             <general>
                 <enabled>1</enabled>
-                <css_selector>#maincontent > .columns > .brsm-dynamic-datacontainer</css_selector>
+                <css_selector>#maincontent > .columns</css_selector>
                 <items_per_page>16</items_per_page>
                 <show_variants>0</show_variants>
                 <show_facets>1</show_facets>

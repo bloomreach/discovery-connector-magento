@@ -26,17 +26,16 @@
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Bloomreach: Welcome Onboard</label>
                 <field id="info_note" translate="label" type="note" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Title</label>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\WelcomeNote</frontend_model>
+                    <label>Api Keys</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\AddApiCta</frontend_model>
                 </field>
                 <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Enterprise Grade UI</label>
-                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris. Pellentesque posuere, sapien a cursus euismod, lectus enim semper nunc, et luctus eros mauris eget purus. Vivamus ut tempor tortor.</comment>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MarketingCta</frontend_model>
                 </field>
-                <field id="contact_link" translate="label" type="note" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+                <field id="contact_link" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Contact Us</label>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ContactNote</frontend_model>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ContactCta</frontend_model>
                 </field>
             </group>
         </section>
@@ -45,11 +44,12 @@
             <label>Indexing</label>
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_indexing</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>Indexing</label>
+            <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Run Product Index</label>
+                <comment>Extract your product feed from Magento and push into Bloomreach's index.</comment>
                 <field id="indexing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Index Catalog</label>
-                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
+                    <label>How to index ?</label>
+                    <comment>Contact your Integration Specialist to create and indexing job for your feed.</comment>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\IndexingCta</frontend_model>
                 </field>
             </group>
@@ -102,14 +102,6 @@
                        sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Custom Css</label>
                     <comment>Custom css for autosuggestion</comment>
-                    <depends>
-                        <field id="enabled">1</field>
-                    </depends>
-                </field>
-                <field id="reference_link" translate="label comment" type="label"
-                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Reference</label>
-                    <comment>link goes here</comment>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
@@ -275,19 +267,16 @@
             <resource>Bloomreach_Connector::config_optimize</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Optimize</label>
-                <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Marketing</label>
-                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MarketingCta</frontend_model>
+                <field id="optimize_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Optimize</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\OptimizeCta</frontend_model>
                 </field>
                 <field id="search_ranking" translate="label,comment" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Search Ranking</label>
-                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\SearchRankingCta</frontend_model>
                 </field>
                 <field id="merchandising" translate="label,comment" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Merchandising</label>
-                    <comment>Curabitur elit nibh, condimentum quis dapibus vitae, mollis sed mauris.</comment>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MerchandisingCta</frontend_model>
                 </field>
             </group>
@@ -301,8 +290,12 @@
                 <label>Bloomreach Pixel</label>
                 <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Enable Pixel</label>
-                    <comment>Pixel should be enabled to use Recommendation widget</comment>
+                    <comment>Pixel collects customer's behavioral data, like what they are looking into (category, products), what they have added to cart and conversion (order placed).</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label></label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>
                 </field>
             </group>
         </section>
@@ -324,7 +317,6 @@
                 </field>
                 <field id="recommendations_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Recommendation and Marketing</label>
-                    <comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis feugiat arcu. Nullam fermentum nec sem non molestie. Nunc vitae erat placerat, vulputate magna id, consequat ipsum.</comment>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\RecommendationCta</frontend_model>
                 </field>
             </group>
@@ -351,9 +343,9 @@
                 <field id="search_endpoint" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Search Endpoint</label>
                 </field>
-                <field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <!--field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Autosuggest Endpoint</label>
-                </field>
+                </field-->
             </group>
         </section>
     </system>

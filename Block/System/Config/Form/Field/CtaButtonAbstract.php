@@ -94,25 +94,10 @@ abstract class CtaButtonAbstract extends Field
      *
      * @return string
      */
-    abstract public function getAjaxUrl();
+    abstract public function getButtonUrl();
 
-    /**
-     * Generate collect button html
-     *
-     * @return string
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    public function getButtonHtml()
+    public function getAdditionalText()
     {
-        $button = $this->getLayout()->createBlock(
-            'Magento\Backend\Block\Widget\Button'
-        )->setData(
-            [
-                'id' => $this->_buttonId,
-                'label' => __($this->_buttonLabel),
-            ]
-        );
-
-        return $button->toHtml();
+        return '';
     }
 }
