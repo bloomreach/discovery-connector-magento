@@ -27,16 +27,16 @@ class IndexingCta extends CtaButtonAbstract
     {
         // TODO: Implement _afterConstruct() method.
         $this->_buttonId = 'indexing_cta';
-        $this->_buttonLabel = 'Trigger Index';
+        $this->_buttonLabel = 'Contact Integrations';
     }
 
     /**
-     * Return ajax url for collect button
+     * Return button url for collect button
      *
      * @return string
      */
-    public function getAjaxUrl()
+    public function getButtonUrl()
     {
-        return $this->getUrl('bloomreach/cta/indexing');
+        return 'mailto:support@bloomreach.com';
     }
 }

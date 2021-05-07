@@ -15,12 +15,13 @@
 -->
 <page xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <body>
-        <referenceContainer name="columns">
-            <block name="dynamic.datacontainer" template="Bloomreach_Connector::content/container.phtml">
+        <referenceContainer name="columns.top">
+            <container name="dynamic.container" label="Dynamic top container" htmlTag="div" htmlClass="dynamic-top-container"/>
+            <!--block name="dynamic.datacontainer" template="Bloomreach_Connector::content/container.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
                 </arguments>
-            </block>
+            </block-->
         </referenceContainer>
         <referenceContainer name="head.additional">
             <block name="bloomreach.connector.init" template="Bloomreach_Connector::head/script.phtml">
@@ -36,5 +37,7 @@
                 </arguments>
             </block>
         </referenceContainer>
+        <move element="formkey" destination="dynamic.container" />
+        <move element="product.tooltip" destination="dynamic.container" />
     </body>
 </page>

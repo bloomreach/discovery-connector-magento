@@ -14,10 +14,10 @@
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
- * Class RecommendationCta
+ * Class ContactNote
  * @package Bloomreach\Connector\Block\System\Config\Form\Field
  */
-class RecommendationCta extends CtaButtonAbstract
+class ContactCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
@@ -26,17 +26,17 @@ class RecommendationCta extends CtaButtonAbstract
     public function _afterConstruct()
     {
         // TODO: Implement _afterConstruct() method.
-        $this->_buttonId    = 'recommendation_cta';
-        $this->_buttonLabel = 'Learn More';
+        $this->_buttonId = 'contact_us_cta';
+        $this->_buttonLabel = 'Bloomreach Support';
     }
 
     /**
-     * Return button url for collect button
+     * Return ajax url for collect button
      *
      * @return string
      */
     public function getButtonUrl()
     {
-        return 'https://www.bloomreach.com/en/products/bloomreach-experience/recommendations';
+        return 'https://support.bloomreach.com/';
     }
 }

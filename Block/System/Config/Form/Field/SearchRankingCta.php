@@ -27,16 +27,16 @@ class SearchRankingCta extends CtaButtonAbstract
     {
         // TODO: Implement _afterConstruct() method.
         $this->_buttonId    = 'searchranking_cta';
-        $this->_buttonLabel = 'Some Action';
+        $this->_buttonLabel = 'Learn More';
     }
 
     /**
-     * Return ajax url for collect button
+     * Return button url for collect button
      *
      * @return string
      */
-    public function getAjaxUrl()
+    public function getButtonUrl()
     {
-        return $this->getUrl('bloomreach/cta/searchranking');
+        return 'https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/searchterm';
     }
 }

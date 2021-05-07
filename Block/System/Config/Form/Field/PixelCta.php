@@ -11,13 +11,14 @@
  * @package        Connector
  * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
+
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
- * Class RecommendationCta
+ * Class PixelCta
  * @package Bloomreach\Connector\Block\System\Config\Form\Field
  */
-class RecommendationCta extends CtaButtonAbstract
+class PixelCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
@@ -26,8 +27,8 @@ class RecommendationCta extends CtaButtonAbstract
     public function _afterConstruct()
     {
         // TODO: Implement _afterConstruct() method.
-        $this->_buttonId    = 'recommendation_cta';
-        $this->_buttonLabel = 'Learn More';
+        $this->_buttonId    = 'pixel_cta';
+        $this->_buttonLabel = 'Learn More About Pixel';
     }
 
     /**
@@ -37,6 +38,7 @@ class RecommendationCta extends CtaButtonAbstract
      */
     public function getButtonUrl()
     {
-        return 'https://www.bloomreach.com/en/products/bloomreach-experience/recommendations';
+        return 'https://documentation.bloomreach.com/developers/search-and-merchandising/pixel-deployment/getting-started.html';
     }
 }
+
