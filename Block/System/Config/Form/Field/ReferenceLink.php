@@ -11,6 +11,7 @@
  * @package        Connector
  * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
+
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 use Magento\Config\Block\System\Config\Form\Field;
@@ -20,7 +21,7 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
  * Class ContactNote
  * @package Bloomreach\Connector\Block\System\Config\Form\Field
  */
-class ContactCta extends Field
+class ReferenceLink extends Field
 {
     /**
      * Returns element html
@@ -30,12 +31,8 @@ class ContactCta extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $html = __("We're here to you be successful, reach out with any questions.");
-        $html .= "<br/>" . __("Most questions can be addressed to your onboarding team of account specialists. If other questions arise, feel free to reach out to our global team.");
-        $html .= "<br/><a href='tel:+1 (847) 444 4779'>+1 (877) 414 4776</a>";
-        $html .= "<br/>" . __('82 Pioneer way,');
-        $html .= "<br/>" . __('Mountain View, CA');
-        $html .= "<br/><a target='_blank' href='https://support.bloomreach.com/'>" . __("Contact Us") . "</a>";
+        $html = __("If you'd like to learn more, or customize what is happening with the Autosuggest, check out our documentation.");
+        $html .= "<br/><a href='https://documentation.bloomreach.com/user-guides/search-and-merchandising/autosuggest/autosuggest.html'>" . __("Learn More") . "</a>";
         return $html;
     }
 }

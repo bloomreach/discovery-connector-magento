@@ -25,13 +25,17 @@
             <resource>Bloomreach_Connector::config_dashboard</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Bloomreach: Welcome Onboard</label>
-                <field id="info_note" translate="label" type="note" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Api Keys</label>
+                <field id="info_note" translate="label" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Set Up Bloomreach</label>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\AddApiCta</frontend_model>
+                </field>
+                <field id="quickstart_guide" translate="label" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Quickstart Guides</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\QuickstartCta</frontend_model>
                 </field>
                 <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Enterprise Grade UI</label>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MarketingCta</frontend_model>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\EnterpriseCta</frontend_model>
                 </field>
                 <field id="contact_link" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Contact Us</label>
@@ -59,8 +63,9 @@
             <label>Search</label>
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_search</resource>
-            <group id="autosuggest" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+            <group id="autosuggest" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Autosuggest</label>
+                <comment>Replace the built in Magento Autosuggest with Bloomreach Autosuggest</comment>
                 <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Enable Autosuggest</label>
                     <comment>Toggle Autosuggest on/off</comment>
@@ -101,14 +106,20 @@
                 <field id="custom_css" translate="label comment" type="textarea"
                        sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Custom Css</label>
-                    <comment>Custom css for autosuggestion</comment>
+                    <comment>We've designed the Autosuggest to be highly flexible with in the Magento</comment>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="reference_link" translate="label comment" type="note"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reference</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ReferenceLink</frontend_model>
+                </field>
             </group>
-            <group id="sitesearch" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
+            <group id="sitesearch" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Sites Search</label>
+                <comment>Replace the built in Magento search results page with Bloomreach Search.</comment>
                 <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Enable Site Search</label>
                     <comment>Toggle Bloomreach for search result page on/off</comment>
@@ -186,11 +197,13 @@
             <label>Category</label>
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_collections</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+            <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Category Settings</label>
+                <comment>Enable Bloomreach to power the product ranking on your Category Pages.</comment>
                 <field id="enabled" translate="label" type="select"
                        sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable For Category</label>
+                    <comment>Replace the Magento category pages with Bloomreach ranked category pages.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="css_selector" translate="label comment" type="text"
@@ -266,36 +279,18 @@
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_optimize</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>Optimize</label>
-                <field id="optimize_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Optimize</label>
+                <label>Ready to Optimize Your Site ?</label>
+                <field id="optimize_cta" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label></label>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\OptimizeCta</frontend_model>
                 </field>
-                <field id="search_ranking" translate="label,comment" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+                <field id="search_ranking" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Search Ranking</label>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\SearchRankingCta</frontend_model>
                 </field>
-                <field id="merchandising" translate="label,comment" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="0">
+                <field id="merchandising" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="0">
                     <label>Merchandising</label>
                     <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MerchandisingCta</frontend_model>
-                </field>
-            </group>
-        </section>
-        <section id="bloomreach_pixel" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-            <class>separator-top</class>
-            <label>Pixel</label>
-            <tab>bloomreach_tab</tab>
-            <resource>Bloomreach_Connector::config_pixel</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>Bloomreach Pixel</label>
-                <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
-                    <label>Enable Pixel</label>
-                    <comment>Pixel collects customer's behavioral data, like what they are looking into (category, products), what they have added to cart and conversion (order placed).</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label></label>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>
                 </field>
             </group>
         </section>
@@ -306,6 +301,10 @@
             <resource>Bloomreach_Connector::config_recommendations</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
                 <label>Pathways and Recommendations</label>
+                <field id="recommendations_cta" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label>Why Use Recommendations ?</label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\RecommendationCta</frontend_model>
+                </field>
                 <field id="enable_recommendations" translate="label comment" type="select"
                        sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Recommendation Widget</label>
@@ -315,10 +314,6 @@
                         <field id="enable_pixel">1</field>
                     </depends>
                 </field>
-                <field id="recommendations_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
-                    <label>Recommendation and Marketing</label>
-                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\RecommendationCta</frontend_model>
-                </field>
             </group>
         </section>
         <section id="bloomreach_settings" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -327,7 +322,8 @@
             <tab>bloomreach_tab</tab>
             <resource>Bloomreach_Connector::config_settings</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
-                <label>General Settings</label>
+                <label>Credentials</label>
+                <comment>Add your Api credentials to authenticate Magento with your Bloomreach Account.</comment>
                 <field id="accountid" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Account Id</label>
                 </field>
@@ -346,6 +342,19 @@
                 <!--field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Autosuggest Endpoint</label>
                 </field-->
+            </group>
+            <group id="pixel" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
+                <label>Pixel</label>
+                <comment>Turn on the Bloomreach Pixel on your site to enable our AI optimization engine.</comment>
+                <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Enable Pixel</label>
+                    <comment>This setting injects the Bloomreach Javascript pixel into your front end to track how users interact with products across your site.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+                    <label></label>
+                    <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>
+                </field>
             </group>
         </section>
     </system>

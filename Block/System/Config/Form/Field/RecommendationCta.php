@@ -39,4 +39,9 @@ class RecommendationCta extends CtaButtonAbstract
     {
         return 'https://www.bloomreach.com/en/products/bloomreach-experience/recommendations';
     }
+
+    public function getBeforeButtonAdditionalText()
+    {
+        return __('96% of visitors to your website are there to browse, not buy. With recommendations, you can present relevant products and nudge more visitors to convert.');
+    }
 }

@@ -39,4 +39,9 @@ class OptimizeCta extends CtaButtonAbstract
     {
         return 'https://documentation.bloomreach.com/user-guides/search-and-merchandising/product-grid-merchandising/product-grid-merchandising.html';
     }
+
+    public function getBeforeButtonAdditionalText()
+    {
+        return __('Do more with less data by leveraging already trained algorithms to optimize the search result out of the box. Automatically optimize customer journeys based on query and performance data of your storefront. Optimize every search query for your business goals.');
+    }
 }

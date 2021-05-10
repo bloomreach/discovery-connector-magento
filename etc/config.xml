@@ -46,11 +46,11 @@
                 <infinite_scroll>0</infinite_scroll>
             </general>
         </bloomreach_collections>
-        <bloomreach_pixel>
-            <general>
+        <bloomreach_settings>
+            <pixel>
                 <enable_pixel>1</enable_pixel>
-            </general>
-        </bloomreach_pixel>
+            </pixel>
+        </bloomreach_settings>
         <bloomreach_recommendations>
             <general>
                 <enable_recommendations>1</enable_recommendations>
