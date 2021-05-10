@@ -27,7 +27,7 @@ class MerchandisingCta extends CtaButtonAbstract
     {
         // TODO: Implement _afterConstruct() method.
         $this->_buttonId    = 'merchandising_cta';
-        $this->_buttonLabel = 'Learn Action';
+        $this->_buttonLabel = 'Set up in Bloomreach Dashboard';
     }
 
     /**
@@ -38,5 +38,10 @@ class MerchandisingCta extends CtaButtonAbstract
     public function getButtonUrl()
     {
         return 'https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/category';
+    }
+
+    public function getBeforeButtonAdditionalText()
+    {
+        return __('Identify top performing collections(Categories) and improve product ranking. Bloomreach must be enabled on Collection(Category) to benefit from Merchandising adjustment.');
     }
 }

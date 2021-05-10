@@ -96,7 +96,12 @@ abstract class CtaButtonAbstract extends Field
      */
     abstract public function getButtonUrl();
 
-    public function getAdditionalText()
+    public function getAfterButtonAdditionalText()
+    {
+        return '';
+    }
+
+    public function getBeforeButtonAdditionalText()
     {
         return '';
     }

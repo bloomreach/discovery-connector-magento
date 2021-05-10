@@ -27,7 +27,7 @@ class AddApiCta extends CtaButtonAbstract
     {
         // TODO: Implement _afterConstruct() method.
         $this->_buttonId = 'add_api_cta';
-        $this->_buttonLabel = 'Add/Update Api Keys';
+        $this->_buttonLabel = 'Add API Keys';
     }
 
     /**
@@ -44,8 +44,13 @@ class AddApiCta extends CtaButtonAbstract
      * Get additional text after button
      * @return string
      */
-    public function getAdditionalText()
+    public function getAfterButtonAdditionalText()
     {
-        return 'See Documentation: <a href="#"><span>Bloomreach Connector User Guide</span></a>';
+        return '<a href="#"><span>' . __('Learn More') . '</span></a>';
+    }
+
+    public function getBeforeButtonAdditionalText()
+    {
+        return __("We are excited for you to get started with industry leading Search, Merchandising, & Recommendations! To begin, go to the Settings tab and enter your API credentials.");
     }
 }

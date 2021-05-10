@@ -63,9 +63,9 @@ interface ConfigurationSettingsInterface
     const COLLECTIONS_CSS_SELECTOR = self::COLLECTIONS_PATH . '/css_selector';
     const COLLECTIONS_ITEMS_PER_PAGE = self::COLLECTIONS_PATH . '/items_per_page';
     const COLLECTIONS_SHOW_FACETS = self::COLLECTIONS_PATH . '/show_facets';
-    const COLLECTIONS_NO_OF_FACETS = self::SITESEARCH_PATH . '/no_of_facets';
-    const COLLECTIONS_NO_OF_FACET_OPTIONS = self::SITESEARCH_PATH . '/no_of_facet_options';
-    const COLLECTIONS_SHOW_VARIANTS = self::SITESEARCH_PATH . '/show_variants';
+    const COLLECTIONS_NO_OF_FACETS = self::COLLECTIONS_PATH . '/no_of_facets';
+    const COLLECTIONS_NO_OF_FACET_OPTIONS = self::COLLECTIONS_PATH . '/no_of_facet_options';
+    const COLLECTIONS_SHOW_VARIANTS = self::COLLECTIONS_PATH . '/show_variants';
     const COLLECTIONS_INFINITE_SCROLL = self::COLLECTIONS_PATH . '/infinite_scroll';
     const COLLECTIONS_CUSTOM_CSS = self::COLLECTIONS_PATH . '/custom_css';
 
@@ -73,7 +73,7 @@ interface ConfigurationSettingsInterface
      * Store config path constant for Recommendations Tab
      */
     const RECOMM_PATH = 'bloomreach_recommendations/general';
-    const PIXEL_PATH = 'bloomreach_pixel/general';
+    const PIXEL_PATH = 'bloomreach_settings/pixel';
     const RECOMM_PIXEL_ENABLED = self::PIXEL_PATH . '/enable_pixel';
     const RECOMM_WIDGET_ENABLED = self::RECOMM_PATH . '/enable_recommendations';
 }

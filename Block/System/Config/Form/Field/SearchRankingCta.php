@@ -27,7 +27,7 @@ class SearchRankingCta extends CtaButtonAbstract
     {
         // TODO: Implement _afterConstruct() method.
         $this->_buttonId    = 'searchranking_cta';
-        $this->_buttonLabel = 'Learn More';
+        $this->_buttonLabel = 'Set up in Bloomreach Dashboard';
     }
 
     /**
@@ -38,5 +38,10 @@ class SearchRankingCta extends CtaButtonAbstract
     public function getButtonUrl()
     {
         return 'https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/searchterm';
+    }
+
+    public function getBeforeButtonAdditionalText()
+    {
+        return __('Refine search quality, set global or query specific ranking adjustments, and refine performance within the dashboard.');
     }
 }
