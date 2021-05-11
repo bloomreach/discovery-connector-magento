@@ -19,11 +19,11 @@
 var config = {
     map: {
         '*': {
-            productSearchSdk:  'Bloomreach_Connector/js/product-search.8b0fce6d',
-            collectionSdk:     'Bloomreach_Connector/js/category.67a7305c',
-            autoSuggestSdk:    'Bloomreach_Connector/js/autosuggest.a2a8e13a',
-            pathwaysRecomSdk:  'Bloomreach_Connector/js/pathways-and-recommendations.d003532d',
-            productsEventsSdk: 'Bloomreach_Connector/js/product-events.4e698a52'
+            productSearchSdk:  'Bloomreach_Connector/js/product-search',
+            collectionSdk:     'Bloomreach_Connector/js/category',
+            autoSuggestSdk:    'Bloomreach_Connector/js/autosuggest',
+            pathwaysRecomSdk:  'Bloomreach_Connector/js/pathways-and-recommendations',
+            productsEventsSdk: 'Bloomreach_Connector/js/product-events'
         }
     }
 }

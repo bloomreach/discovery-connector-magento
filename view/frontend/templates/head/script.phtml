@@ -143,24 +143,24 @@ $viewModel = $block->getViewModel();
     endif;
     ?>
     <?php if ($viewModel->isSearchResultPage() && $viewModel->isSearchEnabled()): $requireSdk[] = 'productSearchSdk'; ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.7a18906d.css"); ?>"
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.css"); ?>"
               rel="stylesheet" />
         <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS) ?? ''; ?>
         <style><?= strip_tags($srpCss) ?></style>
     <?php endif; ?>
 
     <?php if ($viewModel->isCollectionEnabled()): $requireSdk[] = 'collectionSdk'; ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.2a06106b.css"); ?>" rel="stylesheet" />
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.css"); ?>" rel="stylesheet" />
         <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS) ?? ''; ?>
         <style><?= strip_tags($plpCss) ?></style>
     <?php endif; ?>
 
     <?php if ($viewModel->isAutoSuggestEnabled()): ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.bd96933d.css"); ?>"
+        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.css"); ?>"
               rel="stylesheet">
     <?php endif; ?>
 
-    <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.17a69a56.css")); ?>"
+    <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css")); ?>"
           rel="stylesheet" />
     <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css")); ?>" rel="stylesheet" />
 
