@@ -51,4 +51,3 @@ module.exports={name:"ejs",description:"Embedded JavaScript templates",keywords:
 },{"../../utils/logger":"3DRV","ejs":"Myuh","../core":"DTBj","../../config/product-search":"qGdn","../../utils/dom":"vLRE","../../config/common":"FNs/"}],"F5Gs":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e=require("./product-search/module");window.BloomreachModules=Object.assign(Object.assign({},window.BloomreachModules?window.BloomreachModules:{}),{search:e.ProductSearchModule}),e.ProductSearchModule.load();
 },{"./product-search/module":"Dczp"}]},{},["F5Gs"], null)
-//# sourceMappingURL=/product-search.c5964b92.js.map
