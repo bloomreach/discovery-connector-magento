@@ -47,4 +47,3 @@ $viewModel = $block->getViewModel();
        require(['jquery'],function (jQuery){jQuery("<?= strip_tags($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR)); ?>").append("<div class=\"custom-loader\" style=\"text-align: center;\"><img alt=\"Loading...\" src=\"<?= $escaper->escapeUrl($block->getViewFileUrl("images/loader-2.gif")); ?>\"> <p>Please wait...</p></div>");});
    </script>
 <?php endif; ?>
-<script src="http://cdn.brcdn.com/v1/br-trk-6511.js" defer async></script>
