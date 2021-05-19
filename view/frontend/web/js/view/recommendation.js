@@ -10,7 +10,7 @@
  * @package        Connector
  * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
-define(['uiComponent','Magento_Customer/js/customer-data','pathwaysRecomSdk'],
+define(["uiComponent", "Magento_Customer/js/customer-data","pathwaysRecomSdk"],
     function (Component, customerData) {
         'use strict';
         return Component.extend({
@@ -18,7 +18,7 @@ define(['uiComponent','Magento_Customer/js/customer-data','pathwaysRecomSdk'],
                 let self = this;
                 self._super();
                 self.widgetConfig = config.widgetConfig;
-                self.customer = customerData.get('customer');
+                self.customer = customerData.get("customer");
             },
             getWidgetTitle: function () {
                 return this.widgetConfig.title;
