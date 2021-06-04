@@ -35,32 +35,32 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     /**
      * @var string
      */
-    protected string $_accId='';
+    protected $_accId='';
 
     /**
      * @var string
      */
-    protected string $_domainKey='';
+    protected $_domainKey='';
 
     /**
      * @var string
      */
-    protected string $_authKey='';
+    protected $_authKey='';
 
     /**
      * @var string
      */
-    protected string $_trackingCookie='';
+    protected $_trackingCookie='';
 
     /**
      * @var string
      */
-    protected string $_searchEp='';
+    protected $_searchEp='';
 
     /**
      * @var string
      */
-    protected string $_autoSuggestEp='';
+    protected $_autoSuggestEp='';
 
     /**
      * @var ScopeConfigInterface
