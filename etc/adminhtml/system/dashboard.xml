@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Bloomreach: Welcome Onboard</label>
+        <field id="info_note" translate="label" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Set Up Bloomreach</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\AddApiCta</frontend_model>
+        </field>
+        <field id="quickstart_guide" translate="label" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Quickstart Guides</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\QuickstartCta</frontend_model>
+        </field>
+        <field id="marketing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Enterprise Grade UI</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\EnterpriseCta</frontend_model>
+        </field>
+        <field id="contact_link" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Contact Us</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ContactCta</frontend_model>
+        </field>
+    </group>
+</include>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Ready to Optimize Your Site ?</label>
+        <field id="optimize_cta" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label></label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\OptimizeCta</frontend_model>
+        </field>
+        <field id="search_ranking" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Search Ranking</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\SearchRankingCta</frontend_model>
+        </field>
+        <field id="merchandising" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Merchandising</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\MerchandisingCta</frontend_model>
+        </field>
+    </group>
+</include>

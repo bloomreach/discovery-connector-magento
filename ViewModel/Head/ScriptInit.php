@@ -382,9 +382,9 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         if (!$this->_trackingCookie) {
             $this->_trackingCookie = $this->getStoreConfigValue(self::SETTINGS_TRACKING_COOKIE);
         }
-        if (!$this->_searchEp) {
+        /*if (!$this->_searchEp) {
             $this->_searchEp = $this->getStoreConfigValue(self::SETTINGS_SEARCH_ENDPOINT);
-        }
+        }*/
         /*if (!$this->_autoSuggestEp) {
             $this->_autoSuggestEp = $this->getStoreConfigValue(self::SETTINGS_AUTOSUGGEST_ENDPOINT);
         }*/
@@ -432,7 +432,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getSearchEpUrl()
     {
-        return $this->_searchEp;
+        return '';//$this->_searchEp;
     }
 
     /**
@@ -451,6 +451,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function canInitScript(): bool
     {
-        return !empty($this->_accId) && !empty($this->_authKey) && !empty($this->_domainKey) && !empty($this->_trackingCookie) && !empty($this->_searchEp);
+        return !empty($this->_accId) && !empty($this->_authKey) && !empty($this->_domainKey) && !empty($this->_trackingCookie);
     }
+
 }
