@@ -31,17 +31,17 @@ class Recommendation extends Template implements BlockInterface
     /**
      * @var ScopeConfigInterface
      */
-    private ScopeConfigInterface $scopeConfig;
+    private $scopeConfig;
 
     /**
      * @var Json
      */
-    private Json $jsonSerializer;
+    private $jsonSerializer;
 
     /**
      * @var Random
      */
-    private Random $randomGenerator;
+    private $randomGenerator;
 
     /**
      * Recommendation constructor.

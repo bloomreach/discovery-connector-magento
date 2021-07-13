@@ -86,7 +86,7 @@
                 <show_facets>1</show_facets>
                 <no_of_facets>5</no_of_facets>
                 <no_of_facet_options>6</no_of_facet_options>
-                <infinite_scroll>1</infinite_scroll>
+                <infinite_scroll>0</infinite_scroll>
                 <field_list>pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description</field_list>
                 <main_template_text>
                     <![CDATA[<% if (did_you_mean.length) { %>
@@ -507,10 +507,10 @@
                 <enable_pixel>1</enable_pixel>
             </pixel>
             <api_url>
-                <autosuggest_endpoint>https://suggest.dxpapi.com/api/v1/suggest/</autosuggest_endpoint>
-                <search_endpoint>https://core.dxpapi.com/api/v1/core/</search_endpoint>
-                <category_endpoint>https://core.dxpapi.com/api/v1/core/</category_endpoint>
-                <widgets_endpoint>https://pathways.dxpapi.com/api/v2/widgets/</widgets_endpoint>
+                <autosuggest_endpoint>prod</autosuggest_endpoint>
+                <search_endpoint>prod</search_endpoint>
+                <category_endpoint>prod</category_endpoint>
+                <widgets_endpoint>prod</widgets_endpoint>
             </api_url>
         </bloomreach_settings>
         <bloomreach_recommendations>

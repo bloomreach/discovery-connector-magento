@@ -23,13 +23,13 @@
                 </arguments>
             </block-->
         </referenceContainer>
-        <referenceContainer name="head.additional">
+        <referenceBlock name="head.additional">
             <block name="bloomreach.connector.init" template="Bloomreach_Connector::head/script.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
                 </arguments>
             </block>
-        </referenceContainer>
+        </referenceBlock>
         <referenceContainer name="before.body.end">
             <block name="bloomreach.connector.pixelinit" template="Bloomreach_Connector::foot/pixelinit.phtml">
                 <arguments>
