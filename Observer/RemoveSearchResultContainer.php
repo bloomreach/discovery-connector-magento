@@ -29,12 +29,12 @@ class RemoveSearchResultContainer implements ObserverInterface
     /**
      * @var Http
      */
-    private Http $request;
+    private $request;
 
     /**
      * @var ScopeConfigInterface
      */
-    private ScopeConfigInterface $scopeConfig;
+    private $scopeConfig;
 
     /**
      * RemoveSearchResultContainer constructor.
@@ -67,6 +67,7 @@ class RemoveSearchResultContainer implements ObserverInterface
                 $block = $layout->getBlock('search.result');
                 if ($block) {
                     //you can apply or add you condition here.
+                    $layout->unsetElement('product_list_toolbar');
                     $layout->unsetElement('search.result');
                     $layout->unsetElement('sidebar.main');
                     $layout->unsetElement('sidebar.additional');
@@ -81,6 +82,7 @@ class RemoveSearchResultContainer implements ObserverInterface
                 $block = $layout->getBlock('category.products');
                 if ($block) {
                     //you can apply or add you condition here.
+                    $layout->unsetElement('product_list_toolbar');
                     $layout->unsetElement('category.products');
                     $layout->unsetElement('sidebar.main');
                     $layout->unsetElement('sidebar.additional');

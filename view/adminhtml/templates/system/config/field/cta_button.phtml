@@ -17,6 +17,9 @@ use Magento\Framework\Escaper;
 
 /* @var $block \Bloomreach\Connector\Block\System\Config\Form\Field\CtaButtonAbstract */
 /** @var Escaper $escaper */
+if (!isset($escaper)) {
+    $escaper = $block;
+}
 ?>
 <?php
 if (!empty($block->getBeforeButtonAdditionalText())) {

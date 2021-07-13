@@ -19,7 +19,9 @@ use Magento\Framework\View\Element\Template;
 /** @var $block Template */
 /** @var $escaper Escaper */
 /** @var $viewModel ScriptInit */
-
+if (!isset($escaper)) {
+    $escaper = $block;
+}
 $viewModel = $block->getViewModel();
 $currentCategory = false;
 if ($viewModel->isProductListingPage()) {
@@ -34,12 +36,12 @@ if ($viewModel->isProductListingPage()) {
             "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
             "domain_key"=>  $escaper->escapeHtml($viewModel->getDomainKey()),
             "auth_key"=>  $escaper->escapeHtml($viewModel->getAuthKey()),
-            "tracking_cookie"=>  $escaper->escapeHtml($viewModel->getTrackingCookie()),
+            //"tracking_cookie"=>  $escaper->escapeHtml($viewModel->getTrackingCookie()),
             "default_search_parameter"=> "q",
             "search_page_url"=>  $escaper->escapeUrl($block->getUrl('catalogsearch/result/', ['_secure'=>true])),
             "search"=> [
                 "enabled"=>  (int)$viewModel->isSearchEnabled() ,
-                "endpoint"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::SETTINGS_ENDPOINT_SEARCH)),
+                "endpoint"=> $escaper->escapeUrl($viewModel->getSearchEndPointUrl()),
                 "items_per_page"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_ITEM_PER_PAGE)) ,
                 "facets_included"=> (1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_FACETS)) ? 1 : 0) ,
                 "initial_number_of_facets"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACETS)) ,
@@ -62,7 +64,7 @@ if ($viewModel->isProductListingPage()) {
             ],
             "autosuggest"=> [
                 "enabled"=> (int)$viewModel->isAutoSuggestEnabled() ,
-                "endpoint"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::SETTINGS_ENDPOINT_AUTOSUGGEST)),
+                "endpoint"=> $escaper->escapeUrl($viewModel->getAutoSuggestEndPointUrl()),
                 "number_of_terms"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_TERM)),
                 "number_of_products"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_PRODUCTS)),
                 "number_of_collections"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_COLLECTION)),
@@ -71,7 +73,7 @@ if ($viewModel->isProductListingPage()) {
             ],
             "category"=> [
                 "enabled"=> (int)$viewModel->isCollectionEnabled() ,
-                "endpoint"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::SETTINGS_ENDPOINT_CATEGORY)),
+                "endpoint"=> $escaper->escapeUrl($viewModel->getCollectionEndPointUrl()),
                 "sorting_options"=> [["label"=> __("Relevance"), "value"=> ""], [
                     "label"=> __("Price (low - high)"),
                     "value"=> "sale_price+asc"
@@ -92,7 +94,7 @@ if ($viewModel->isProductListingPage()) {
                 "template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_MAIN),
                 "product_list_template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_PRODUCTLIST)
             ],
-            "widget_endpoint"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::SETTINGS_ENDPOINT_WIDGETS)),
+            "widget_endpoint"=> $escaper->escapeUrl($viewModel->getBrWidgetEndPointUrl()),
             "widget_fields"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::RECOMM_FIELD_LIST))
         ]); ?>
 

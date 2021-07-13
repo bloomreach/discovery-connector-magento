@@ -24,7 +24,7 @@ class CustomerPlugin
     /**
      * @var CurrentCustomer
      */
-    protected CurrentCustomer $currentCustomer;
+    protected $currentCustomer;
 
     /**
      * CustomerPlugin constructor.

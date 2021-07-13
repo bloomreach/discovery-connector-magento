@@ -26,27 +26,35 @@
         <field id="auth_key" translate="label" type="password" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Auth Key</label>
         </field>
-        <field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+        <!--field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Tracking Cookie</label>
-        </field>
+        </field-->
         <!--field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Autosuggest Endpoint</label>
         </field-->
     </group>
     <group id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
         <label>Api Endpoint Urls</label>
-        <comment>You can change these END point urls as per your need. I.e if you want to switch Bloomreach to staging mode then you need to change these url as per documentation, click on learn more button to find out how.</comment>
-        <field id="autosuggest_endpoint" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <comment>You can change these END point mode as per your need. I.e if you want to switch Bloomreach Connector to staging/production mode then you can change dropdown value to 'Staging' or 'Production', click on learn more button (below) to know about end points.</comment>
+        <field id="autosuggest_endpoint" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Autosuggest Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
         </field>
-        <field id="search_endpoint" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="search_endpoint" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Search Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
         </field>
-        <field id="category_endpoint" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="category_endpoint" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Category Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
         </field>
-        <field id="widgets_endpoint" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="widgets_endpoint" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Widgets Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
+        </field>
+        <field id="endpoint_cta" translate="label" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label></label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\EndPointCta</frontend_model>
         </field>
     </group>
     <group id="pixel" translate="label,comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"  showInStore="1">
