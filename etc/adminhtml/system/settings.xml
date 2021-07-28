@@ -69,5 +69,15 @@
             <label></label>
             <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>
         </field>
+        <field id="enable_atc_template" translate="label,comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Override Add to cart templates</label>
+            <comment>Enable to override add to cart button template to add "add to cart pixel event" attribute into add to cart button. You can make this disable and add those attribute into your theme add to cart template.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="enable_productlist_template" translate="label,comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Override Product List template for "Add to cart" button</label>
+            <comment>Enable to override Product List template to add "add to cart pixel event" attribute into add to cart button. You can make this disable and add those attribute into your theme product list template.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
     </group>
 </include>
