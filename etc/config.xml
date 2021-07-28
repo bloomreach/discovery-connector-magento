@@ -505,6 +505,8 @@
         <bloomreach_settings>
             <pixel>
                 <enable_pixel>1</enable_pixel>
+                <enable_atc_template>0</enable_atc_template>
+                <enable_productlist_template>0</enable_productlist_template>
             </pixel>
             <api_url>
                 <autosuggest_endpoint>prod</autosuggest_endpoint>
