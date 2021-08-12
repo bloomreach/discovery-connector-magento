@@ -1,6 +1,6 @@
 # Bloomreach Connector Module
 
-The Connector module provides the option to connect with Bloomreach Search Merchandise and other API and pixel integration.
+The Connector module provides the option to connect with Bloomreach Search, Merchandising, Recommendations and JS pixel integration.
 ## Configure App First
 To integrate any options from this extension you need to fill app configuration settings.
 To do this you can follow these steps to trigger index.
