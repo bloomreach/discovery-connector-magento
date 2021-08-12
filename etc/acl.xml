@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Bloomreach_Connector::config_dashboard" title="Bloomreach Dashboard" translate="title" sortOrder="220">
+                    <resource id="Bloomreach_Connector::config_indexing" title="Indexing" translate="title" sortOrder="230"/>
+                    <resource id="Bloomreach_Connector::config_search" title="Search" translate="title" sortOrder="240"/>
+                    <resource id="Bloomreach_Connector::config_collections" title="Collections" translate="title" sortOrder="250"/>
+                    <resource id="Bloomreach_Connector::config_optimize" title="Optimize" translate="title" sortOrder="260"/>
+                    <resource id="Bloomreach_Connector::config_pixel" title="Pixel" translate="title" sortOrder="265"/>
+                    <resource id="Bloomreach_Connector::config_recommendations" title="Recommendations" translate="title" sortOrder="270"/>
+                    <resource id="Bloomreach_Connector::config_settings" title="Settings" translate="title" sortOrder="280"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

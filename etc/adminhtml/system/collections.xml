@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Category Settings</label>
+        <comment>Enable Bloomreach to power the product ranking on your Category Pages.</comment>
+        <field id="enabled" translate="label" type="select"
+               sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Enable For Category</label>
+            <comment>Replace the Magento category pages with Bloomreach ranked category pages.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="css_selector" translate="label comment" type="text"
+               sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Css Selector</label>
+            <comment>Category (or Product Listing) page main content element div class or id selector, eg: .main_container or #main_container</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="items_per_page" translate="label comment" type="text"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Items per page</label>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="show_facets" translate="label" type="select"
+               sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Show Layered Navigation ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="no_of_facets" translate="label" type="text"
+               sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Layered Navigation Filters ?</label>
+            <comment>No. of default visible filters</comment>
+            <depends>
+                <field id="enabled">1</field>
+                <field id="show_facets">1</field>
+            </depends>
+        </field>
+        <field id="no_of_facet_options" translate="label comment" type="text"
+               sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Layered Navigation Values ?</label>
+            <comment>No. of default visible options per filter</comment>
+            <depends>
+                <field id="enabled">1</field>
+                <field id="show_facets">1</field>
+            </depends>
+        </field>
+        <field id="show_variants" translate="label comment" type="select"
+               sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Display Variants ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="infinite_scroll" translate="label" type="select"
+               sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Infinite Scroll ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="custom_css" translate="label comment" type="textarea"
+               sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Custom Css</label>
+            <comment>Custom css for autosuggestion</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="field_list" translate="label" type="textarea"
+               sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Allowed Field List</label>
+            <comment>Use command separated values without space</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="main_template_text" translate="label" type="textarea"
+               sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Category Page - Main Template</label>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="productlist_template_text" translate="label" type="textarea"
+               sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Category Page - Product Listing Template</label>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+    </group>
+</include>

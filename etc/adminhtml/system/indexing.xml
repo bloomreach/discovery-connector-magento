@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Run Product Index</label>
+        <comment>Extract your product feed from Magento and push into Bloomreach's index.</comment>
+        <field id="indexing_cta" translate="label,comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>How to index ?</label>
+            <comment>Contact your Integration Specialist to create and indexing job for your feed.</comment>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\IndexingCta</frontend_model>
+        </field>
+    </group>
+</include>
