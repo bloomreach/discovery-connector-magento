@@ -1,0 +1,37 @@
+<?php
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+
+/** @var $block Bloomreach\Connector\Block\Widget\Recommendation */
+$randonId = $block->getRandomString();
+?>
+<?php if ($block->isWidgetVisible()): ?>
+    <div class="widget recommendation pathways-recommendation-widget" data-bind="scope: 'brsmRecommendationWidget<?= $randonId ?>'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "brsmRecommendationWidget<?=  /* @noEscape */ $randonId ?>": {
+                            "component": "Bloomreach_Connector/js/view/recommendation",
+                            "template" : "Bloomreach_Connector/widget/recommendation",
+                            "widgetConfig": <?=  /* @noEscape */ $block->getWidgetJsonConfig() ?>
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

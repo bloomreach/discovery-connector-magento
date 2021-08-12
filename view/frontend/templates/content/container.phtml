@@ -1,0 +1,28 @@
+<?php
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+use Bloomreach\Connector\ViewModel\Head\ScriptInit;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $viewModel ScriptInit */
+
+$viewModel = $block->getViewModel();
+?>
+<?php if (($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage()) || ($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage())): ?>
+    <div class="brsm-dynamic-datacontainer"></div>
+    <style>
+        #maincontent > .columns > .column.main{display: none;}
+    </style>
+<?php endif; ?>
+
