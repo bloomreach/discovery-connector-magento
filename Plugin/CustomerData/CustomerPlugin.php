@@ -13,6 +13,7 @@
  */
 namespace Bloomreach\Connector\Plugin\CustomerData;
 
+use Magento\Customer\CustomerData\Customer;
 use Magento\Customer\Helper\Session\CurrentCustomer;
 
 /**
@@ -24,7 +25,7 @@ class CustomerPlugin
     /**
      * @var CurrentCustomer
      */
-    protected CurrentCustomer $currentCustomer;
+    protected $currentCustomer;
 
     /**
      * CustomerPlugin constructor.
@@ -37,15 +38,15 @@ class CustomerPlugin
     }
 
     /**
-     * Set uniqueId, a md5 encrypted hash for logged-in customer in section data
-     * @param \Magento\Customer\CustomerData\Customer $subject
+     * Set uniqueId, a sha256 encrypted hash for logged-in customer in section data
+     * @param Customer $subject
      * @param $result
      * @return mixed
      */
-    public function afterGetSectionData(\Magento\Customer\CustomerData\Customer $subject, $result)
+    public function afterGetSectionData(Customer $subject, $result)
     {
         if ($this->currentCustomer->getCustomerId()) {
-            $result['uniqueId'] = md5($this->currentCustomer->getCustomerId() . ':' . $this->currentCustomer->getCustomer()->getEmail());
+            $result['uniqueId'] = hash('sha256', $this->currentCustomer->getCustomerId() . ':' . $this->currentCustomer->getCustomer()->getEmail());
         }
         return $result;
     }
