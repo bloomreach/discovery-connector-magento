@@ -35,37 +35,37 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     /**
      * @var string
      */
-    protected string $_accId='';
+    protected $_accId='';
 
     /**
      * @var string
      */
-    protected string $_domainKey='';
+    protected $_domainKey='';
 
     /**
      * @var string
      */
-    protected string $_authKey='';
+    protected $_authKey='';
 
     /**
      * @var string
      */
-    protected string $_trackingCookie='';
+    protected $_trackingCookie='';
 
     /**
      * @var string
      */
-    protected string $_searchEp='';
+    protected $_searchEp='';
 
     /**
      * @var string
      */
-    protected string $_autoSuggestEp='';
+    protected $_autoSuggestEp='';
 
     /**
      * @var ScopeConfigInterface
      */
-    protected ScopeConfigInterface $scopeConfig;
+    protected $scopeConfig;
 
     /**
      * Recipient email config path
@@ -75,22 +75,22 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     /**
      * @var Http
      */
-    private Http $request;
+    private $request;
 
     /**
      * @var Registry
      */
-    protected Registry $registry;
+    protected $registry;
 
     /**
      * @var Session
      */
-    protected Session $_checkoutSession;
+    protected $_checkoutSession;
 
     /**
      * @var Json
      */
-    private Json $jsonSerializer;
+    private $jsonSerializer;
 
     /**
      * ScriptInit constructor.
@@ -119,7 +119,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Get Current page name
      * @return string
      */
-    public function getCurrentPageName(): string
+    public function getCurrentPageName()
     {
         $response = '';
         $fullActionName = $this->request->getFullActionName();
@@ -247,7 +247,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Check if current page is search result page
      * @return bool
      */
-    public function isSearchResultPage(): bool
+    public function isSearchResultPage()
     {
         return 'search' === $this->getCurrentPageName();
     }
@@ -379,12 +379,12 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         if (!$this->_domainKey) {
             $this->_domainKey = $this->getStoreConfigValue(self::SETTINGS_DOMAIN_KEY);
         }
-        if (!$this->_trackingCookie) {
+        /*if (!$this->_trackingCookie) {
             $this->_trackingCookie = $this->getStoreConfigValue(self::SETTINGS_TRACKING_COOKIE);
         }
         if (!$this->_searchEp) {
             $this->_searchEp = $this->getStoreConfigValue(self::SETTINGS_SEARCH_ENDPOINT);
-        }
+        }*/
         /*if (!$this->_autoSuggestEp) {
             $this->_autoSuggestEp = $this->getStoreConfigValue(self::SETTINGS_AUTOSUGGEST_ENDPOINT);
         }*/
@@ -423,25 +423,60 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getTrackingCookie()
     {
-        return $this->_trackingCookie;
+        return '';//$this->_trackingCookie;
     }
 
     /**
      * Get Setting Search End Point Url
      * @return string
      */
-    public function getSearchEpUrl()
+    public function getSearchEndPointUrl()
     {
-        return $this->_searchEp;
+        $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_SEARCH);
+        if ($val=='stage') {
+            return self::STAGING_API_ENDPOINT_SEARCH;
+        }
+        return self::PRODUCTION_API_ENDPOINT_SEARCH; //$this->_searchEp;
     }
 
     /**
      * Get Setting Auto Suggest End Point Url
      * @return string
      */
-    public function getAutoSuggestEpUrl()
+    public function getAutoSuggestEndPointUrl()
     {
-        return '';//$this->_autoSuggestEp;
+        $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_AUTOSUGGEST);
+        if ($val=='stage') {
+            return self::STAGING_API_ENDPOINT_AUTOSUGGEST;
+        }
+        return self::PRODUCTION_API_ENDPOINT_AUTOSUGGEST; //$this->_autoSuggestEp;
+    }
+
+
+    /**
+     * Get Setting Collection/Category End Point Url
+     * @return string
+     */
+    public function getCollectionEndPointUrl()
+    {
+        $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_CATEGORY);
+        if ($val=='stage') {
+            return self::STAGING_API_ENDPOINT_COLLECTION;
+        }
+        return self::PRODUCTION_API_ENDPOINT_COLLECTION;
+    }
+
+    /**
+     * Get Setting BR Widget End Point Url
+     * @return string
+     */
+    public function getBrWidgetEndPointUrl()
+    {
+        $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_WIDGETS);
+        if ($val=='stage') {
+            return self::STAGING_API_ENDPOINT_WIDGET;
+        }
+        return self::PRODUCTION_API_ENDPOINT_WIDGET;
     }
 
     /**
@@ -449,8 +484,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * if all settings tab options are not empty then return true
      * @return bool
      */
-    public function canInitScript(): bool
+    public function canInitScript()
     {
-        return !empty($this->_accId) && !empty($this->_authKey) && !empty($this->_domainKey) && !empty($this->_trackingCookie) && !empty($this->_searchEp);
+        return !empty($this->_accId) && !empty($this->_authKey) && !empty($this->_domainKey);
     }
 }

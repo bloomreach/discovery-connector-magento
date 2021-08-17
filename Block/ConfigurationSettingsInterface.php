@@ -31,6 +31,15 @@ interface ConfigurationSettingsInterface
     const SETTINGS_AUTOSUGGEST_ENDPOINT = self::SETTINGS_GENERAL_PATH . '/autosuggest_endpoint';
 
     /**
+     * Store config path constants for settings endpoint tab
+     */
+    const SETTINGS_APIURL_PATH = 'bloomreach_settings/api_url';
+    const SETTINGS_ENDPOINT_AUTOSUGGEST = self::SETTINGS_APIURL_PATH . '/autosuggest_endpoint';
+    const SETTINGS_ENDPOINT_SEARCH = self::SETTINGS_APIURL_PATH . '/search_endpoint';
+    const SETTINGS_ENDPOINT_CATEGORY = self::SETTINGS_APIURL_PATH . '/category_endpoint';
+    const SETTINGS_ENDPOINT_WIDGETS = self::SETTINGS_APIURL_PATH . '/widgets_endpoint';
+
+    /**
      * Store config path constant for Search Tab- Auto suggest
      */
     const SEARCH_AUTOSUGGEST_PATH = 'bloomreach_search/autosuggest';
@@ -40,6 +49,7 @@ interface ConfigurationSettingsInterface
     const SEARCH_SUGGESTED_PRODUCTS = self::SEARCH_AUTOSUGGEST_PATH . '/suggested_products';
     const SEARCH_SUGGESTED_COLLECTION = self::SEARCH_AUTOSUGGEST_PATH . '/suggested_collection';
     const SEARCH_CUSTOM_CSS = self::SEARCH_AUTOSUGGEST_PATH . '/custom_css';
+    const SEARCH_TEMPLATE_MAIN = self::SEARCH_AUTOSUGGEST_PATH . '/main_template_text';
 
     /**
      * Store config path constant for Search Tab- Site Search
@@ -54,6 +64,9 @@ interface ConfigurationSettingsInterface
     const SITESEARCH_NO_OF_FACET_OPTIONS = self::SITESEARCH_PATH . '/no_of_facet_options';
     const SITESEARCH_INFINITE_SCROLL = self::SITESEARCH_PATH . '/infinite_scroll';
     const SITESEARCH_CUSTOM_CSS = self::SITESEARCH_PATH . '/custom_css';
+    const SITESEARCH_FIELD_LIST = self::SITESEARCH_PATH . '/field_list';
+    const SITESEARCH_TEMPLATE_MAIN = self::SITESEARCH_PATH . '/main_template_text';
+    const SITESEARCH_TEMPLATE_PRODUCTLIST = self::SITESEARCH_PATH . '/productlist_template_text';
 
     /**
      * Store config path constant for Collections Tab
@@ -68,6 +81,9 @@ interface ConfigurationSettingsInterface
     const COLLECTIONS_SHOW_VARIANTS = self::COLLECTIONS_PATH . '/show_variants';
     const COLLECTIONS_INFINITE_SCROLL = self::COLLECTIONS_PATH . '/infinite_scroll';
     const COLLECTIONS_CUSTOM_CSS = self::COLLECTIONS_PATH . '/custom_css';
+    const COLLECTIONS_TEMPLATE_MAIN = self::COLLECTIONS_PATH . '/main_template_text';
+    const COLLECTIONS_TEMPLATE_PRODUCTLIST = self::COLLECTIONS_PATH . '/productlist_template_text';
+    const COLLECTIONS_FIELD_LIST = self::COLLECTIONS_PATH . '/field_list';
 
     /**
      * Store config path constant for Recommendations Tab
@@ -76,4 +92,15 @@ interface ConfigurationSettingsInterface
     const PIXEL_PATH = 'bloomreach_settings/pixel';
     const RECOMM_PIXEL_ENABLED = self::PIXEL_PATH . '/enable_pixel';
     const RECOMM_WIDGET_ENABLED = self::RECOMM_PATH . '/enable_recommendations';
+    const RECOMM_FIELD_LIST = self::RECOMM_PATH . '/field_list';
+
+    const STAGING_API_ENDPOINT_WIDGET = 'http://pathways-staging.dxpapi.com/api/v2/widgets/';
+    const STAGING_API_ENDPOINT_AUTOSUGGEST = 'http://staging-suggest.dxpapi.com/api/v1/suggest/';
+    const STAGING_API_ENDPOINT_SEARCH = 'http://staging-core.dxpapi.com/api/v1/core/';
+    const STAGING_API_ENDPOINT_COLLECTION = 'http://staging-core.dxpapi.com/api/v1/core/';
+
+    const PRODUCTION_API_ENDPOINT_WIDGET = 'https://pathways.dxpapi.com/api/v2/widgets/';
+    const PRODUCTION_API_ENDPOINT_AUTOSUGGEST = 'https://suggest.dxpapi.com/api/v1/suggest/';
+    const PRODUCTION_API_ENDPOINT_SEARCH = 'https://core.dxpapi.com/api/v1/core/';
+    const PRODUCTION_API_ENDPOINT_COLLECTION = 'https://core.dxpapi.com/api/v1/core/';
 }
