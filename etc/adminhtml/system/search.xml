@@ -70,9 +70,36 @@
         <field id="main_template_text" translate="label" type="textarea"
                sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Autosuggest Rendering Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_autosuggest_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="#" target="_blank">documentation link</a> for more info.]]>
+            </comment>
             <depends>
                 <field id="enabled">1</field>
             </depends>
+        </field>
+        <field id="search_autosuggest_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search Main Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_autosuggest_search_autosuggest_template_update_date').hide();
+                            var search_autosuggest_template_version_date = $('search_autosuggest_template_version_date').innerText;
+                            var search_autosuggest_template_update_date = $('bloomreach_search_autosuggest_search_autosuggest_template_update_date').value;
+                            if(new Date(search_autosuggest_template_version_date) > new Date(search_autosuggest_template_update_date)) {
+                                $('bloomreach_search_autosuggest_main_template_text').next('p').show();
+                            } else {
+                                if(search_autosuggest_template_update_date=="") {
+                                    $('bloomreach_search_autosuggest_main_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_autosuggest_main_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
         </field>
     </group>
     <group id="sitesearch" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
@@ -159,16 +186,70 @@
         <field id="main_template_text" translate="label" type="textarea"
                sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Search Page - Main Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_main_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="#" target="_blank">documentation link</a> for more info.]]>
+            </comment>
             <depends>
                 <field id="enabled">1</field>
             </depends>
         </field>
+        <field id="search_main_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search Main Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_sitesearch_search_main_template_update_date').hide();
+                            var search_main_template_version_date = $('search_main_template_version_date').innerText;
+                            var search_main_template_update_date = $('bloomreach_search_sitesearch_search_main_template_update_date').value;
+                            if(new Date(search_main_template_version_date) > new Date(search_main_template_update_date)) {
+                                $('bloomreach_search_sitesearch_main_template_text').next('p').show();
+                            } else {
+                                if(search_main_template_update_date=="") {
+                                    $('bloomreach_search_sitesearch_main_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_sitesearch_main_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
+        </field>
         <field id="productlist_template_text" translate="label" type="textarea"
                sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Search Page - Product Listing Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_list_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="#" target="_blank">documentation link</a> for more info.]]>
+            </comment>
             <depends>
                 <field id="enabled">1</field>
             </depends>
+        </field>
+        <field id="search_list_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search list Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_sitesearch_search_list_template_update_date').hide();
+                            var search_list_template_version_date = $('search_list_template_version_date').innerText;
+                            var search_list_template_update_date = $('bloomreach_search_sitesearch_search_list_template_update_date').value;
+                            if(new Date(search_list_template_version_date) > new Date(search_list_template_update_date)) {
+                                $('bloomreach_search_sitesearch_productlist_template_text').next('p').show();
+                            } else {
+                                if(search_list_template_update_date=="") {
+                                    $('bloomreach_search_sitesearch_productlist_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_sitesearch_productlist_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
         </field>
     </group>
 </include>
