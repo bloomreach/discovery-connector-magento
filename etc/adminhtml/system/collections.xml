@@ -99,7 +99,7 @@
         <field id="main_template_text" translate="label" type="textarea"
                sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Category Page - Main Template</label>
-            <comment><![CDATA[Template update date : <span  id="category_main_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="#" target="_blank">documentation link</a> for more info.]]>
+            <comment><![CDATA[Template update date : <span  id="category_main_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="https://documentation.bloomreach.com/sdks/magento/user-guide.html" target="_blank">documentation link</a> for more info.]]>
             </comment>
             <depends>
                 <field id="enabled">1</field>
@@ -133,7 +133,7 @@
         <field id="productlist_template_text" translate="label" type="textarea"
                sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Category Page - Product Listing Template</label>
-            <comment><![CDATA[Template update date : <span  id="category_list_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="#" target="_blank">documentation link</a> for more info.]]>
+            <comment><![CDATA[Template update date : <span  id="category_list_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="https://documentation.bloomreach.com/sdks/magento/user-guide.html" target="_blank">documentation link</a> for more info.]]>
             </comment>
             <depends>
                 <field id="enabled">1</field>
