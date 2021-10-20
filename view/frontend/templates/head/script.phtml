@@ -113,7 +113,7 @@ if ($viewModel->isProductListingPage()) {
             $currentProduct = $viewModel->getCurrentProduct();
             ?>
             // Product page view
-            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getUrlKey() ?>";
+            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getSku() ?>";
             br_data.prod_name = "<?= $escaper->escapeHtml($currentProduct->getName()) ?>";
             br_data.sku = "<?= $escaper->escapeHtml($currentProduct->getSku()) ?>";
             <?php endif; ?>
@@ -132,8 +132,8 @@ if ($viewModel->isProductListingPage()) {
             $currentCategory = $viewModel->getCurrentCategory();
             ?>
             // Category page view
-            br_data.cat_id = "<?= /* @noEscape */$currentCategory->getUrlKey() ?>";
-            br_data.cat = "<?= /* @noEscape */ $currentCategory->getUrlKey() ?>";
+            br_data.cat_id = "<?= /* @noEscape */$currentCategory->getId() ?>";
+            br_data.cat = "<?= /* @noEscape */ $currentCategory->getId() ?>";
             <?php endif; ?>
             <?php if ('search' === $viewModel->getCurrentPageName()): ?>
             // Search results page view
