@@ -14,10 +14,10 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="autosuggest" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+    <group id="autosuggest" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Autosuggest</label>
         <comment>Replace the built in Magento Autosuggest with Bloomreach Autosuggest</comment>
-        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0" showInStore="1">
             <label>Enable Autosuggest</label>
             <comment>Toggle Autosuggest on/off</comment>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -105,7 +105,7 @@
     <group id="sitesearch" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
         <label>Sites Search</label>
         <comment>Replace the built in Magento search results page with Bloomreach Search.</comment>
-        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0" showInStore="1">
             <label>Enable Site Search</label>
             <comment>Toggle Bloomreach for search result page on/off</comment>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
