@@ -94,10 +94,10 @@ interface ConfigurationSettingsInterface
     const RECOMM_WIDGET_ENABLED = self::RECOMM_PATH . '/enable_recommendations';
     const RECOMM_FIELD_LIST = self::RECOMM_PATH . '/field_list';
 
-    const STAGING_API_ENDPOINT_WIDGET = 'http://pathways-staging.dxpapi.com/api/v2/widgets/';
-    const STAGING_API_ENDPOINT_AUTOSUGGEST = 'http://staging-suggest.dxpapi.com/api/v1/suggest/';
-    const STAGING_API_ENDPOINT_SEARCH = 'http://staging-core.dxpapi.com/api/v1/core/';
-    const STAGING_API_ENDPOINT_COLLECTION = 'http://staging-core.dxpapi.com/api/v1/core/';
+    const STAGING_API_ENDPOINT_WIDGET = 'https://pathways-staging.dxpapi.com/api/v2/widgets/';
+    const STAGING_API_ENDPOINT_AUTOSUGGEST = 'https://staging-suggest.dxpapi.com/api/v1/suggest/';
+    const STAGING_API_ENDPOINT_SEARCH = 'https://staging-core.dxpapi.com/api/v1/core/';
+    const STAGING_API_ENDPOINT_COLLECTION = 'https://staging-core.dxpapi.com/api/v1/core/';
 
     const PRODUCTION_API_ENDPOINT_WIDGET = 'https://pathways.dxpapi.com/api/v2/widgets/';
     const PRODUCTION_API_ENDPOINT_AUTOSUGGEST = 'https://suggest.dxpapi.com/api/v1/suggest/';
