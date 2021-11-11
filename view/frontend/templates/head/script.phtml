@@ -113,7 +113,7 @@ if ($viewModel->isProductListingPage()) {
             $currentProduct = $viewModel->getCurrentProduct();
             ?>
             // Product page view
-            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getId() ?>";
+            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getSku() ?>";
             br_data.prod_name = "<?= $escaper->escapeHtml($currentProduct->getName()) ?>";
             br_data.sku = "<?= $escaper->escapeHtml($currentProduct->getSku()) ?>";
             <?php endif; ?>

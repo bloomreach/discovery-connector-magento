@@ -24,58 +24,80 @@
                 <suggested_collection>4</suggested_collection>
                 <main_template_text>
                     <![CDATA[<% if (terms.length || productSuggestions.length) { %>
-                            <div class="blm-autosuggest">
-                              <div class="blm-autosuggest__suggestion-terms-container">
-                                <ul class="blm-autosuggest__suggestion-terms">
-                                  <% terms.forEach(function(term) { %>
-                                    <li class="blm-autosuggest__suggestion-term">
-                                      <a href="<%- term.link %>" class="blm-autosuggest__suggestion-term-link" data-suggestion-text="<%- term.text %>"><%- term.processedText %></a>
-                                      <% if (term.categories) { %>
-                                        <ul class="blm-autosuggest__category-results">
-                                          <% term.categories.forEach(function(category) { %>
-                                          <li class="blm-autosuggest__suggestion-term">
-                                            <a href="#"
-                                               data-category-id="<%- category.value %>"
-                                               data-suggestion-text="<%- category.name %>"
-                                               class="blm-autosuggest__suggestion-term-link blm-autosuggest__suggestion-term-link--category"><%- category.name %></a>
-                                          </li>
-                                          <% }); %>
-                                        </ul>
-                                      <% } %>
-                                    </li>
-                                  <% }); %>
-                                </ul>
-                              </div>
-                              <div class="blm-autosuggest__results-container">
-                                <div class="blm-autosuggest__results">
-                                  <% productSuggestions.forEach(function(suggestion) { %>
-                                    <div class="blm-autosuggest__result">
-                                      <div class="blm-autosuggest-result-image">
-                                        <a title="<%= suggestion.title %>"
-                                          aria-hidden="true"
-                                          tabindex="-1"
-                                          href="<%= suggestion.link %>"
-                                          class="blm-autosuggest-result-image__link">
-                                          <img class="blm-autosuggest-result-image__image" src="<%= suggestion.image %>"/>
-                                        </a>
-                                      </div>
-                                      <div class="blm-autosuggest-result-details">
-                                        <a class="blm-autosuggest-result-details__title" href="<%= suggestion.link %>"><%= suggestion.title %></a>
-                                        <div class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--final">
-                                          <%- defaultCurrency %><%= suggestion.final_price.toFixed(2) %>
-                                          <% if (suggestion.original_price) { %>
-                                            <span class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--original">
-                                            <%- defaultCurrency %><%= suggestion.original_price.toFixed(2) %>
-                                            </span>
-                                          <% } %>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  <% }); %>
-                                </div>
-                              </div>
-                            </div>
-                            <% } %>]]>
+    <div class="blm-autosuggest">
+      <div class="blm-autosuggest__suggestion-terms-container">
+        <ul class="blm-autosuggest__suggestion-terms">
+          <% terms.forEach(function(term) { %>
+            <li class="blm-autosuggest__suggestion-term">
+              <a href="<%- term.link %>" class="blm-autosuggest__suggestion-term-link" data-suggestion-text="<%- term.text %>"
+                ><%- term.processedText %></a
+              >
+              <% if (term.categories) { %>
+                <ul class="blm-autosuggest__category-results">
+                  <% term.categories.forEach(function(category) { %>
+                  <li class="blm-autosuggest__suggestion-term">
+                    <a href="#"
+                       data-category-id="<%- category.value %>"
+                       data-suggestion-text="<%- category.name %>"
+                       class="blm-autosuggest__suggestion-term-link blm-autosuggest__suggestion-term-link--category"
+                      ><%- category.name %></a
+                    >
+                  </li>
+                  <% }); %>
+                </ul>
+              <% } %>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+
+      <div class="blm-autosuggest__results-container">
+        <div class="blm-autosuggest__results">
+          <% productSuggestions.forEach(function(suggestion) { %>
+            <div class="blm-autosuggest__result">
+              <div class="blm-autosuggest-result-image">
+                <a
+                  title="<%= suggestion.title %>"
+                  aria-hidden="true"
+                  tabindex="-1"
+                  href="<%= suggestion.link %>"
+                  class="blm-autosuggest-result-image__link"
+                  ><img
+                    class="blm-autosuggest-result-image__image"
+                    src="<%= suggestion.image %>"
+                /></a>
+              </div>
+              <div class="blm-autosuggest-result-details">
+                <a class="blm-autosuggest-result-details__title" href="<%= suggestion.link %>"
+                  ><%= suggestion.title %></a
+                >
+                <div class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--final">
+                  <% if (config.get('formatMoney')) { %>
+                    <%= config.get('formatMoney')(suggestion.final_price.toFixed(2) * 100) %>
+                  <% } else { %>
+                    <%= defaultCurrency %><%= suggestion.final_price.toFixed(2) %>
+                  <% } %>
+                  <% if (suggestion.original_price) { %>
+                    <span
+                    class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--original"
+                    >
+                     <% if (config.get('formatMoney')) { %>
+                       <%= config.get('formatMoney')(suggestion.original_price.toFixed(2) * 100) %>
+                     <% } else { %>
+                       <%= defaultCurrency %><%= suggestion.original_price.toFixed(2) %>
+                     <% } %>
+                    </span
+                  >
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+
+    </div>
+    <% } %>]]>
                 </main_template_text>
             </autosuggest>
             <sitesearch>
@@ -89,28 +111,28 @@
                 <infinite_scroll>0</infinite_scroll>
                 <field_list>pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description</field_list>
                 <main_template_text>
-                    <![CDATA[<% if (did_you_mean.length) { %>
+                    <![CDATA[    <% if (did_you_mean.length) { %>
       <div class="blm-product-search-header">
         <div class="blm-product-search-header-container">
-          <h1 class="blm-product-search-header-container__title">Results for
+          <h1 class="blm-product-search-header-container__title">Results for 
             <% if (locals.keywordRedirect && keywordRedirect.redirected_url) { %>
               <i><%- keywordRedirect.redirected_url %></i>
-            <% } else { %>
+            <% } else { %> 
               <i><%- did_you_mean[0] %></i>
-            <% } %>
+            <% } %> 
              instead of <i class="blm-product-search-header-container__title__searched-word"><%- originalQuery %></i></h1>
           <div class="blm-did-you-mean-suggestion">
-            <label class="blm-did-you-mean-suggestion__label">Did you mean:</label>
+            <label class="blm-did-you-mean-suggestion__label">Did you mean:</label> 
             <% did_you_mean.forEach(function(word) { %>
             <a href="<%= config.get('searchPageUrl') %>?<%= config.get('defaultSearchParameter') %>=<%= word %>" class="blm-did-you-mean-suggestion__link"><%- word %></a>
             <% }); %>
           </div>
           <% if (locals.keywordRedirect && keywordRedirect.redirected_query) { %>
           <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.redirected_query %>"</i>.</div>
-          <% } %>
+          <% } %> 
         </div>
       </div>
-    <% } %>
+    <% } %> 
     <% if (locals.keywordRedirect && keywordRedirect.redirected_url && did_you_mean.length === 0) { %>
       <div class="blm-product-search-header">
         <div class="blm-product-search-header-container">
@@ -118,10 +140,10 @@
           <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.redirected_query %>"</i> </div>
         </div>
       </div>
-    <% } %>
+    <% } %> 
     <div class="blm-product-search <% if (config.get('areFacetsIncluded')) { %>with-facets<% } %>">
         <% if (config.get('areFacetsIncluded') && facets.length) { %>
-        <aside class="blm-product-search-sidebar">
+        <aside class="blm-product-search-sidebar">    
 
           <button class="blm-product-search-control-button blm-product-search-control-button--sidebar">
             Filter
@@ -139,32 +161,46 @@
               <h4 class="blm-product-search-filter-title">Price</h4>
               <div class="blm-price-range-container">
                 <div class="blm-range-slider">
-                  <input
-                    value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>"
-                    min="<%- priceRangeFacet.start %>"
+                  <input 
+                    value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>" 
+                    min="<%- priceRangeFacet.start %>" 
                     max="<%- priceRangeFacet.end %>"
-                    step="<%- priceRangeFacet.step %>"
-                    type="range"
-                    class="blm-price-range-input blm-price-range-input--lower">
+                    step="1"
+                    type="range" 
+                    class="blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%"
+                  >
                   <span class="blm-price-range-slider-rail"></span>
                   <input
-                    value="<%= checkedFacets.price ? (checkedFacets.price[1] === '*' ? priceRangeFacet.end : checkedFacets.price[1]) : priceRangeFacet.end %>"
+                    value="<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>"
                     min="<%- priceRangeFacet.start %>"
                     max="<%- priceRangeFacet.end %>"
-                    step="<%- priceRangeFacet.step %>"
-                    type="range"
-                    class="blm-price-range-input blm-price-range-input--upper">
+                    step="1" 
+                    type="range" 
+                    class="blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%"
+                  >
                 </div>
                 <div class="blm-range-slider__values">
-                  <span class="blm-range-slider__values--min"><%- defaultCurrency %><%- checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %></span>
+                  <span class="blm-range-slider__values--min">
+                    <%= checkedFacets.price ? formatMoney(checkedFacets.price[0] * 100) : formatMoney(priceRangeFacet.start * 100) %>
+                  </span>
                   <% if (checkedFacets.price) { %>
-                  <span class="blm-range-slider__values--max"><%- defaultCurrency %><%- checkedFacets.price ? (checkedFacets.price[1] === '*' ? (priceRangeFacet.end - priceRangeFacet.step) + '+' : checkedFacets.price[1]) : priceRangeFacet.start %></span>
+                    <span class="blm-range-slider__values--max">
+                      <%= checkedFacets.price ? formatMoney(checkedFacets.price[1] * 100) : formatMoney(priceRangeFacet.start * 100) %>
+                    </span>
                   <% } else { %>
-                  <span class="blm-range-slider__values--max"><%- defaultCurrency %><%- (priceRangeFacet.end - priceRangeFacet.step) + '+' %></span>
+                    <span class="blm-range-slider__values--max">
+                      <%= formatMoney(priceRangeFacet.end * 100) %>
+                    </span>
                   <% } %>
                 </div>
+              <% if (checkedFacets.price) { %>
+                <div class="blm-range-slider__clear-values">
+                  <button class="blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%">Clear</button>
+                </div>
+              <% } %>
               </div>
             </div>
+
             <% facets.forEach(function(facet, facetIndex) { %>
               <% if (facet.section.length > 0) { %>
               <div class="blm-product-search-filter" id="blm-facet-block-item-<%= facetIndex %>">
@@ -174,12 +210,13 @@
                   <li class="blm-product-search-filter-item">
                     <input
                       type="checkbox"
-                      <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(item.id)) { %>checked<% } %>
+                      <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
                       name="<%- facet.original_title %>"
-                      value="<%- item.id %>"
-                      id="<%- facet.original_title + '[' + item.name + ']' %>"
-                      class="blm-product-search-filter-item__checkbox"/>
-                    <label class="blm-product-search-filter-item__name" for="<%- facet.original_title + '[' + item.name + ']' %>"><%- item.name %></label>
+                      value="<%- escapeSpecialCharacters(item.id) %>"
+                      id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
+                      class="blm-product-search-filter-item__checkbox"
+                    />
+                    <label class="blm-product-search-filter-item__name" for="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"><%- item.name %></label>
                     <% if (!config.get('displayVariants')) { %>
                     <span class="blm-product-search-filter-item__badge"><%- item.count %></span>
                     <% } %>
@@ -192,9 +229,11 @@
               </div>
               <% } %>
             <% }); %>
+
             <% if (facets[0].section.length) { %>
-            <div class="blm-load-more-facet">+ More </div>
-            <% } %>
+            <div class="blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%">+ More </div>
+            <% } %> 
+
           </div>
         </aside>
         <% } %>
@@ -206,22 +245,24 @@
             </h2>
             <div class="blm-product-search-toolbar-options">
               <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--page-size">
-                <label for="sort-size" class="blm-product-search-toolbar-options__label">Size: </label>
+                <label for="sort-size-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Size: </label>
                 <select
                   name="sort-size"
-                  id="sort-size"
-                  class="blm-product-search-toolbar-options__select">
+                  id="sort-size-%%-REQUEST_ID-%%"
+                  class="blm-product-search-toolbar-options__select"
+                >
                   <% for (let i = 16; i <= 48; i += 4) { %>
                     <option value="<%- i %>" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>
                   <% } %>
                 </select>
               </span>
               <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--sort-by">
-                <label for="sort-by" class="blm-product-search-toolbar-options__label">Sort By: </label>
+                <label for="sort-by-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Sort By: </label>
                 <select
                   name="sort-by"
-                  id="sort-by"
-                  class="blm-product-search-toolbar-options__select">
+                  id="sort-by-%%-REQUEST_ID-%%"
+                  class="blm-product-search-toolbar-options__select"
+                >
                   <% config.get('sortingOptions').forEach(function(option) { %>
                     <option value="<%- option.value %>" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>
                   <% }) %>
@@ -233,21 +274,23 @@
               No results found
             </h2>
             <% } %>
+            
           </div>
           <% if (products.length) { %>
           <div class="blm-product-search__results">
             %%-PRODUCT_LIST_TEMPLATE-%%
           </div>
           <% } %>
+          
           <% if (!locals.mobileView || !mobileView.matches) { %>
               <% if (!config.get('infiniteScroll') && paginationData.length > 0) { %>
               <div class="blm-product-search-pagination">
-                <ul class="blm-product-search-pagination__pages">
+                <ul class="blm-product-search-pagination__pages blm-product-search-pagination__pages--%%-REQUEST_ID-%%">
                   <% paginationData.forEach(paginationNode => { %>
                     <li class="blm-product-search-pagination__page">
-                      <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>">
-                      <%- paginationNode.label ?? paginationNode.value %>
-                      </button>
+                      <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>"
+                        ><%- paginationNode.label ?? paginationNode.value %></button
+                      >
                     </li>
                   <% }) %>
                 </ul>
@@ -260,38 +303,80 @@
                 <productlist_template_text>
                     <![CDATA[<% products.forEach(function(product) { %>
       <div class="blm-product-search__result" <% if (product.variant_name) { %>title="<%- product.variant_name %>"<% } %>>
+        <%
+          const matchingVariant = !Array.isArray(product.variants)
+            ? null
+            : 'variant_index' in product
+              ? product.variants[product.variant_index]
+              : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))
+        %>
         <div class="blm-product-search-image-container">
           <% if (product.variants && product.variants.length > 1) { %>
-            <% product.variants.forEach(function(variant) { %>
-            <div class="blm-product-search-swatch-image fade">
+            <% product.variants.forEach(function(variant, index) { %>
+            
+            <%
+              const isActiveVariant =
+                !('variant_index' in product) && !selectedColors.length
+                  ? index === 0
+                  : 'variant_index' in product
+                    ? product.variant_index === index
+                    : matchingVariant == variant
+            %>
+            
+            <div class="blm-product-search-swatch-image fade"
+              <% if (isActiveVariant) { %>style="display: block"<% } %>
+            >
               <img
                 class="blm-product-search-image-container__image"
                 alt="title"
-                src="<%= variant.image %>"/>
+                src="<%= variant.image %>"
+              />
             </div>
             <% }); %>
           <% } else { %>
-            <div class="blm-product-search-swatch-image fade">
+            <div class="blm-product-search-swatch-image fade" style="display: block"
+            >
               <img
                 class="blm-product-search-image-container__image"
                 alt="title"
-                src="<%= product.image %>"/>
+                src="<%= product.image %>"
+              />
             </div>
           <% } %>
         </div>
         <div class="blm-product-search-details-container">
           <div class="blm-product-search-details-title-container">
-            <a href="<%= product.link %>" class="blm-product-search-details-container__title"><%- product.title %></a>
+            <a href="<%= product.link %>" class="blm-product-search-details-container__title"
+              ><%- product.title %></a
+            >
           </div>
-            <p class="blm-product-search-details-container__price"><% if( product.final_price ) { %><%- defaultCurrency %><%- product.final_price.toFixed(2) %>  <% } %> <span <% if (product.price) { %>class="blm-product-search-details-container__price--strike-through"<% } %>><%- defaultCurrency %><%- product.price.toFixed(2) %></span></p>
+          
+          <p class="blm-product-search-details-container__price">
+            <% if (product.final_price) { %>
+              <%= formatMoney(product.final_price.toFixed() * 100) %>
+            <% } %>
+            <span <% if (product.final_price) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>
+              <%= formatMoney(product.price.toFixed() * 100) %>
+            </span>
+          </p>
+          
         </div>
 
         <% if (product.variants && product.variants.length > 1) { %>
           <ul class="blm-product-search-swatch-container">
-          <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant) { %>
+          <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>
+            <%
+              const isActiveVariant =
+                !('variant_index' in product) && !selectedColors.length
+                  ? index === 0
+                  : 'variant_index' in product
+                    ? product.variant_index === index
+                    : matchingVariant == variant
+            %>
             <li
-              class="blm-product-search-swatch-container__swatch"
-              style="background-image: url('<%= variant.image %>')"></li>
+              class="blm-product-search-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>"
+              style="background-image: url('<%= variant.image %>')"
+            ></li>
           <% }); %>
           </ul>
 
@@ -319,43 +404,60 @@
                     <![CDATA[<div class="blm-category <% if (config.get('areFacetsIncluded')) { %>with-facets<% } %>">
         <% if (config.get('areFacetsIncluded') && facets.length) { %>
         <aside class="blm-category-sidebar">
+
           <button class="blm-category-control-button blm-category-control-button--sidebar">
             Filter
             <svg viewBox="0 0 14.8 14.8" class="blm-category-control-button__icon" focusable="false"><path d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
           </button>
+
           <div class="blm-category-sidebar-content <% if (locals.isFiltersPanelOpened && isFiltersPanelOpened) { %>blm-open<% } %>">
+
             <button class="blm-category-control-button blm-category-control-button--sidebar blm-category-control-button--active">
               Done
               <svg viewBox="0 0 14.8 14.8" class="blm-category-control-button__icon" focusable="false"><path class="blm-category-control-button__icon-path" d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
             </button>
+
             <div class="blm-category-filter">
               <h4 class="blm-category-filter-title">Price</h4>
               <div class="blm-price-range-container">
                 <div class="blm-range-slider">
-                  <input
-                    value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>"
-                    min="<%- priceRangeFacet.start %>"
+                  <input 
+                    value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>" 
+                    min="<%- priceRangeFacet.start %>" 
                     max="<%- priceRangeFacet.end %>"
-                    step="<%- priceRangeFacet.step %>"
-                    type="range"
-                    class="blm-price-range-input blm-price-range-input--lower">
+                    step="1"
+                    type="range" 
+                    class="blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%"
+                  >
                   <span class="blm-price-range-slider-rail"></span>
                   <input
-                    value="<%= checkedFacets.price ? (checkedFacets.price[1] === '*' ? priceRangeFacet.end : checkedFacets.price[1]) : priceRangeFacet.end %>"
+                    value="<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>"
                     min="<%- priceRangeFacet.start %>"
                     max="<%- priceRangeFacet.end %>"
-                    step="<%- priceRangeFacet.step %>"
-                    type="range"
-                    class="blm-price-range-input blm-price-range-input--upper">
+                    step="1" 
+                    type="range" 
+                    class="blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%"
+                  >
                 </div>
                 <div class="blm-range-slider__values">
-                  <span class="blm-range-slider__values--min"><%- defaultCurrency %><%- checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %></span>
+                  <span class="blm-range-slider__values--min">
+                    <%= checkedFacets.price ? formatMoney(checkedFacets.price[0] * 100) : formatMoney(priceRangeFacet.start * 100) %>
+                  </span>
                   <% if (checkedFacets.price) { %>
-                  <span class="blm-range-slider__values--max"><%- defaultCurrency %><%- checkedFacets.price ? (checkedFacets.price[1] === '*' ? (priceRangeFacet.end - priceRangeFacet.step) + '+' : checkedFacets.price[1]) : priceRangeFacet.start %></span>
+                  <span class="blm-range-slider__values--max">
+                    <%= checkedFacets.price ? formatMoney(checkedFacets.price[1] * 100) : formatMoney(priceRangeFacet.start * 100) %>
+                  </span>
                   <% } else { %>
-                  <span class="blm-range-slider__values--max"><%- defaultCurrency %><%- (priceRangeFacet.end - priceRangeFacet.step) + '+' %></span>
+                  <span class="blm-range-slider__values--max">
+                    <%= formatMoney(priceRangeFacet.end * 100) %>
+                  </span>
                   <% } %>
                 </div>
+              <% if (checkedFacets.price) { %>
+                <div class="blm-range-slider__clear-values">
+                  <button class="blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%">Clear</button>
+                </div>
+              <% } %>
               </div>
             </div>
 
@@ -368,12 +470,13 @@
                   <li class="blm-category-filter-item">
                     <input
                       type="checkbox"
-                      <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(item.id)) { %>checked<% } %>
+                      <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
                       name="<%- facet.original_title %>"
-                      value="<%- item.id %>"
-                      id="<%- facet.original_title + '[' + item.name + ']' %>"
-                      class="blm-category-filter-item__checkbox" />
-                    <label class="blm-category-filter-item__name" for="<%- facet.original_title + '[' + item.name + ']' %>"><%- item.name %></label>
+                      value="<%- escapeSpecialCharacters(item.id) %>"
+                      id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
+                      class="blm-category-filter-item__checkbox"
+                    />
+                    <label class="blm-category-filter-item__name" for="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"><%- item.name %></label>
                     <% if (!config.get('displayVariants')) { %>
                     <span class="blm-category-filter-item__badge"><%- item.count %></span>
                     <% } %>
@@ -388,7 +491,7 @@
             <% }); %>
 
             <% if (facets[0].section.length) { %>
-            <div class="blm-load-more-facet">+ More </div>
+            <div class="blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%">+ More </div>
             <% } %>
 
           </div>
@@ -402,22 +505,24 @@
             </h2>
             <div class="blm-category-toolbar-options">
               <span class="blm-category-toolbar-options blm-category-toolbar-options--page-size">
-                <label for="sort-size" class="blm-category-toolbar-options__label">Size: </label>
+                <label for="sort-size-%%-REQUEST_ID-%%" class="blm-category-toolbar-options__label">Size: </label>
                 <select
                   name="sort-size"
-                  id="sort-size"
-                  class="blm-category-toolbar-options__select">
+                  id="sort-size-%%-REQUEST_ID-%%"
+                  class="blm-category-toolbar-options__select"
+                >
                   <% for (let i = 16; i <= 48; i += 4) { %>
                     <option value="<%- i %>" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>
                   <% } %>
                 </select>
               </span>
               <span class="blm-category-toolbar-options blm-category-toolbar-options--sort-by">
-                <label for="sort-by" class="blm-category-toolbar-options__label">Sort By: </label>
+                <label for="sort-by-%%-REQUEST_ID-%%" class="blm-category-toolbar-options__label">Sort By: </label>
                 <select
                   name="sort-by"
-                  id="sort-by"
-                  class="blm-category-toolbar-options__select">
+                  id="sort-by-%%-REQUEST_ID-%%"
+                  class="blm-category-toolbar-options__select"
+                >
                   <% config.get('sortingOptions').forEach(function(option) { %>
                     <option value="<%- option.value %>" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>
                   <% }) %>
@@ -429,21 +534,23 @@
               No results found
             </h2>
             <% } %>
+            
           </div>
           <% if (products.length) { %>
           <div class="blm-category__results">
             %%-PRODUCT_LIST_TEMPLATE-%%
           </div>
           <% } %>
+          
           <% if (!locals.mobileView || !mobileView.matches) { %>
               <% if (!config.get('infiniteScroll') && paginationData.length > 0) { %>
               <div class="blm-category-pagination">
-                <ul class="blm-category-pagination__pages">
+                <ul class="blm-category-pagination__pages blm-category-pagination__pages--%%-REQUEST_ID-%%">
                   <% paginationData.forEach(paginationNode => { %>
                     <li class="blm-category-pagination__page">
-                      <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-category-pagination__page-link <% if (paginationNode.active) { %>blm-category-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>">
-                      <%- paginationNode.label ?? paginationNode.value %>
-                      </button>
+                      <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-category-pagination__page-link <% if (paginationNode.active) { %>blm-category-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>"
+                        ><%- paginationNode.label ?? paginationNode.value %></button
+                      >
                     </li>
                   <% }) %>
                 </ul>
@@ -456,40 +563,77 @@
                 <productlist_template_text>
                     <![CDATA[<% products.forEach(function(product) { %>
       <div class="blm-category__result" <% if (product.variant_name) { %>title="<%- product.variant_name %>"<% } %>>
+        <%
+          const matchingVariant = !Array.isArray(product.variants)
+            ? null
+            : 'variant_index' in product
+              ? product.variants[product.variant_index]
+              : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))
+        %>
         <div class="blm-category-image-container">
           <% if (product.variants && product.variants.length > 1) { %>
-            <% product.variants.forEach(function(variant) { %>
-            <div class="blm-category-swatch-image fade">
+            <% product.variants.forEach(function(variant, index) { %>
+
+            <%
+              const isActiveVariant =
+                !('variant_index' in product) && !selectedColors.length
+                  ? index === 0
+                  : 'variant_index' in product
+                    ? product.variant_index === index
+                    : matchingVariant == variant
+            %>
+            <div class="blm-category-swatch-image fade"
+              <% if (isActiveVariant) { %>style="display: block"<% } %>
+            >
               <img
                 class="blm-category-image-container__image"
                 alt="title"
-                src="<%= variant.image %>" />
+                src="<%= variant.image %>"
+              />
             </div>
             <% }); %>
           <% } else { %>
-            <div class="blm-category-swatch-image fade">
+            <div class="blm-category-swatch-image fade" style="display: block">
               <img
                 class="blm-category-image-container__image"
                 alt="title"
-                src="<%= product.image %>" />
+                src="<%= product.image %>"
+              />
             </div>
           <% } %>
         </div>
         <div class="blm-category-details-container">
           <div class="blm-category-details-title-container">
-            <a href="<%= product.link %>" class="blm-category-details-container__title">
-              <%- product.title %></a>
-          </div>
-          <p class="blm-category-details-container__price"><% if( product.final_price ) { %><%- defaultCurrency %><%- product.final_price %>  <% } %> <span <% if (product.price) { %>class="blm-category-details-container__price--strike-through"<% } %>><%- defaultCurrency %><%- product.price %></span></p>
-
+            <a href="<%= product.link %>" class="blm-category-details-container__title"
+              ><%- product.title %></a
+            >
+          </div>                   
+          <p class="blm-category-details-container__price">
+            <% if( product.final_price ) { %>
+              <%= formatMoney(product.final_price.toFixed() * 100) %>
+            <% } %>
+            <span <% if (product.final_price) { %>class="blm-category-details-container__price--strike-through"<% } %>>
+              <%= formatMoney(product.price.toFixed() * 100) %>
+            </span>
+          </p>
+          
         </div>
 
         <% if (product.variants && product.variants.length > 1) { %>
           <ul class="blm-category-swatch-container">
-          <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant) { %>
+          <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>
+            <%
+              const isActiveVariant =
+                !('variant_index' in product) && !selectedColors.length
+                  ? index === 0
+                  : 'variant_index' in product
+                    ? product.variant_index === index
+                    : matchingVariant == variant
+            %>
             <li
-              class="blm-category-swatch-container__swatch"
-              style="background-image: url('<%= variant.image %>')"></li>
+              class="blm-category-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>"
+              style="background-image: url('<%= variant.image %>')"
+            ></li>
           <% }); %>
           </ul>
 
