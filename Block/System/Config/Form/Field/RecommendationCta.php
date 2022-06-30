@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class RecommendationCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class RecommendationCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -40,8 +41,14 @@ class RecommendationCta extends CtaButtonAbstract
         return 'https://www.bloomreach.com/en/products/bloomreach-experience/recommendations';
     }
 
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
-        return __('96% of visitors to your website are there to browse, not buy. With recommendations, you can present relevant products and nudge more visitors to convert.');
+        return __('96% of visitors to your website are there to browse, not buy. 
+            With recommendations, you can present relevant products and nudge more visitors to convert.');
     }
 }

@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class MerchandisingCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class MerchandisingCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -40,8 +41,14 @@ class MerchandisingCta extends CtaButtonAbstract
         return 'https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/category';
     }
 
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
-        return __('Identify top performing collections(Categories) and improve product ranking. Bloomreach must be enabled on Collection(Category) to benefit from Merchandising adjustment.');
+        return __('Identify top performing collections(Categories) and improve product ranking. 
+            Bloomreach must be enabled on Collection(Category) to benefit from Merchandising adjustment.');
     }
 }

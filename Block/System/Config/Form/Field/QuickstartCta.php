@@ -3,11 +3,11 @@
 
 namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
-
 class QuickstartCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -27,9 +27,14 @@ class QuickstartCta extends CtaButtonAbstract
         return '#';
     }
 
-
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
-        return __("Not sure where to get started? Look at our Documentation & Quick Start guide for Bloomreach and Magento. It'll get you started in no time.");
+        return __("Not sure where to get started? Look at our Documentation & 
+            Quick Start guide for Bloomreach and Magento. It'll get you started in no time.");
     }
 }

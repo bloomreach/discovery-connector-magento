@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class MarketingCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class EnterpriseCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -40,6 +41,11 @@ class EnterpriseCta extends CtaButtonAbstract
         return 'https://www.bloomreach.com/en/products/bloomreach-experience/search';
     }
 
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
         return __("Bloomreach's AI-driven Search for eCommerce allows your teams to create a sophisticated search and product discovery experience that drives conversions and revenue. Our set of AI-driven merchandising tools to help you make impactful and effective changes that convert more traffic.");

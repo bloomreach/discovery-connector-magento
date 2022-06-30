@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class SearchRankingCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class SearchRankingCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -40,8 +41,14 @@ class SearchRankingCta extends CtaButtonAbstract
         return 'https://tools.bloomreach.com/navapp/commerce/tools/RankingManager/searchterm';
     }
 
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
-        return __('Refine search quality, set global or query specific ranking adjustments, and refine performance within the dashboard.');
+        return __('Refine search quality, set global or query specific ranking adjustments, 
+            and refine performance within the dashboard.');
     }
 }
