@@ -21,7 +21,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                 this.customer = customerData.get('customer');
             },
             initPixelScript: function () {
-                br_data.user_id = this.customer().uniqueId;
+                br_data.user_id = this.customer().uniqueId ? this.customer().uniqueId : "";
                 let brtrk = document.createElement("script");
                 brtrk.type = "text/javascript";
                 brtrk.async = true;
