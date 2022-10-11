@@ -36,11 +36,16 @@ class ConfigObserver implements ObserverInterface
     {
         $changed_paths = $observer->getEvent()->getData('changed_paths');
         $temp = [
-            'bloomreach_search/autosuggest/main_template_text' => 'bloomreach_search/autosuggest/search_autosuggest_template_update_date',
-            'bloomreach_search/sitesearch/main_template_text' => 'bloomreach_search/sitesearch/search_main_template_update_date',
-            'bloomreach_search/sitesearch/productlist_template_text' => 'bloomreach_search/sitesearch/search_list_template_update_date',
-            'bloomreach_collections/general/main_template_text' => 'bloomreach_collections/general/category_main_template_update_date',
-            'bloomreach_collections/general/productlist_template_text' => 'bloomreach_collections/general/category_list_template_update_date'
+            'bloomreach_search/autosuggest/main_template_text'
+             => 'bloomreach_search/autosuggest/search_autosuggest_template_update_date',
+            'bloomreach_search/sitesearch/main_template_text'
+            => 'bloomreach_search/sitesearch/search_main_template_update_date',
+            'bloomreach_search/sitesearch/productlist_template_text'
+            => 'bloomreach_search/sitesearch/search_list_template_update_date',
+            'bloomreach_collections/general/main_template_text'
+            => 'bloomreach_collections/general/category_main_template_update_date',
+            'bloomreach_collections/general/productlist_template_text'
+            => 'bloomreach_collections/general/category_list_template_update_date'
         ];
         foreach ($temp as $key => $value) {
             if (in_array($key, $changed_paths)) {

@@ -18,12 +18,13 @@ use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Request\Http;
-use Magento\Framework\Registry;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Catalog\Helper\Data;
+use Magento\Catalog\Block\Category\View;
 
 /**
 
@@ -78,11 +79,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     private $request;
 
     /**
-     * @var Registry
-     */
-    protected $registry;
-
-    /**
      * @var Session
      */
     protected $_checkoutSession;
@@ -96,30 +92,43 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * @var LoggerInterface
      */
     private $logger;
+    
+    /**
+     * @var Data
+     */
+    private $catalogHelper;
+    
+    /**
+     * @var View
+     */
+    private $categoryView;
 
     /**
      * ScriptInit constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param Http $request
-     * @param Registry $registry
      * @param Session $checkoutSession
      * @param Json $jsonSerializer
      * @param LoggerInterface $logger
+     * @param Data $catalogHelper
+     * @param View $categoryView
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Http $request,
-        Registry $registry,
         Session $checkoutSession,
         Json $jsonSerializer,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Data $catalogHelper,
+        View $categoryView
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
-        $this->registry = $registry;
         $this->_checkoutSession = $checkoutSession;
         $this->jsonSerializer = $jsonSerializer;
         $this->logger = $logger;
+        $this->catalogHelper = $catalogHelper;
+        $this->categoryView = $categoryView;
         $this->initAppSetting();
     }
 
@@ -204,7 +213,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentCategory()
     {
-        return $this->registry->registry('current_category');
+        return $this->categoryView->getCurrentCategory();
     }
 
     /**
@@ -251,7 +260,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentProduct()
     {
-        return $this->registry->registry('current_product');
+        return $this->catalogHelper->getProduct();
     }
 
     /**

@@ -46,7 +46,8 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                         jQuery(this).attr('data-blm-add-to-cart', '');
                         jQuery(this).attr('data-blm-add-to-cart-sku', form.attr('data-product-sku'));
                         jQuery(this).attr('data-blm-add-to-cart-prod-id', form.attr('data-product-sku'));
-                        jQuery(this).attr('data-blm-add-to-cart-prod-name', jQuery.trim(jQuery(this).closest("li.product-item").find(".product-item-name").text()));
+                        let itemName = jQuery(this).closest("li.product-item").find(".product-item-name").text();
+                        jQuery(this).attr('data-blm-add-to-cart-prod-name', itemName.trim());
                     });
                 }catch (e) {
                     console.log(e);

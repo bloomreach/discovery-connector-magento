@@ -24,7 +24,7 @@ use Magento\Widget\Block\BlockInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Request\Http;
-use Magento\Framework\Registry;
+use Magento\Catalog\Helper\Data;
 
 /**
  * Class Recommendation
@@ -63,9 +63,9 @@ class Recommendation extends Template implements BlockInterface
     private $request;
 
     /**
-     * @var Registry
+     * @var Data
      */
-    private $registry;
+    private $catalogHelper;
 
     /**
      * Recommendation constructor.
@@ -75,7 +75,7 @@ class Recommendation extends Template implements BlockInterface
      * @param Random $randomGenerator
      * @param ProductRepositoryInterface $productRepository
      * @param LoggerInterface $logger
-     * @param Registry $registry
+     * @param Data $catalogHelper
      * @param Http $request
      * @param array $data
      */
@@ -86,7 +86,7 @@ class Recommendation extends Template implements BlockInterface
         Random $randomGenerator,
         ProductRepositoryInterface $productRepository,
         LoggerInterface $logger,
-        Registry $registry,
+        Data $catalogHelper,
         Http $request,
         array $data = []
     ) {
@@ -96,7 +96,7 @@ class Recommendation extends Template implements BlockInterface
         $this->randomGenerator = $randomGenerator;
         $this->productRepository = $productRepository;
         $this->logger = $logger;
-        $this->registry = $registry;
+        $this->catalogHelper = $catalogHelper;
         $this->request = $request;
     }
 
@@ -173,12 +173,12 @@ class Recommendation extends Template implements BlockInterface
     }
 
     /**
-     * Get Current product from registry
+     * Get Current product from Catalog Helper
      *
      * @return array
      */
     public function getCurrentProduct()
     {
-        return $this->registry->registry('current_product');
+        return $this->catalogHelper->getProduct();
     }
 }

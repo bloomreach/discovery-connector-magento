@@ -38,6 +38,7 @@ interface ConfigurationSettingsInterface
     public const SETTINGS_ENDPOINT_SEARCH = self::SETTINGS_APIURL_PATH . '/search_endpoint';
     public const SETTINGS_ENDPOINT_CATEGORY = self::SETTINGS_APIURL_PATH . '/category_endpoint';
     public const SETTINGS_ENDPOINT_WIDGETS = self::SETTINGS_APIURL_PATH . '/widgets_endpoint';
+    public const SETTINGS_CATALOG_VIEWS = self::SETTINGS_APIURL_PATH . '/catalog_views';
 
     /**
      * Store config path public constant for Search Tab- Auto suggest

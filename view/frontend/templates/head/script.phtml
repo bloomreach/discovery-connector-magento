@@ -27,7 +27,6 @@ $currentCategory = false;
 if ($viewModel->isProductListingPage()) {
     $currentCategory = $viewModel->getCurrentCategory();
 }
-
 ?>
 <?php if ($viewModel->canInitScript()): ?>
     <script id="bloomreach_connector">
@@ -41,10 +40,20 @@ if ($viewModel->isProductListingPage()) {
             "search"=> [
                 "enabled"=>  (int)$viewModel->isSearchEnabled() ,
                 "endpoint"=> $escaper->escapeUrl($viewModel->getSearchEndPointUrl()),
-                "items_per_page"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_ITEM_PER_PAGE)) ,
-                "facets_included"=> (1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_FACETS)) ? 1 : 0) ,
-                "initial_number_of_facets"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACETS)) ,
-                "initial_number_of_facet_values"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACET_OPTIONS)) ,
+                "items_per_page"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_ITEM_PER_PAGE)) ,
+                "facets_included"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_FACETS)
+                ) ? 1 : 0) ,
+                "initial_number_of_facets"=>
+                $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACETS)
+                ) ,
+                "initial_number_of_facet_values"=>
+                $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACET_OPTIONS)
+                ) ,
                 "infinite_scroll"=> /* @noEscape */ $viewModel->isSearchInfiniteScrollEnabled()  ,
                 "sorting_options"=> [["label"=> __("Relevance"), "value"=> ""], [
                     "label"=> __("Price (low - high)"),
@@ -56,17 +65,25 @@ if ($viewModel->isProductListingPage()) {
                 "selector"=>  /* @noEscape */ $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CSS_SELECTOR),
                 "search_enabled"=>  (int)$viewModel->isSearchEnabled() ,
                 "is_search_page"=>  (int)$viewModel->isSearchResultPage() ,
-                "display_variants"=> (1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_VARIANTS)) ? 1 : 0),
+                "display_variants"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_VARIANTS)
+                ) ? 1 : 0),
                 "fields"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_FIELD_LIST)),
                 "template"=> $viewModel->getStoreConfigValue($viewModel::SITESEARCH_TEMPLATE_MAIN),
                 "product_list_template"=> $viewModel->getStoreConfigValue($viewModel::SITESEARCH_TEMPLATE_PRODUCTLIST)
             ],
             "autosuggest"=> [
                 "enabled"=> (int)$viewModel->isAutoSuggestEnabled() ,
+                "catalog_views"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SETTINGS_CATALOG_VIEWS)),
                 "endpoint"=> $escaper->escapeUrl($viewModel->getAutoSuggestEndPointUrl()),
-                "number_of_terms"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_TERM)),
-                "number_of_products"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_PRODUCTS)),
-                "number_of_collections"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_COLLECTION)),
+                "number_of_terms"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_TERM)),
+                "number_of_products"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_PRODUCTS)),
+                "number_of_collections"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_COLLECTION)),
                 "selector"=> $viewModel->getStoreConfigValue($viewModel::SEARCH_CSS_SELECTOR),
                 "template"=> $viewModel->getStoreConfigValue($viewModel::SEARCH_TEMPLATE_MAIN)
             ],
@@ -80,13 +97,21 @@ if ($viewModel->isProductListingPage()) {
                     "label"=> __("Price (high - low)"),
                     "value"=> "sale_price+desc"
                 ], ["label"=> __("Name (Z - A)"), "value"=>"title+desc"]],
-                "items_per_page"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_ITEMS_PER_PAGE)),
-                "facets_included"=>  (1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_FACETS)) ? 1 : 0) ,
-                "initial_number_of_facets"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACETS)) ,
-                "initial_number_of_facet_values"=>  $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACET_OPTIONS)) ,
+                "items_per_page"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_ITEMS_PER_PAGE)),
+                "facets_included"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_FACETS)
+                ) ? 1 : 0) ,
+                "initial_number_of_facets"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACETS)) ,
+                "initial_number_of_facet_values"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACET_OPTIONS)) ,
                 "infinite_scroll"=>  $viewModel->isCollectionInfiniteScrollEnabled() ,
                 "selector"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR),
-                "display_variants"=>   (1 == $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_VARIANTS)) ? 1 : 0) ,
+                "display_variants"=>
+                (1 ==
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_VARIANTS)) ? 1 : 0) ,
                 "is_category_page"=>  (int)$viewModel->isProductListingPage(),
                 "category_id"=>  ($currentCategory ? $currentCategory->getId() : ''),
                 "fields"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_FIELD_LIST)),
@@ -102,7 +127,7 @@ if ($viewModel->isProductListingPage()) {
 
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
-        <script type="text/javascript">
+        <script>
             var br_data = window.br_data || {};
             br_data.acct_id = "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>";
             br_data.ptype = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageName()) ?>";
@@ -163,31 +188,38 @@ if ($viewModel->isProductListingPage()) {
     endif;
     ?>
     <?php if ($viewModel->isSearchResultPage() && $viewModel->isSearchEnabled()): $requireSdk[] = 'productSearchSdk'; ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/product-search.css"); ?>"
+        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/product-search.css"); ?>"
               rel="stylesheet" />
         <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS) ?? ''; ?>
-        <style><?= strip_tags($srpCss) ?></style>
+        <style><?= /* @noEscape */ strip_tags($srpCss) ?></style>
     <?php endif; ?>
 
     <?php if ($viewModel->isCollectionEnabled()): $requireSdk[] = 'collectionSdk'; ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/category.css"); ?>" rel="stylesheet" />
+        <link
+        href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/category.css"); ?>"
+        rel="stylesheet" />
         <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS) ?? ''; ?>
-        <style><?= strip_tags($plpCss) ?></style>
+        <style><?= /* @noEscape */ strip_tags($plpCss) ?></style>
     <?php endif; ?>
 
     <?php if ($viewModel->isAutoSuggestEnabled()): ?>
-        <link href="<?= $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.css"); ?>"
+        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.css"); ?>"
               rel="stylesheet">
     <?php endif; ?>
 
-    <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css")); ?>"
-          rel="stylesheet" />
-    <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css")); ?>" rel="stylesheet" />
+    <link href="
+    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css"));
+    ?>"
+    rel="stylesheet" />
+    <link href="
+    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css"));
+    ?>"
+    rel="stylesheet" />
     <?php $recomCss = $viewModel->getStoreConfigValue($viewModel::RECOMM_CUSTOM_CSS) ?? ''; ?>
-    <style><?= strip_tags($recomCss) ?></style>
+    <style><?= /* @noEscape */ strip_tags($recomCss) ?></style>
 
     <?php if (!empty($requireSdk)): ?>
-        <script type="text/javascript">
+        <script>
             require([<?= /* @noEscape */ "'" . implode("','", $requireSdk) . "'" ?>], function () {
                 if (typeof window.BloomreachModules !== 'undefined') {
                     <?php if (in_array('autoSuggestSdk', $requireSdk)): ?>
@@ -211,5 +243,6 @@ if ($viewModel->isProductListingPage()) {
     <?php endif; ?>
 
     <?php $atsCss = $viewModel->getStoreConfigValue($viewModel::SEARCH_CUSTOM_CSS) ?? ''; ?>
-    <style><?= strip_tags($atsCss) ?></style>
+    <style><?= /* @noEscape */ strip_tags($atsCss) ?></style>
 <?php endif; ?>
+

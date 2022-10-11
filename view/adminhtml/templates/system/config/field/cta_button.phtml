@@ -23,7 +23,9 @@ if (!isset($escaper)) {
 ?>
 <?php
 if (!empty($block->getBeforeButtonAdditionalText())) {
-    echo '<div class="note" style="margin-top: 0px;">' . $escaper->escapeHtml($block->getBeforeButtonAdditionalText()) . '</div>';
+    echo '<div class="note" style="margin-top: 0px;">'
+    . $escaper->escapeHtml($block->getBeforeButtonAdditionalText())
+    . '</div>';
 }
 ?>
 <a class="action-default scalable"
@@ -32,8 +34,8 @@ if (!empty($block->getBeforeButtonAdditionalText())) {
    id="<?= $escaper->escapeHtmlAttr($block->getButtonId()) ?>">
     <span><?= $escaper->escapeHtml($block->getButtonLabel()) ?></span>
 </a>
-<?php
-if (!empty($block->getAfterButtonAdditionalText())) {
-    echo '<div class="note">' . $block->getAfterButtonAdditionalText() . '</div>';
-}
-?>
+<?php if (!empty($block->getAfterButtonAdditionalText())) { ?>
+      <div class="note ssss">
+         <?= /* @noEscape */ $block->getAfterButtonAdditionalText() ?>
+      </div>
+<?php } ?>
