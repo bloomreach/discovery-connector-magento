@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\CustomerData\Customer">
+        <plugin name="brsm_customerdata_customer_section" type="Bloomreach\Connector\Plugin\CustomerData\CustomerPlugin" sortOrder="10" disabled="false" />
+    </type>
+    <type name="Bloomreach\Connector\Plugin\CustomerData\CustomerPlugin">
+        <arguments>
+            <argument name="currentCustomer" xsi:type="object">Magento\Customer\Helper\Session\CurrentCustomer\Proxy</argument>
+        </arguments>
+    </type>
+</config>

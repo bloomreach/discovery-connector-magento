@@ -1,0 +1,65 @@
+"Price (low - high)","Price (low - high)"
+"Name (A - Z)","Name (A - Z)"
+"Price (high - low)","Price (high - low)"
+"Name (Z - A)","Name (Z - A)"
+"Bloomreach Dashboard","Bloomreach Dashboard"
+Indexing,Indexing
+Search,Search
+Collections,Collections
+Optimize,Optimize
+Recommendations,Recommendations
+Settings,Settings
+Bloomreach,Bloomreach
+Dashboard,Dashboard
+"Bloomreach: Welcome Onboard","Bloomreach: Welcome Onboard"
+"Enterprise Grade UI","Enterprise Grade UI"
+"Contact Us","Contact Us"
+"Index Catalog","Index Catalog"
+Autosuggest,Autosuggest
+"Enable Autosuggest","Enable Autosuggest"
+"Toggle Autosuggest on/off","Toggle Autosuggest on/off"
+"Css Selector","Css Selector"
+"Quicksearch input element class or id selector, eg: .search_input or #search_input","Quicksearch input element class or id selector, eg: .search_input or #search_input"
+"No. of Terms","No. of Terms"
+"Suggested Terms","Suggested Terms"
+"No. of Products","No. of Products"
+"Suggested Products","Suggested Products"
+"No. of Collection","No. of Collection"
+"Suggested Collection","Suggested Collection"
+"Custom Css","Custom Css"
+"Custom css for autosuggestion","Custom css for autosuggestion"
+Reference,Reference
+"link goes here","link goes here"
+"Sites Search","Sites Search"
+"Enable Site Search","Enable Site Search"
+"Toggle Bloomreach for search result page on/off","Toggle Bloomreach for search result page on/off"
+"Search result page main content element div class or id selector, eg: .main_container or #main_container","Search result page main content element div class or id selector, eg: .main_container or #main_container"
+"Items per page","Items per page"
+"Display Variants ?","Display Variants ?"
+"Show Facets ?","Show Facets ?"
+"No. of Facets ?","No. of Facets ?"
+"No. of Facet Values ?","No. of Facet Values ?"
+"No. of default visible options per facet","No. of default visible options per facet"
+"Infinite Scroll ?","Infinite Scroll ?"
+"Enable Collections","Enable Collections"
+"Category (or Product Listing) page main content element div class or id selector, eg: .main_container or #main_container","Category (or Product Listing) page main content element div class or id selector, eg: .main_container or #main_container"
+Marketing,Marketing
+"Search Ranking","Search Ranking"
+Merchandising,Merchandising
+"Pixel and Recommendations","Pixel and Recommendations"
+"Enable Pixel","Enable Pixel"
+"Pixel should be enabled to use Recommendation widget","Pixel should be enabled to use Recommendation widget"
+"Enable Recommendation Widget","Enable Recommendation Widget"
+"If this option is set to ""No"", then widget will not be loaded on frontend","If this option is set to ""No"", then widget will not be loaded on frontend"
+"Recommendation and Marketing","Recommendation and Marketing"
+"General Settings","General Settings"
+"Account Id","Account Id"
+"Domain Key","Domain Key"
+"Auth Key","Auth Key"
+"Tracking Cookie","Tracking Cookie"
+"Search Endpoint","Search Endpoint"
+"Autosuggest Endpoint","Autosuggest Endpoint"
+"Bloomreach Pathways and Recommendation","Bloomreach Pathways and Recommendation"
+"Recommendation widget","Recommendation widget"
+Template,Template
+"Recommendation Default Template","Recommendation Default Template"

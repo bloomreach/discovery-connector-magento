@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Pathways and Recommendations</label>
+        <field id="recommendations_cta" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label>Why Use Recommendations ?</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\RecommendationCta</frontend_model>
+        </field>
+        <field id="enable_recommendations" translate="label comment" type="select"
+               sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Enable Recommendation Widget</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <comment>If this option is set to "No", then widget will not be loaded on frontend</comment>
+            <depends>
+                <field id="enable_pixel">1</field>
+            </depends>
+        </field>
+        <field id="custom_css" translate="label comment" type="textarea"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Custom CSS</label>
+            <comment>Custom CSS for Recommendation Widget</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="template_text" translate="label comment" type="textarea"
+               sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Template</label>
+            <comment>Template for Recommendation Widget</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="field_list" translate="label,comment" type="textarea"
+               sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Allowed Field List for Widget</label>
+            <comment>Use command separated values without space</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+    </group>
+</include>

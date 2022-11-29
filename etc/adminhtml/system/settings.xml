@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Credentials</label>
+        <comment>Add your Api credentials to authenticate Magento with your Bloomreach Account.</comment>
+        <field id="accountid" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Account Id</label>
+        </field>
+        <field id="domain_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Domain Key</label>
+        </field>
+        <field id="auth_key" translate="label" type="password" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Auth Key</label>
+        </field>
+    </group>
+    <group id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Api Endpoint Urls</label>
+        <comment>You can change these END point mode as per your need. I.e if you want to switch Bloomreach Connector to staging/production mode then you can change dropdown value to 'Staging' or 'Production', click on learn more button (below) to know about end points.</comment>
+        <field id="autosuggest_endpoint" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Autosuggest Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
+        </field>
+        <field id="search_endpoint" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
+        </field>
+        <field id="category_endpoint" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Category Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
+        </field>
+        <field id="widgets_endpoint" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Widgets Endpoint</label>
+            <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
+        </field>
+        <field id="catalog_views" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Catalog Views</label>
+        </field>
+        <field id="endpoint_cta" translate="label" type="button" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label></label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\EndPointCta</frontend_model>
+        </field>
+    </group>
+    <group id="pixel" translate="label,comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Pixel</label>
+        <comment>Turn on the Bloomreach Pixel on your site to enable our AI optimization engine.</comment>
+        <field id="enable_pixel" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Enable Pixel</label>
+            <comment>This setting injects the Bloomreach Javascript pixel into your front end to track how users interact with products across your site.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+
+        <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+            <label></label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>
+        </field>
+        <field id="enable_atc_template" translate="label,comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Override Add to cart templates</label>
+            <comment>Enable to override add to cart button template to add "add to cart pixel event" attribute into add to cart button. You can make this disable and add those attribute into your theme add to cart template.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="enable_productlist_template" translate="label,comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Override Product List template for "Add to cart" button</label>
+            <comment>Enable to override Product List template to add "add to cart pixel event" attribute into add to cart button. You can make this disable and add those attribute into your theme product list template.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+    </group>
+</include>

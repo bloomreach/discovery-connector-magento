@@ -1,0 +1,940 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bloomreach_search>
+            <autosuggest>
+                <enabled>1</enabled>
+                <css_selector>#search</css_selector>
+                <suggested_terms>4</suggested_terms>
+                <suggested_products>3</suggested_products>
+                <suggested_collection>4</suggested_collection>
+                <main_template_text>
+                    <![CDATA[<% if (terms.length || productSuggestions.length) { %>
+  <div class="blm-autosuggest">
+    <div class="blm-autosuggest__suggestion-terms-container">
+      <ul class="blm-autosuggest__suggestion-terms">
+        <% terms.forEach(function(term) { %>
+          <li class="blm-autosuggest__suggestion-term">
+            <a href="<%- term.link %>" class="blm-autosuggest__suggestion-term-link" data-suggestion-text="<%- term.text %>"
+              ><%- term.processedText %></a
+            >
+            <% if (term.categories) { %>
+              <ul class="blm-autosuggest__category-results">
+                <% term.categories.forEach(function(category) { %>
+                <li class="blm-autosuggest__suggestion-term">
+                  <a href="#"
+                     data-category-id="<%- category.value %>"
+                     data-suggestion-text="<%- category.name %>"
+                     class="blm-autosuggest__suggestion-term-link blm-autosuggest__suggestion-term-link--category"
+                    ><%- category.name %></a
+                  >
+                </li>
+                <% }); %>
+              </ul>
+            <% } %>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="blm-autosuggest__results-container">
+      <div class="blm-autosuggest__results">
+        <% productSuggestions.forEach(function(suggestion) { %>
+          <div class="blm-autosuggest__result">
+            <div class="blm-autosuggest-result-image">
+              <a
+                title="<%= suggestion.title %>"
+                aria-hidden="true"
+                tabindex="-1"
+                href="<%= suggestion.link %>"
+                class="blm-autosuggest-result-image__link"
+                ><img
+                  class="blm-autosuggest-result-image__image"
+                  src="<%= suggestion.image %>"
+              /></a>
+            </div>
+            <div class="blm-autosuggest-result-details">
+              <a class="blm-autosuggest-result-details__title" href="<%= suggestion.link %>"
+                ><%= suggestion.title %></a
+              >
+              <div class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--final">
+                <% if (config.format_money) { %>
+                  <%= config.format_money(suggestion.sale_price.toFixed(2) * 100) %>
+                <% } else { %>
+                  <%= config.default_currency %><%= suggestion.sale_price.toFixed(2) %>
+                <% } %>
+                <% if (suggestion.price) { %>
+                  <span
+                  class="blm-autosuggest-result-details__price blm-autosuggest-result-details__price--original"
+                  >
+                   <% if (config.format_money) { %>
+                     <%= config.format_money(suggestion.price.toFixed(2) * 100) %>
+                   <% } else { %>
+                     <%= config.default_currency %><%= suggestion.price.toFixed(2) %>
+                   <% } %>
+                  </span
+                >
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+
+  </div>
+  <% } %>
+]]>
+                </main_template_text>
+            </autosuggest>
+            <sitesearch>
+                <enabled>1</enabled>
+                <css_selector>#maincontent > .columns</css_selector>
+                <items_per_page>16</items_per_page>
+                <show_variants>0</show_variants>
+                <show_facets>1</show_facets>
+                <no_of_facets>5</no_of_facets>
+                <no_of_facet_options>6</no_of_facet_options>
+                <infinite_scroll>0</infinite_scroll>
+                <field_list>pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description</field_list>
+                <main_template_text>
+                    <![CDATA[<% if (did_you_mean.length) { %>
+  <div class="blm-product-search-header">
+    <div class="blm-product-search-header-container">
+      <h1 class="blm-product-search-header-container__title">Results for
+        <% if (locals.keywordRedirect && keywordRedirect.redirected_url) { %>
+          <i><%- keywordRedirect.redirected_url %></i>
+        <% } else { %>
+          <i><%- did_you_mean[0] %></i>
+        <% } %>
+         instead of <i class="blm-product-search-header-container__title__searched-word"><%- locals[config.default_search_parameter] %></i></h1>
+      <div class="blm-did-you-mean-suggestion">
+        <label class="blm-did-you-mean-suggestion__label">Did you mean:</label>
+        <% did_you_mean.forEach(function(word) { %>
+        <a href="<%= config.search_page_url %>?<%= config.default_search_parameter %>=<%= word %>" class="blm-did-you-mean-suggestion__link"><%- word %></a>
+        <% }); %>
+      </div>
+      <% if (locals.keywordRedirect && keywordRedirect.redirected_query) { %>
+      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.redirected_query %>"</i>.</div>
+      <% } %>
+    </div>
+  </div>
+<% } %>
+<% if (locals.keywordRedirect && keywordRedirect.redirected_query && did_you_mean.length === 0) { %>
+  <div class="blm-product-search-header">
+    <div class="blm-product-search-header-container">
+      <h1 class="blm-product-search-header-container__title">Results for <i><%- keywordRedirect.redirected_query %></i> </h1>
+      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.original_query %>"</i> </div>
+    </div>
+  </div>
+<% } %>
+<div class="blm-<% if (config.search.is_category_page) { %>category<% } else { %>product-search<% } %> blm-results <% if (config.search.facets_included) { %>with-facets<% } %>">
+    <% if (config.search.facets_included && facets.length) { %>
+    <aside class="blm-product-search-sidebar">
+
+      <button class="blm-product-search-control-button blm-product-search-control-button--sidebar">
+        Filter
+        <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
+      </button>
+
+      <% if (locals.selectedFilterItems && selectedFilterItems.length > 0) { %>
+        <div class="blm-product-search-selected-filters">
+          <h4 class="blm-product-search-selected-filters__title">Filters</h4>
+
+          <% selectedFilterItems.forEach(function(filterIitem) { %>
+            <span class="blm-product-search-selected-filter" data-filter-checkbox-id="<%- filterIitem.checkbox_id %>"><%- filterIitem.label %>
+              <span class="blm-product-search-selected-filter__clear">&times;</span>
+            </span>
+          <% }) %>
+
+          <button class="blm-product-search-selected-filters__clear-all">Clear all</button>
+        </div>
+      <% } %>
+
+      <div class="blm-product-search-sidebar-content <% if (locals.isFiltersPanelOpened && isFiltersPanelOpened) { %>blm-open<% } %>">
+
+        <button class="blm-product-search-control-button blm-product-search-control-button--sidebar blm-product-search-control-button--active">
+          Done
+          <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path class="blm-product-search-control-button__icon-path" d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
+        </button>
+
+        <div id="blm-product-search-search-filters">
+          <input id="blm-product-search-search-filters__input" placeholder="Type to search filters" />
+        </div>
+
+        <div class="blm-product-search-filter">
+          <h4 class="blm-product-search-filter-title">Price</h4>
+          <div class="blm-price-range-container">
+            <div class="blm-range-slider">
+              <input
+                value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>"
+                min="<%- priceRangeFacet.start %>"
+                max="<%- priceRangeFacet.end %>"
+                step="1"
+                type="range"
+                class="blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%"
+              >
+              <span class="blm-price-range-slider-rail"></span>
+              <input
+                value="<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>"
+                min="<%- priceRangeFacet.start %>"
+                max="<%- priceRangeFacet.end %>"
+                step="1"
+                type="range"
+                class="blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%"
+              >
+            </div>
+            <div class="blm-range-slider__values">
+              <span class="blm-range-slider__values--min">
+                <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>
+              </span>
+              <% if (checkedFacets.price) { %>
+                <span class="blm-range-slider__values--max">
+                  <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.start * 100) %>
+                </span>
+              <% } else { %>
+                <span class="blm-range-slider__values--max">
+                  <%= config.format_money(priceRangeFacet.end * 100) %>
+                </span>
+              <% } %>
+            </div>
+          <% if (checkedFacets.price) { %>
+            <div class="blm-range-slider__clear-values">
+              <button class="blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%">Clear</button>
+            </div>
+          <% } %>
+          </div>
+        </div>
+
+        <% facets.forEach(function(facet, facetIndex) { %>
+          <% if (facet.section.length > 0) { %>
+          <div class="blm-product-search-filter blm-dynamic-filter" id="blm-facet-block-item-<%= facetIndex %>">
+            <h4 class="blm-product-search-filter-title"><%- facet.title %></h4>
+            <ul class="blm-product-search-filter-items">
+              <% facet.section.forEach(function(item) { %>
+              <li class="blm-product-search-filter-item">
+                <input
+                  type="checkbox"
+                  <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
+                  name="<%- facet.original_title %>"
+                  value="<%- escapeSpecialCharacters(item.id) %>"
+                  id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
+                  class="blm-product-search-filter-item__checkbox"
+                />
+                <label class="blm-product-search-filter-item__name" for="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"><%- item.name %></label>
+                <% if (!config.search.display_variants) { %>
+                <span class="blm-product-search-filter-item__badge"><%- item.count %></span>
+                <% } %>
+              </li>
+              <% }); %>
+            </ul>
+            <% if (facet.section.length > config.search.initial_number_of_facet_values) { %>
+            <div class="blm-product-search-load-more" data-item="<%= facetIndex %>">+ More</div>
+            <% } %>
+          </div>
+          <% } %>
+        <% }); %>
+
+        <% if (facets[0].section.length) { %>
+        <div class="blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%">+ More </div>
+        <% } %>
+
+      </div>
+    </aside>
+    <% } %>
+    <section class="blm-product-search-main">
+      <div class="blm-product-search-toolbar">
+        <%
+          const haveUngroupedResults = locals.number_of_results && number_of_results > 0;
+          const haveGroupedResults = locals.grouped_products && grouped_products.groups.length > 0;
+        %>
+        <% if (haveUngroupedResults || haveGroupedResults) { %>
+          <% if (haveUngroupedResults) { %>
+          <h2 class="blm-product-search-toolbar__title">
+            Showing <%- start + 1 %> - <%- Math.min(start + products.length, number_of_results) %> of <%- number_of_results %> products
+          </h2>
+          <% } %>
+        <div class="blm-product-search-toolbar-options">
+          <% if (config.search.groupby) { %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--groupby">
+            <label for="groupby-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Group By: </label>
+            <select
+              name="groupby"
+              id="groupby-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% config.search.groupby_options.forEach(function(option) { %>
+                <option value="<%- option.value %>" <% if (locals.groupby && groupby === option.value) { %>selected<% } %>><%- option.label %></option>
+              <% }) %>
+            </select>
+          </span>
+          <% } %>
+          <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--page-size">
+            <label for="sort-size-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Size: </label>
+            <select
+              name="sort-size"
+              id="sort-size-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% for (let i = (config.search.groupby ? 4 : 16); i <= (config.search.groupby ? 16 : 48); i += 4) { %>
+                <option value="<%- i %>" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>
+              <% } %>
+            </select>
+          </span>
+          <% } %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--sort-by">
+            <label for="sort-by-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Sort By: </label>
+            <select
+              name="sort-by"
+              id="sort-by-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% config.search.sorting_options.forEach(function(option) { %>
+                <option value="<%- option.value %>" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>
+              <% }) %>
+            </select>
+          </span>
+        </div>
+        <% } else if (!(locals.grouped_products) || grouped_products.groups.length < 1) { %>
+        <h2 class="blm-product-search-toolbar__title">
+          No results found
+        </h2>
+        <% } %>
+
+      </div>
+      <div <% if (products.length && !locals.grouped_products) { %>class="blm-product-search__results"<% } %>>
+        <% if (products.length || (locals.grouped_products && grouped_products.groups.length > 0)) { %>
+          %%-PRODUCT_LIST_TEMPLATE-%%
+        <% } %>
+      </div>
+
+      <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>
+      <div class="blm-product-search-pagination">
+        <ul class="blm-product-search-pagination__pages blm-product-search-pagination__pages--%%-REQUEST_ID-%%">
+          <% paginationData.forEach(paginationNode => { %>
+            <li class="blm-product-search-pagination__page">
+              <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>"
+                ><%- paginationNode.label ?? paginationNode.value %></button
+              >
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
+    </section>
+  </div>
+]]>
+                </main_template_text>
+                <productlist_template_text>
+                    <![CDATA[<% function printProduct(product) { %>
+  <div class="blm-product-search__result" <% if (product.variant_name) { %>title="<%- product.variant_name %>"<% } %>>
+    <%
+      const matchingVariant = !Array.isArray(product.variants)
+        ? null
+        : 'variant_index' in product
+          ? product.variants[product.variant_index]
+          : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))
+    %>
+    <div class="blm-product-search-image-container">
+      <% if (product.variants && product.variants.length > 1) { %>
+        <% product.variants.forEach(function(variant, index) { %>
+
+        <%
+          const isActiveVariant =
+            !('variant_index' in product) && !selectedColors.length
+              ? index === 0
+              : 'variant_index' in product
+                ? product.variant_index === index
+                : matchingVariant == variant
+        %>
+
+        <div class="blm-product-search-swatch-image fade"
+          <% if (isActiveVariant) { %>style="display: block"<% } %>
+        >
+          <img
+            class="blm-product-search-image-container__image"
+            alt="title"
+            src="<%= variant.image %>"
+          />
+        </div>
+        <% }); %>
+      <% } else { %>
+        <div class="blm-product-search-swatch-image fade" style="display: block"
+        >
+          <img
+            class="blm-product-search-image-container__image"
+            alt="title"
+            src="<%= product.image %>"
+          />
+        </div>
+      <% } %>
+    </div>
+    <div class="blm-product-search-details-container">
+      <div class="blm-product-search-details-title-container">
+        <a href="<%= product.link %>" class="blm-product-search-details-container__title"
+          ><%- product.title %></a
+        >
+      </div>
+
+      <% if (product.variants && product.variants.length > 1) { %>
+        <% product.variants.forEach(function(variant, index) { %>
+          <%
+            const isActiveVariant =
+              !('variant_index' in product) && !selectedColors.length
+                ? index === 0
+                : 'variant_index' in product
+                  ? product.variant_index === index
+                  : matchingVariant == variant
+          %>
+          <p class="blm-product-search-details-container__price <% if (isActiveVariant) { %>active<% } %>">
+            <%
+              const salePrice = variant.sku_sale_price !== undefined ? variant.sku_sale_price : product.sale_price;
+              const price = variant.sku_price !== undefined ? variant.sku_price : product.price;
+            %>
+            <%= config.format_money((salePrice !== undefined ? salePrice : price).toFixed(2) * 100) %>
+            <% if (salePrice !== undefined) { %>
+              <span <% if (salePrice !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>
+                <%= config.format_money(price.toFixed(2) * 100) %>
+              </span>
+            <% } %>
+          </p>
+        <% }); %>
+      <% } else { %>
+        <p class="blm-product-search-details-container__price active">
+          <%= config.format_money((product.sale_price !== undefined ? product.sale_price : product.price).toFixed(2) * 100) %>
+          <% if (product.sale_price !== undefined) { %>
+            <span <% if (product.sale_price !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>
+              <%= config.format_money(product.price.toFixed(2) * 100) %>
+            </span>
+          <% } %>
+        </p>
+      <% } %>
+
+    </div>
+
+    <% if (product.variants && product.variants.length > 1) { %>
+      <ul class="blm-product-search-swatch-container">
+      <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>
+        <%
+          const isActiveVariant =
+            !('variant_index' in product) && !selectedColors.length
+              ? index === 0
+              : 'variant_index' in product
+                ? product.variant_index === index
+                : matchingVariant == variant
+        %>
+        <li
+          class="blm-product-search-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>"
+          style="background-image: url('<%= variant.image %>')"
+        ></li>
+      <% }); %>
+      </ul>
+
+      <% if (product.variants.length > defaultMaxColorSwatches || 0) { %>
+      <small class="blm-product-search-swatch-colors">(Colors) <%- product.variants.length %></small>
+      <% } %>
+    <% } %>
+  </div>
+<% } %>
+
+<% if (locals.grouped_products && grouped_products && grouped_products.groups) { %>
+
+  <% grouped_products.groups.forEach(group => { %>
+  <div class="blm-result-group">
+    <h3 class="blm-result-group__title"><%- group.title %></h3>
+
+    <div class="blm-product-search__results">
+      <% group.products.forEach(printProduct); %>
+    </div>
+  </div>
+  <% }); %>
+
+<% } else { %>
+
+  <% products.forEach(printProduct); %>
+
+<% } %>
+]]>
+                </productlist_template_text>
+            </sitesearch>
+        </bloomreach_search>
+        <bloomreach_collections>
+            <general>
+                <enabled>1</enabled>
+                <css_selector>#maincontent > .columns</css_selector>
+                <items_per_page>16</items_per_page>
+                <show_variants>0</show_variants>
+                <show_facets>1</show_facets>
+                <no_of_facets>5</no_of_facets>
+                <no_of_facet_options>6</no_of_facet_options>
+                <infinite_scroll>0</infinite_scroll>
+                <field_list>pid,title,brand,price,sale_price,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description</field_list>
+                <main_template_text>
+                    <![CDATA[<% if (did_you_mean.length) { %>
+  <div class="blm-product-search-header">
+    <div class="blm-product-search-header-container">
+      <h1 class="blm-product-search-header-container__title">Results for
+        <% if (locals.keywordRedirect && keywordRedirect.redirected_url) { %>
+          <i><%- keywordRedirect.redirected_url %></i>
+        <% } else { %>
+          <i><%- did_you_mean[0] %></i>
+        <% } %>
+         instead of <i class="blm-product-search-header-container__title__searched-word"><%- locals[config.default_search_parameter] %></i></h1>
+      <div class="blm-did-you-mean-suggestion">
+        <label class="blm-did-you-mean-suggestion__label">Did you mean:</label>
+        <% did_you_mean.forEach(function(word) { %>
+        <a href="<%= config.search_page_url %>?<%= config.default_search_parameter %>=<%= word %>" class="blm-did-you-mean-suggestion__link"><%- word %></a>
+        <% }); %>
+      </div>
+      <% if (locals.keywordRedirect && keywordRedirect.redirected_query) { %>
+      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.redirected_query %>"</i>.</div>
+      <% } %>
+    </div>
+  </div>
+<% } %>
+<% if (locals.keywordRedirect && keywordRedirect.redirected_query && did_you_mean.length === 0) { %>
+  <div class="blm-product-search-header">
+    <div class="blm-product-search-header-container">
+      <h1 class="blm-product-search-header-container__title">Results for <i><%- keywordRedirect.redirected_query %></i> </h1>
+      <div class="blm-redirected-keyword">Redirected from <i>"<%- keywordRedirect.original_query %>"</i> </div>
+    </div>
+  </div>
+<% } %>
+<div class="blm-<% if (config.search.is_category_page) { %>category<% } else { %>product-search<% } %> blm-results <% if (config.search.facets_included) { %>with-facets<% } %>">
+    <% if (config.search.facets_included && facets.length) { %>
+    <aside class="blm-product-search-sidebar">
+
+      <button class="blm-product-search-control-button blm-product-search-control-button--sidebar">
+        Filter
+        <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
+      </button>
+
+      <% if (locals.selectedFilterItems && selectedFilterItems.length > 0) { %>
+        <div class="blm-product-search-selected-filters">
+          <h4 class="blm-product-search-selected-filters__title">Filters</h4>
+
+          <% selectedFilterItems.forEach(function(filterIitem) { %>
+            <span class="blm-product-search-selected-filter" data-filter-checkbox-id="<%- filterIitem.checkbox_id %>"><%- filterIitem.label %>
+              <span class="blm-product-search-selected-filter__clear">&times;</span>
+            </span>
+          <% }) %>
+
+          <button class="blm-product-search-selected-filters__clear-all">Clear all</button>
+        </div>
+      <% } %>
+
+      <div class="blm-product-search-sidebar-content <% if (locals.isFiltersPanelOpened && isFiltersPanelOpened) { %>blm-open<% } %>">
+
+        <button class="blm-product-search-control-button blm-product-search-control-button--sidebar blm-product-search-control-button--active">
+          Done
+          <svg viewBox="0 0 14.8 14.8" class="blm-product-search-control-button__icon" focusable="false"><path class="blm-product-search-control-button__icon-path" d="M1.6 14.8V0m6 14.8V1.6m5.6 13.2V0" fill="none" stroke="#000" stroke-miterlimit="10"></path><circle cx="1.6" cy="7.4" r="1.6"></circle><circle cx="13.2" cy="10.4" r="1.6"></circle><circle cx="7.6" cy="1.6" r="1.6"></circle></svg>
+        </button>
+
+        <div id="blm-product-search-search-filters">
+          <input id="blm-product-search-search-filters__input" placeholder="Type to search filters" />
+        </div>
+
+        <div class="blm-product-search-filter">
+          <h4 class="blm-product-search-filter-title">Price</h4>
+          <div class="blm-price-range-container">
+            <div class="blm-range-slider">
+              <input
+                value="<%= checkedFacets.price ? checkedFacets.price[0] : priceRangeFacet.start %>"
+                min="<%- priceRangeFacet.start %>"
+                max="<%- priceRangeFacet.end %>"
+                step="1"
+                type="range"
+                class="blm-price-range-input blm-price-range-input--lower blm-price-range-input--lower-%%-REQUEST_ID-%%"
+              >
+              <span class="blm-price-range-slider-rail"></span>
+              <input
+                value="<%= checkedFacets.price ? checkedFacets.price[1] : priceRangeFacet.end %>"
+                min="<%- priceRangeFacet.start %>"
+                max="<%- priceRangeFacet.end %>"
+                step="1"
+                type="range"
+                class="blm-price-range-input blm-price-range-input--upper blm-price-range-input--upper-%%-REQUEST_ID-%%"
+              >
+            </div>
+            <div class="blm-range-slider__values">
+              <span class="blm-range-slider__values--min">
+                <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>
+              </span>
+              <% if (checkedFacets.price) { %>
+                <span class="blm-range-slider__values--max">
+                  <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.start * 100) %>
+                </span>
+              <% } else { %>
+                <span class="blm-range-slider__values--max">
+                  <%= config.format_money(priceRangeFacet.end * 100) %>
+                </span>
+              <% } %>
+            </div>
+          <% if (checkedFacets.price) { %>
+            <div class="blm-range-slider__clear-values">
+              <button class="blm-range-slider__clear-values-button blm-range-slider__clear-values-button--%%-REQUEST_ID-%%">Clear</button>
+            </div>
+          <% } %>
+          </div>
+        </div>
+
+        <% facets.forEach(function(facet, facetIndex) { %>
+          <% if (facet.section.length > 0) { %>
+          <div class="blm-product-search-filter blm-dynamic-filter" id="blm-facet-block-item-<%= facetIndex %>">
+            <h4 class="blm-product-search-filter-title"><%- facet.title %></h4>
+            <ul class="blm-product-search-filter-items">
+              <% facet.section.forEach(function(item) { %>
+              <li class="blm-product-search-filter-item">
+                <input
+                  type="checkbox"
+                  <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
+                  name="<%- facet.original_title %>"
+                  value="<%- escapeSpecialCharacters(item.id) %>"
+                  id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
+                  class="blm-product-search-filter-item__checkbox"
+                />
+                <label class="blm-product-search-filter-item__name" for="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"><%- item.name %></label>
+                <% if (!config.search.display_variants) { %>
+                <span class="blm-product-search-filter-item__badge"><%- item.count %></span>
+                <% } %>
+              </li>
+              <% }); %>
+            </ul>
+            <% if (facet.section.length > config.search.initial_number_of_facet_values) { %>
+            <div class="blm-product-search-load-more" data-item="<%= facetIndex %>">+ More</div>
+            <% } %>
+          </div>
+          <% } %>
+        <% }); %>
+
+        <% if (facets[0].section.length) { %>
+        <div class="blm-load-more-facet blm-load-more-facet--%%-REQUEST_ID-%%">+ More </div>
+        <% } %>
+
+      </div>
+    </aside>
+    <% } %>
+    <section class="blm-product-search-main">
+      <div class="blm-product-search-toolbar">
+        <%
+          const haveUngroupedResults = locals.number_of_results && number_of_results > 0;
+          const haveGroupedResults = locals.grouped_products && grouped_products.groups.length > 0;
+        %>
+        <% if (haveUngroupedResults || haveGroupedResults) { %>
+          <% if (haveUngroupedResults) { %>
+          <h2 class="blm-product-search-toolbar__title">
+            Showing <%- start + 1 %> - <%- Math.min(start + products.length, number_of_results) %> of <%- number_of_results %> products
+          </h2>
+          <% } %>
+        <div class="blm-product-search-toolbar-options">
+          <% if (config.search.groupby) { %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--groupby">
+            <label for="groupby-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Group By: </label>
+            <select
+              name="groupby"
+              id="groupby-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% config.search.groupby_options.forEach(function(option) { %>
+                <option value="<%- option.value %>" <% if (locals.groupby && groupby === option.value) { %>selected<% } %>><%- option.label %></option>
+              <% }) %>
+            </select>
+          </span>
+          <% } %>
+          <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--page-size">
+            <label for="sort-size-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Size: </label>
+            <select
+              name="sort-size"
+              id="sort-size-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% for (let i = (config.search.groupby ? 4 : 16); i <= (config.search.groupby ? 16 : 48); i += 4) { %>
+                <option value="<%- i %>" <% if (locals.size && size === i) { %>selected<% } %>><%- i %></option>
+              <% } %>
+            </select>
+          </span>
+          <% } %>
+          <span class="blm-product-search-toolbar-options blm-product-search-toolbar-options--sort-by">
+            <label for="sort-by-%%-REQUEST_ID-%%" class="blm-product-search-toolbar-options__label">Sort By: </label>
+            <select
+              name="sort-by"
+              id="sort-by-%%-REQUEST_ID-%%"
+              class="blm-product-search-toolbar-options__select"
+            >
+              <% config.search.sorting_options.forEach(function(option) { %>
+                <option value="<%- option.value %>" <% if (locals.sort && sort === option.value) { %>selected<% } %>><%- option.label %></option>
+              <% }) %>
+            </select>
+          </span>
+        </div>
+        <% } else if (!(locals.grouped_products) || grouped_products.groups.length < 1) { %>
+        <h2 class="blm-product-search-toolbar__title">
+          No results found
+        </h2>
+        <% } %>
+
+      </div>
+      <div <% if (products.length && !locals.grouped_products) { %>class="blm-product-search__results"<% } %>>
+        <% if (products.length || (locals.grouped_products && grouped_products.groups.length > 0)) { %>
+          %%-PRODUCT_LIST_TEMPLATE-%%
+        <% } %>
+      </div>
+
+      <% if (!config.search.infinite_scroll && paginationData.length > 0) { %>
+      <div class="blm-product-search-pagination">
+        <ul class="blm-product-search-pagination__pages blm-product-search-pagination__pages--%%-REQUEST_ID-%%">
+          <% paginationData.forEach(paginationNode => { %>
+            <li class="blm-product-search-pagination__page">
+              <button <% if (paginationNode.disabled) { %>disabled<% } %> class="blm-product-search-pagination__page-link <% if (paginationNode.active) { %>blm-product-search-pagination__page-link--active<% } %>" data-value="<%- paginationNode.value %>"
+                ><%- paginationNode.label ?? paginationNode.value %></button
+              >
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
+    </section>
+  </div>
+]]>
+                </main_template_text>
+                <productlist_template_text>
+                    <![CDATA[<% function printProduct(product) { %>
+  <div class="blm-product-search__result" <% if (product.variant_name) { %>title="<%- product.variant_name %>"<% } %>>
+    <%
+      const matchingVariant = !Array.isArray(product.variants)
+        ? null
+        : 'variant_index' in product
+          ? product.variants[product.variant_index]
+          : product.variants.find(variant => selectedColors.includes(variant.sku_color_group ? variant.sku_color_group.toLowerCase() : null))
+    %>
+    <div class="blm-product-search-image-container">
+      <% if (product.variants && product.variants.length > 1) { %>
+        <% product.variants.forEach(function(variant, index) { %>
+
+        <%
+          const isActiveVariant =
+            !('variant_index' in product) && !selectedColors.length
+              ? index === 0
+              : 'variant_index' in product
+                ? product.variant_index === index
+                : matchingVariant == variant
+        %>
+
+        <div class="blm-product-search-swatch-image fade"
+          <% if (isActiveVariant) { %>style="display: block"<% } %>
+        >
+          <img
+            class="blm-product-search-image-container__image"
+            alt="title"
+            src="<%= variant.image %>"
+          />
+        </div>
+        <% }); %>
+      <% } else { %>
+        <div class="blm-product-search-swatch-image fade" style="display: block"
+        >
+          <img
+            class="blm-product-search-image-container__image"
+            alt="title"
+            src="<%= product.image %>"
+          />
+        </div>
+      <% } %>
+    </div>
+    <div class="blm-product-search-details-container">
+      <div class="blm-product-search-details-title-container">
+        <a href="<%= product.link %>" class="blm-product-search-details-container__title"
+          ><%- product.title %></a
+        >
+      </div>
+
+      <% if (product.variants && product.variants.length > 1) { %>
+        <% product.variants.forEach(function(variant, index) { %>
+          <%
+            const isActiveVariant =
+              !('variant_index' in product) && !selectedColors.length
+                ? index === 0
+                : 'variant_index' in product
+                  ? product.variant_index === index
+                  : matchingVariant == variant
+          %>
+          <p class="blm-product-search-details-container__price <% if (isActiveVariant) { %>active<% } %>">
+            <%
+              const salePrice = variant.sku_sale_price !== undefined ? variant.sku_sale_price : product.sale_price;
+              const price = variant.sku_price !== undefined ? variant.sku_price : product.price;
+            %>
+            <%= config.format_money((salePrice !== undefined ? salePrice : price).toFixed(2) * 100) %>
+            <% if (salePrice !== undefined) { %>
+              <span <% if (salePrice !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>
+                <%= config.format_money(price.toFixed(2) * 100) %>
+              </span>
+            <% } %>
+          </p>
+        <% }); %>
+      <% } else { %>
+        <p class="blm-product-search-details-container__price active">
+          <%= config.format_money((product.sale_price !== undefined ? product.sale_price : product.price).toFixed(2) * 100) %>
+          <% if (product.sale_price !== undefined) { %>
+            <span <% if (product.sale_price !== undefined) { %>class="blm-product-search-details-container__price--strike-through"<% } %>>
+              <%= config.format_money(product.price.toFixed(2) * 100) %>
+            </span>
+          <% } %>
+        </p>
+      <% } %>
+
+    </div>
+
+    <% if (product.variants && product.variants.length > 1) { %>
+      <ul class="blm-product-search-swatch-container">
+      <% product.variants.slice(0, defaultMaxColorSwatches || 0).forEach(function(variant, index) { %>
+        <%
+          const isActiveVariant =
+            !('variant_index' in product) && !selectedColors.length
+              ? index === 0
+              : 'variant_index' in product
+                ? product.variant_index === index
+                : matchingVariant == variant
+        %>
+        <li
+          class="blm-product-search-swatch-container__swatch <% if (isActiveVariant) { %>active<% } %>"
+          style="background-image: url('<%= variant.image %>')"
+        ></li>
+      <% }); %>
+      </ul>
+
+      <% if (product.variants.length > defaultMaxColorSwatches || 0) { %>
+      <small class="blm-product-search-swatch-colors">(Colors) <%- product.variants.length %></small>
+      <% } %>
+    <% } %>
+  </div>
+<% } %>
+
+<% if (locals.grouped_products && grouped_products && grouped_products.groups) { %>
+
+  <% grouped_products.groups.forEach(group => { %>
+  <div class="blm-result-group">
+    <h3 class="blm-result-group__title"><%- group.title %></h3>
+
+    <div class="blm-product-search__results">
+      <% group.products.forEach(printProduct); %>
+    </div>
+  </div>
+  <% }); %>
+
+<% } else { %>
+
+  <% products.forEach(printProduct); %>
+
+<% } %>
+]]>
+                </productlist_template_text>
+            </general>
+        </bloomreach_collections>
+        <bloomreach_settings>
+            <pixel>
+                <enable_pixel>1</enable_pixel>
+                <enable_atc_template>0</enable_atc_template>
+                <enable_productlist_template>0</enable_productlist_template>
+            </pixel>
+            <api_url>
+                <autosuggest_endpoint>prod</autosuggest_endpoint>
+                <search_endpoint>prod</search_endpoint>
+                <category_endpoint>prod</category_endpoint>
+                <widgets_endpoint>prod</widgets_endpoint>
+                <catalog_views>tractorsupply</catalog_views>
+            </api_url>
+        </bloomreach_settings>
+        <bloomreach_recommendations>
+            <general>
+                <enable_recommendations>0</enable_recommendations>
+                <field_list>pid,price,sale_price,title,thumb_image,url</field_list>
+                <template_text>
+                    <![CDATA[<div class="blm-recommendation-widget-content" data-rid="<%= widgetMetadata.rid %>" data-type="<%= widgetMetadata.type %>" data-id="<%= widgetMetadata.id %>">
+  <% if (products.length > config.number_of_items_to_show) { %>
+  <span class="blm-carousel__item blm-carousel-previous blm-invisible">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0V0z" />
+      <path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z" />
+    </svg>
+  </span>
+  <% } %>
+
+  <section class="blm-recommendation__products" style="--number-of-items-to-show: <%= config.number_of_items_to_show %>">
+    <% products.forEach(function(product) { %>
+    <div class="blm-recommendation__product" data-id="<%= product.id %>">
+      <div class="blm-recommendation__product-inner">
+        <div class="blm-product-image-container">
+          <a href="<%= product.link %>" class="blm-widget-link">
+            <img
+              class="blm-product-image-container__image"
+              alt="<%= product.title %>"
+              src="<%= product.image %>"
+            />
+          </a>
+        </div>
+        <div class="blm-product-details-container">
+          <div class="blm-product-details-title-container">
+            <a href="<%= product.link %>" class="blm-product-details-container__title blm-widget-link"><%= product.title %></a>
+          </div>
+          <% if (product.price && product.sale_price) { %>
+            <p class="blm-product-details-container__price">
+              <% if (config.format_money) { %>
+                <%= config.format_money(product.sale_price.toFixed(2) * 100) %>&nbsp;<strike class="blm-product-details-container__original-price"><%= config.format_money(product.price.toFixed(2) * 100) %></strike>
+              <% } else { %>
+                <%= config.default_currency %><%= product.sale_price.toFixed(2) %>&nbsp;<strike class="blm-product-details-container__original-price"><%= config.default_currency %><%= product.price.toFixed(2) %></strike>
+              <% } %>
+            </p>
+          <% } else { %>
+            <p class="blm-product-details-container__price">
+              <% if (config.format_money) { %>
+                <%= config.format_money(product.price.toFixed(2) * 100) %>
+              <% } else { %>
+                <%= config.default_currency %><%= product.price.toFixed(2) %>
+              <% } %>
+            </p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </section>
+
+  <% if (products.length > config.number_of_items_to_show) { %>
+  <span class="blm-carousel__item blm-carousel-next">
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0V0z" />
+    <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z" />
+    </svg>
+  </span>
+  <% } %>
+</div>
+]]>
+                </template_text>
+            </general>
+        </bloomreach_recommendations>
+    </default>
+</config>

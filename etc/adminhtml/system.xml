@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bloomreach_tab" translate="label" sortOrder="220">
+            <label>Bloomreach Discovery</label>
+        </tab>
+        <section id="bloomreach_dashboard" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Dashboard</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_dashboard</resource>
+            <include path="Bloomreach_Connector::system/dashboard.xml"/>
+        </section>
+        <section id="bloomreach_indexing" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Indexing</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_indexing</resource>
+            <include path="Bloomreach_Connector::system/indexing.xml"/>
+        </section>
+        <section id="bloomreach_search" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Search</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_search</resource>
+            <include path="Bloomreach_Connector::system/search.xml"/>
+        </section>
+        <section id="bloomreach_collections" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Category</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_collections</resource>
+            <include path="Bloomreach_Connector::system/collections.xml"/>
+        </section>
+        <section id="bloomreach_optimize" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Optimize</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_optimize</resource>
+            <include path="Bloomreach_Connector::system/optimize.xml"/>
+        </section>
+        <section id="bloomreach_recommendations" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Recommendations</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_recommendations</resource>
+            <include path="Bloomreach_Connector::system/recommendations.xml"/>
+        </section>
+        <section id="bloomreach_settings" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Settings</label>
+            <tab>bloomreach_tab</tab>
+            <resource>Bloomreach_Connector::config_settings</resource>
+            <include path="Bloomreach_Connector::system/settings.xml"/>
+        </section>
+    </system>
+</config>

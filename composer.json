@@ -1,0 +1,23 @@
+{
+    "name": "bloomreach/bloomreach-connector-magento",
+    "description": "Bloomreach connector for autosuggest,collection and product search",
+    "version": "1.2.2",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Bloomreach Inc.",
+            "email": "support@bloomreach.com"
+        }
+    ],
+    "require": {
+        "php": "~7.2.0||~7.3.0||~7.4.0||~8.0.0||~8.1.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

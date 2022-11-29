@@ -1,0 +1,248 @@
+<?php
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connectoru
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+
+use Bloomreach\Connector\ViewModel\Head\ScriptInit;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $escaper Escaper */
+/** @var $viewModel ScriptInit */
+if (!isset($escaper)) {
+    $escaper = $block;
+}
+$viewModel = $block->getViewModel();
+$currentCategory = false;
+if ($viewModel->isProductListingPage()) {
+    $currentCategory = $viewModel->getCurrentCategory();
+}
+?>
+<?php if ($viewModel->canInitScript()): ?>
+    <script id="bloomreach_connector">
+        window.bloomreachConnector = {};
+        bloomreachConnector.config = <?= json_encode([
+            "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
+            "domain_key"=>  $escaper->escapeHtml($viewModel->getDomainKey()),
+            "auth_key"=>  "",
+            "default_search_parameter"=> "q",
+            "search_page_url"=>  $escaper->escapeUrl($block->getUrl('catalogsearch/result/', ['_secure'=>true])),
+            "search"=> [
+                "enabled"=>  (int)$viewModel->isSearchEnabled() ,
+                "endpoint"=> $escaper->escapeUrl($viewModel->getSearchEndPointUrl()),
+                "items_per_page"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_ITEM_PER_PAGE)) ,
+                "facets_included"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_FACETS)
+                ) ? 1 : 0) ,
+                "initial_number_of_facets"=>
+                $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACETS)
+                ) ,
+                "initial_number_of_facet_values"=>
+                $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_NO_OF_FACET_OPTIONS)
+                ) ,
+                "infinite_scroll"=> /* @noEscape */ $viewModel->isSearchInfiniteScrollEnabled()  ,
+                "sorting_options"=> [["label"=> __("Relevance"), "value"=> ""], [
+                    "label"=> __("Price (low - high)"),
+                    "value"=> "sale_price+asc"
+                ], ["label"=> __("Name (A - Z)"), "value"=> "title+asc"], [
+                    "label"=> __("Price (high - low)"),
+                    "value"=> "sale_price+desc"
+                ], ["label"=> __("Name (Z - A)"), "value"=> "title+desc"]],
+                "selector"=>  /* @noEscape */ $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CSS_SELECTOR),
+                "search_enabled"=>  (int)$viewModel->isSearchEnabled() ,
+                "is_search_page"=>  (int)$viewModel->isSearchResultPage() ,
+                "display_variants"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::SITESEARCH_SHOW_VARIANTS)
+                ) ? 1 : 0),
+                "fields"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SITESEARCH_FIELD_LIST)),
+                "template"=> $viewModel->getStoreConfigValue($viewModel::SITESEARCH_TEMPLATE_MAIN),
+                "product_list_template"=> $viewModel->getStoreConfigValue($viewModel::SITESEARCH_TEMPLATE_PRODUCTLIST)
+            ],
+            "autosuggest"=> [
+                "enabled"=> (int)$viewModel->isAutoSuggestEnabled() ,
+                "catalog_views"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SETTINGS_CATALOG_VIEWS)),
+                "endpoint"=> $escaper->escapeUrl($viewModel->getAutoSuggestEndPointUrl()),
+                "number_of_terms"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_TERM)),
+                "number_of_products"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_PRODUCTS)),
+                "number_of_collections"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_COLLECTION)),
+                "selector"=> $viewModel->getStoreConfigValue($viewModel::SEARCH_CSS_SELECTOR),
+                "template"=> $viewModel->getStoreConfigValue($viewModel::SEARCH_TEMPLATE_MAIN)
+            ],
+            "category"=> [
+                "enabled"=> (int)$viewModel->isCollectionEnabled() ,
+                "endpoint"=> $escaper->escapeUrl($viewModel->getCollectionEndPointUrl()),
+                "sorting_options"=> [["label"=> __("Relevance"), "value"=> ""], [
+                    "label"=> __("Price (low - high)"),
+                    "value"=> "sale_price+asc"
+                ], ["label"=> __("Name (A - Z)"), "value"=> "title+asc"], [
+                    "label"=> __("Price (high - low)"),
+                    "value"=> "sale_price+desc"
+                ], ["label"=> __("Name (Z - A)"), "value"=>"title+desc"]],
+                "items_per_page"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_ITEMS_PER_PAGE)),
+                "facets_included"=>
+                (1 == $escaper->escapeHtml(
+                    $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_FACETS)
+                ) ? 1 : 0) ,
+                "initial_number_of_facets"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACETS)) ,
+                "initial_number_of_facet_values"=>
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_NO_OF_FACET_OPTIONS)) ,
+                "infinite_scroll"=>  $viewModel->isCollectionInfiniteScrollEnabled() ,
+                "selector"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR),
+                "display_variants"=>
+                (1 ==
+                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_SHOW_VARIANTS)) ? 1 : 0) ,
+                "is_category_page"=>  (int)$viewModel->isProductListingPage(),
+                "category_id"=>  ($currentCategory ? $currentCategory->getId() : ''),
+                "fields"=> $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_FIELD_LIST)),
+                "template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_MAIN),
+                "product_list_template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_PRODUCTLIST)
+            ],
+            "widget"=> [
+                "endpoint"=> $escaper->escapeUrl($viewModel->getBrWidgetEndPointUrl()),
+                "fields"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::RECOMM_FIELD_LIST)),
+                "template"=> $viewModel->getStoreConfigValue($viewModel::RECOMM_TEMPLATE_TEXT)
+            ]
+        ]); ?>
+
+    </script>
+    <?php if ($viewModel->isPixelEnabled()): ?>
+        <script>
+            var br_data = window.br_data || {};
+            br_data.acct_id = "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>";
+            br_data.ptype = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageName()) ?>";
+            br_data.title = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageTitle($block)) ?>";
+            br_data.domain_key = "<?=  $escaper->escapeHtml($viewModel->getDomainKey()); ?>";
+            br_data.catalogs = ["NEED_MORE_INFO"];
+            br_data.view_id = "";
+            br_data.tms = "NEED_MORE_INFO";
+            <?php if ('product' === $viewModel->getCurrentPageName()):
+                $currentProduct = $viewModel->getCurrentProduct();
+                ?>
+            // Product page view
+            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getSku() ?>";
+            br_data.prod_name = "<?= $escaper->escapeHtml($currentProduct->getName()) ?>";
+            br_data.sku = "<?= $escaper->escapeHtml($currentProduct->getSku()) ?>";
+            <?php endif; ?>
+            <?php if ('content' === $viewModel->getCurrentPageName()): ?>
+            // Content page view
+                <?php $cmsPage = $viewModel->getCurrentCmsPage($block);
+                if (!empty($cmsPage)):
+                    ?>
+            br_data.catalogs = [{name: "<?=  $escaper->escapeHtml($cmsPage->getIdentifier()) ?>"}];
+            br_data.item_id = "<?= /* @noEscape */ $cmsPage->getId() ?>";
+            br_data.item_name = "<?=  $escaper->escapeHtml($cmsPage->getTitle()) ?>";
+            <?php endif; ?>
+            <?php endif; ?>
+
+            <?php if ('category' === $viewModel->getCurrentPageName()):
+                $currentCategory = $viewModel->getCurrentCategory();
+                ?>
+            // Category page view
+            br_data.cat_id = "<?= /* @noEscape */$currentCategory->getId() ?>";
+            br_data.cat = "<?= /* @noEscape */ $currentCategory->getId() ?>";
+            <?php endif; ?>
+            <?php if ('search' === $viewModel->getCurrentPageName()): ?>
+            // Search results page view
+            br_data.search_term = "<?=  $escaper->escapeHtml($viewModel->getSearchTerm()) ?>";
+            <?php endif; ?>
+            <?php if ('checkout_success' === $viewModel->getCurrentPageName()):
+                $lastOrder = $viewModel->getLastRealOrder();
+                if ($lastOrder):
+                    ?>
+            // Conversion page view
+            br_data.is_conversion = 1;
+            br_data.basket_value = "<?= /* @noEscape */ sprintf('%.2f', $lastOrder->getGrandTotal()) ?>";
+            br_data.order_id = "<?= /* @noEscape */ $lastOrder->getIncrementId() ?>";
+            br_data.basket = {
+                "items": <?= /* @noEscape */ $viewModel->getOrderLineItemJson($lastOrder) ?>
+            };
+            <?php endif; ?>
+            <?php endif; ?>
+        </script>
+    <?php endif; ?>
+    <?php
+    $requireSdk = [];
+    if ($viewModel->isAutoSuggestEnabled()):
+        $requireSdk = ['autoSuggestSdk'];
+    endif;
+    ?>
+    <?php if ($viewModel->isSearchResultPage() && $viewModel->isSearchEnabled()): $requireSdk[] = 'productSearchSdk'; ?>
+        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/product-search.css"); ?>"
+              rel="stylesheet" />
+        <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS) ?? ''; ?>
+        <style><?= /* @noEscape */ strip_tags($srpCss) ?></style>
+    <?php endif; ?>
+
+    <?php if ($viewModel->isCollectionEnabled()): $requireSdk[] = 'collectionSdk'; ?>
+        <link
+        href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/category.css"); ?>"
+        rel="stylesheet" />
+        <?php $plpCss = $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CUSTOM_CSS) ?? ''; ?>
+        <style><?= /* @noEscape */ strip_tags($plpCss) ?></style>
+    <?php endif; ?>
+
+    <?php if ($viewModel->isAutoSuggestEnabled()): ?>
+        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/autosuggest.css"); ?>"
+              rel="stylesheet">
+    <?php endif; ?>
+
+    <link href="
+    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css"));
+    ?>"
+    rel="stylesheet" />
+    <link href="
+    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css"));
+    ?>"
+    rel="stylesheet" />
+    <?php $recomCss = $viewModel->getStoreConfigValue($viewModel::RECOMM_CUSTOM_CSS) ?? ''; ?>
+    <style><?= /* @noEscape */ strip_tags($recomCss) ?></style>
+
+    <?php if (!empty($requireSdk)): ?>
+        <script>
+            require([<?= /* @noEscape */ "'" . implode("','", $requireSdk) . "'" ?>], function () {
+                if (typeof window.BloomreachModules !== 'undefined') {
+                    <?php if (in_array('autoSuggestSdk', $requireSdk)): ?>
+                    if (typeof window.BloomreachModules.autosuggest !== 'undefined') {
+                        window.BloomreachModules.autosuggest.load();
+                    }
+                    <?php endif; ?>
+                    <?php if (in_array('productSearchSdk', $requireSdk)): ?>
+                    if (typeof window.BloomreachModules.search !== 'undefined') {
+                        window.BloomreachModules.search.load();
+                    }
+                    <?php endif; ?>
+                    <?php if (in_array('collectionSdk', $requireSdk)): ?>
+                    if (typeof window.BloomreachModules.category !== 'undefined') {
+                        window.BloomreachModules.category.load();
+                    }
+                    <?php endif; ?>
+                }
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php $atsCss = $viewModel->getStoreConfigValue($viewModel::SEARCH_CUSTOM_CSS) ?? ''; ?>
+    <style><?= /* @noEscape */ strip_tags($atsCss) ?></style>
+<?php endif; ?>
+

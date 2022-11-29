@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="autosuggest" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Autosuggest</label>
+        <comment>Replace the built in Magento Autosuggest with Bloomreach Autosuggest</comment>
+        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0" showInStore="1">
+            <label>Enable Autosuggest</label>
+            <comment>Toggle Autosuggest on/off</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="css_selector" translate="label comment" type="text"
+               sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Css Selector</label>
+            <comment>Quicksearch input element class or id selector, eg: .search_input or #search_input</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="suggested_terms" translate="label comment" type="text"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Terms</label>
+            <comment>Suggested Terms</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="suggested_products" translate="label comment" type="text"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Products</label>
+            <comment>Suggested Products</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="suggested_collection" translate="label comment" type="text"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Collection</label>
+            <comment>Suggested Collection</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="custom_css" translate="label comment" type="textarea"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Custom Css</label>
+            <comment>We've designed the Autosuggest to be highly flexible with in the Magento</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="reference_link" translate="label comment" type="note"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Reference</label>
+            <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\ReferenceLink</frontend_model>
+        </field>
+        <field id="main_template_text" translate="label" type="textarea"
+               sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Autosuggest Rendering Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_autosuggest_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="https://documentation.bloomreach.com/sdks/magento/user-guide.html" target="_blank">documentation link</a> for more info.]]>
+            </comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="search_autosuggest_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search Main Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_autosuggest_search_autosuggest_template_update_date').hide();
+                            var search_autosuggest_template_version_date = $('search_autosuggest_template_version_date').innerText;
+                            var search_autosuggest_template_update_date = $('bloomreach_search_autosuggest_search_autosuggest_template_update_date').value;
+                            if(new Date(search_autosuggest_template_version_date) > new Date(search_autosuggest_template_update_date)) {
+                                $('bloomreach_search_autosuggest_main_template_text').next('p').show();
+                            } else {
+                                if(search_autosuggest_template_update_date=="") {
+                                    $('bloomreach_search_autosuggest_main_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_autosuggest_main_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
+        </field>
+    </group>
+    <group id="sitesearch" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Sites Search</label>
+        <comment>Replace the built in Magento search results page with Bloomreach Search.</comment>
+        <field id="enabled" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="0" showInStore="1">
+            <label>Enable Site Search</label>
+            <comment>Toggle Bloomreach for search result page on/off</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="css_selector" translate="label comment" type="text"
+               sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Css Selector</label>
+            <comment>Search result page main content element div class or id selector, eg: .main_container or #main_container</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="items_per_page" translate="label comment" type="text"
+               sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Items per page</label>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="show_variants" translate="label comment" type="select"
+               sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Display Variants ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="show_facets" translate="label" type="select"
+               sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Show Layered Navigation ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="no_of_facets" translate="label" type="text"
+               sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Layered Navigation Filters ?</label>
+            <comment>No. of default visible filters</comment>
+            <depends>
+                <field id="enabled">1</field>
+                <field id="show_facets">1</field>
+            </depends>
+        </field>
+        <field id="no_of_facet_options" translate="label comment" type="text"
+               sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>No. of Layered Navigation Values ?</label>
+            <comment>No. of default visible options per filter</comment>
+            <depends>
+                <field id="enabled">1</field>
+                <field id="show_facets">1</field>
+            </depends>
+        </field>
+        <field id="infinite_scroll" translate="label" type="select"
+               sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Infinite Scroll ?</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="custom_css" translate="label comment" type="textarea"
+               sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Custom Css</label>
+            <comment>Custom css for autosuggestion</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="field_list" translate="label" type="textarea"
+               sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Allowed Field List</label>
+            <comment>Use command separated values without space</comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="main_template_text" translate="label" type="textarea"
+               sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Search Page - Main Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_main_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="https://documentation.bloomreach.com/sdks/magento/user-guide.html" target="_blank">documentation link</a> for more info.]]>
+            </comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="search_main_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search Main Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_sitesearch_search_main_template_update_date').hide();
+                            var search_main_template_version_date = $('search_main_template_version_date').innerText;
+                            var search_main_template_update_date = $('bloomreach_search_sitesearch_search_main_template_update_date').value;
+                            if(new Date(search_main_template_version_date) > new Date(search_main_template_update_date)) {
+                                $('bloomreach_search_sitesearch_main_template_text').next('p').show();
+                            } else {
+                                if(search_main_template_update_date=="") {
+                                    $('bloomreach_search_sitesearch_main_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_sitesearch_main_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
+        </field>
+        <field id="productlist_template_text" translate="label" type="textarea"
+               sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Search Page - Product Listing Template</label>
+            <comment><![CDATA[Template update date : <span  id="search_list_template_version_date"><strong>Oct 20,2021</strong></span>. Please update your current template. If you have added any changes then copy current template in text editor and checked "Use system value" checkbox to load latest template then merge your changes.You can follow <a href="https://documentation.bloomreach.com/sdks/magento/user-guide.html" target="_blank">documentation link</a> for more info.]]>
+            </comment>
+            <depends>
+                <field id="enabled">1</field>
+            </depends>
+        </field>
+        <field id="search_list_template_update_date" type="text" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Search list Template update date</label>
+            <comment>
+                    <![CDATA[
+                    <script>
+                    requirejs(['jquery', 'prototype'], function() {
+                        jQuery(document).ready(function () {
+                            $('row_bloomreach_search_sitesearch_search_list_template_update_date').hide();
+                            var search_list_template_version_date = $('search_list_template_version_date').innerText;
+                            var search_list_template_update_date = $('bloomreach_search_sitesearch_search_list_template_update_date').value;
+                            if(new Date(search_list_template_version_date) > new Date(search_list_template_update_date)) {
+                                $('bloomreach_search_sitesearch_productlist_template_text').next('p').show();
+                            } else {
+                                if(search_list_template_update_date=="") {
+                                    $('bloomreach_search_sitesearch_productlist_template_text').next('p').show();
+                                } else {
+                                    $('bloomreach_search_sitesearch_productlist_template_text').next('p').hide();
+                                }
+                            }
+                        });
+                    });
+                    </script>
+                    ]]>
+                </comment>
+        </field>
+    </group>
+</include>
