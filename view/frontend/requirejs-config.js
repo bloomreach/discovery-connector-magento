@@ -19,11 +19,11 @@
 var config = {
     map: {
         '*': {
-            productSearchSdk:  'Bloomreach_Connector/js/product-search',
+            productSearchSdk:  'Bloomreach_Connector/js/search',
             collectionSdk:     'Bloomreach_Connector/js/category',
             autoSuggestSdk:    'Bloomreach_Connector/js/autosuggest',
-            pathwaysRecomSdk:  'Bloomreach_Connector/js/pathways-and-recommendations',
-            productsEventsSdk: 'Bloomreach_Connector/js/product-events'
+            pathwaysRecomSdk:  'Bloomreach_Connector/js/recommendations',
+            productsEventsSdk: 'Bloomreach_Connector/js/events'
         }
     }
 }

@@ -188,7 +188,7 @@ if ($viewModel->isProductListingPage()) {
     endif;
     ?>
     <?php if ($viewModel->isSearchResultPage() && $viewModel->isSearchEnabled()): $requireSdk[] = 'productSearchSdk'; ?>
-        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/product-search.css"); ?>"
+        <link href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/search.css"); ?>"
               rel="stylesheet" />
         <?php $srpCss = $viewModel->getStoreConfigValue($viewModel::SITESEARCH_CUSTOM_CSS) ?? ''; ?>
         <style><?= /* @noEscape */ strip_tags($srpCss) ?></style>
@@ -208,7 +208,7 @@ if ($viewModel->isProductListingPage()) {
     <?php endif; ?>
 
     <link href="
-    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css"));
+    <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/recommendations.css"));
     ?>"
     rel="stylesheet" />
     <link href="
