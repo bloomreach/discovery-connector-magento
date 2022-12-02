@@ -16,9 +16,6 @@ use Bloomreach\Connector\ViewModel\Head\ScriptInit;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
-$categoryInfoBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Bloomreach\Connector\Block\CategoryInfoBlock');
-$currentCategory = $categoryInfoBlock != null ? $categoryInfoBlock->getCurrentCategory() : null;
-
 /** @var $block Template */
 /** @var $escaper Escaper */
 /** @var $viewModel ScriptInit */
