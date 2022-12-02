@@ -16,6 +16,9 @@ use Bloomreach\Connector\ViewModel\Head\ScriptInit;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+$categoryInfoBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Bloomreach\Connector\Block\CategoryInfoBlock');
+$currentCategory = $categoryInfoBlock != null ? $categoryInfoBlock->getCurrentCategory() : null;
+
 /** @var $block Template */
 /** @var $escaper Escaper */
 /** @var $viewModel ScriptInit */
@@ -29,8 +32,16 @@ if ($viewModel->isProductListingPage()) {
 }
 ?>
 <?php if ($viewModel->canInitScript()): ?>
+    <?php if ($viewModel->isSearchEnabled()): ?>
+        <style>
+            .search-autocomplete {
+                display: none !important;
+            }
+        </style>
+    <?php endif; ?>
     <script id="bloomreach_connector">
         window.bloomreachConnector = {};
+
         bloomreachConnector.config = <?= json_encode([
             "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
             "domain_key"=>  $escaper->escapeHtml($viewModel->getDomainKey()),
@@ -124,7 +135,6 @@ if ($viewModel->isProductListingPage()) {
                 "template"=> $viewModel->getStoreConfigValue($viewModel::RECOMM_TEMPLATE_TEXT)
             ]
         ]); ?>
-
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
         <script>
@@ -194,7 +204,7 @@ if ($viewModel->isProductListingPage()) {
         <style><?= /* @noEscape */ strip_tags($srpCss) ?></style>
     <?php endif; ?>
 
-    <?php if ($viewModel->isCollectionEnabled()): $requireSdk[] = 'collectionSdk'; ?>
+    <?php if ($viewModel->isCollectionEnabled() && $currentCategory != null): $requireSdk[] = 'collectionSdk'; ?>
         <link
         href="<?= /* @noEscape */ $block->getViewFileUrl("Bloomreach_Connector::css/category.css"); ?>"
         rel="stylesheet" />
@@ -220,7 +230,11 @@ if ($viewModel->isProductListingPage()) {
 
     <?php if (!empty($requireSdk)): ?>
         <script>
-            require([<?= /* @noEscape */ "'" . implode("','", $requireSdk) . "'" ?>], function () {
+            require([<?= /* @noEscape */ "'" . implode("','", $requireSdk) . "'" ?>], function () {;
+                window.pixelReady = window.pixelReady || new Promise(r => (window.pixelResolve = r));
+
+                window.pixelReady.then(() => {
+                });
                 if (typeof window.BloomreachModules !== 'undefined') {
                     <?php if (in_array('autoSuggestSdk', $requireSdk)): ?>
                     if (typeof window.BloomreachModules.autosuggest !== 'undefined') {
@@ -232,11 +246,12 @@ if ($viewModel->isProductListingPage()) {
                         window.BloomreachModules.search.load();
                     }
                     <?php endif; ?>
-                    <?php if (in_array('collectionSdk', $requireSdk)): ?>
-                    if (typeof window.BloomreachModules.category !== 'undefined') {
-                        window.BloomreachModules.category.load();
-                    }
-                    <?php endif; ?>
+
+                     <?php if (in_array('collectionSdk', $requireSdk)): ?>
+                     if (typeof window.BloomreachModules.category !== 'undefined') {
+                        window.BloomreachModules.category.load("<?= $currentCategory->getID() ?>");
+                     }
+                     <?php endif; ?>
                 }
             });
         </script>
