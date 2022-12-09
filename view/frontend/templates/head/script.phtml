@@ -135,14 +135,15 @@ if ($viewModel->isProductListingPage()) {
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
         <script>
+            // domain_key view_id catalogs tms sid
             var br_data = window.br_data || {};
             br_data.acct_id = "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>";
             br_data.ptype = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageName()) ?>";
             br_data.title = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageTitle($block)) ?>";
-            br_data.domain_key = "<?=  $escaper->escapeHtml($viewModel->getDomainKey()); ?>";
-            br_data.catalogs = ["NEED_MORE_INFO"];
-            br_data.view_id = "";
-            br_data.tms = "NEED_MORE_INFO";
+            // br_data.domain_key = "<?=  $escaper->escapeHtml($viewModel->getDomainKey()); ?>";
+            // br_data.catalogs = ["NEED_MORE_INFO"];
+            // br_data.view_id = "";
+            // br_data.tms = "NEED_MORE_INFO";
             <?php if ('product' === $viewModel->getCurrentPageName()):
                 $currentProduct = $viewModel->getCurrentProduct();
                 ?>
@@ -156,7 +157,7 @@ if ($viewModel->isProductListingPage()) {
                 <?php $cmsPage = $viewModel->getCurrentCmsPage($block);
                 if (!empty($cmsPage)):
                     ?>
-            br_data.catalogs = [{name: "<?=  $escaper->escapeHtml($cmsPage->getIdentifier()) ?>"}];
+            // br_data.catalogs = [{name: "<?=  $escaper->escapeHtml($cmsPage->getIdentifier()) ?>"}];
             br_data.item_id = "<?= /* @noEscape */ $cmsPage->getId() ?>";
             br_data.item_name = "<?=  $escaper->escapeHtml($cmsPage->getTitle()) ?>";
             <?php endif; ?>
