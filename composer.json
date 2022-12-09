@@ -16,10 +16,7 @@
     "autoload": {
         "files": [
             "registration.php"
-        ],
-        "psr-4": {
-            "Bloomreach\\Connector\\": ""
-        }
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true

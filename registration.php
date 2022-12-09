@@ -1,4 +1,5 @@
 <?php
+use Magento\Framework\Component\ComponentRegistrar;
 
 /**
  * Bloomreach Connector extension
@@ -12,8 +13,8 @@
  * @package        Connector
  * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
     'Bloomreach_Connector',
     __DIR__
 );
