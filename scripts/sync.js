@@ -11,6 +11,11 @@
  */
 const Rsync = require('rsync');
 const path = require('path');
+const rmrf = require('rimraf');
+
+// Ensure all files all cleaned so they sync correctly and won't leave behind
+// fragments
+rmrf.sync(path.resolve("./.magento/src/app/code/Bloomreach/Connector"));
 
 // Build the command
 const rsync = new Rsync()

@@ -157,7 +157,7 @@ program
       })
       .catch(err => {
         console.warn('Failed TS check. Release notes will not be produced until all TS errors are resolved.');
-        if (program.verbose) console.warn(err.stack || err.message);
+        console.warn(err.stack || err.message);
       });
     })
     ;
@@ -459,6 +459,21 @@ program
   .catch(err => {
     console.warn('generate-iconset process exited unexpectedly');
     if (program.verbose) console.warn(err.stack || err.message);
+  });
+})
+;
+
+program
+.command('deploy-qa [src] [dest]')
+.description(`
+  Deploys the dev branch to the QA environment. This resets the dev branch to
+  the latest commit in the remote repo.
+`)
+.action((src, dest) => {
+  require('./commands/deploy-qa')({ src, dest })
+  .catch(err => {
+    console.warn('deploy-qa process exited unexpectedly');
+    console.warn(err.stack || err.message);
   });
 })
 ;

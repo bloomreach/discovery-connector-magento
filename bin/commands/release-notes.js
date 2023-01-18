@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { existsSync, readFileSync, writeFileSync } = require('fs');
 const { inc, compare } = require('semver');
 const { groupBy, uniq, upperFirst } = require('lodash');
+const { readJSONSync, writeJSONSync } = require("fs-extra");
 
 /** @type {{[key: string]: 'breaking' | 'added' | 'fixed' | 'task'}} */
 const releaseTags = {
@@ -33,6 +34,15 @@ function getReleaseType(notes) {
   if (groups.includes('breaking')) return 'major';
   if (groups.includes('added')) return 'minor';
   return 'patch';
+}
+
+/**
+ * Update versions found in additional locations in this project.
+ */
+async function updateMagentoVersions(newVersion) {
+  const composerJson = readJSONSync(resolve('composer.json'));
+  composerJson.version = newVersion;
+  writeJSONSync(resolve('composer.json'), composerJson, { spaces: 2 });
 }
 
 /**
@@ -170,6 +180,10 @@ async function run(options = {}) {
       resolve('package.json'),
       JSON.stringify(pkg, null, '  ') + '\n'
     );
+
+    // Special to this project, we need to update additional version values found
+    // in additional locations
+    await updateMagentoVersions(newVersion);
   }
 
   const text = `## ${newVersion}\n\n${notes}`;

@@ -1,11 +1,11 @@
-const { removeSync, ensureDirSync, existsSync, writeJSONSync, readJSONSync } = require('fs-extra');
+const { /** removeSync, ensureDirSync, */ existsSync, writeJSONSync, readJSONSync } = require('fs-extra');
 const path = require('path');
 const shell = require('shelljs');
 
-const releaseLibrary = require('../lib/library/release-library');
+// const releaseLibrary = require('../lib/library/release-library');
 const targetProjectRepo = require('../lib/target-project/target-project-repo');
 const targetProjectVersion = require('../lib/target-project/target-project-version');
-const wait = require('../lib/util/wait');
+// const wait = require('../lib/util/wait');
 const colors = require('colors');
 
 /** This is the required remote name that must be present for the release script to work */
@@ -74,7 +74,9 @@ async function validateRepository() {
 /**
  * Makes sure we are on the release branch and completely updated with the contents of dev.
  */
- async function checkoutRelease(alternate) {
+async function checkoutRelease(alternate) {
+  console.log("Checking out the release branch...");
+
   // Make sure we're on a release branch that matches dev
   if (shell.exec('git checkout release').code !== 0) {
     if (shell.exec('git checkout -b release').code !== 0) {
@@ -89,6 +91,7 @@ async function validateRepository() {
     process.exit(1);
   }
 
+  console.log("Resetting the release branch to the latest contents in dev...");
   // Make sure we are exactly what is in dev
   if (shell.exec(`git reset --hard ${ENSURE_REMOTE}/dev${alternate ? `-${alternate}` : ""}`).code !== 0) {
     console.log(`Could not reset branch to dev${alternate ? `-${alternate}` : ""}`);
@@ -101,97 +104,97 @@ async function validateRepository() {
  * We always need the declaration files to be generated, and sometimes, we let typescript do all of the transpiling
  * instead of webpack.
  */
-async function runTypescript(bundleMode) {
-  let emitDeclaration = '';
+// async function runTypescript(bundleMode) {
+//   let emitDeclaration = '';
 
-  // See if the bundle mode requires transpilation or only declaration
-  switch (bundleMode) {
-    case 'bundle': {
-      emitDeclaration = "--emitDeclarationOnly";
-      break;
-    }
+//   // See if the bundle mode requires transpilation or only declaration
+//   switch (bundleMode) {
+//     case 'bundle': {
+//       emitDeclaration = "--emitDeclarationOnly";
+//       break;
+//     }
 
-    case 'no-bundle':
-    default:
-      break;
-  }
+//     case 'no-bundle':
+//     default:
+//       break;
+//   }
 
-  if (!existsSync(path.resolve('lib'))) {
-    console.warn('Skipping ts declaration file generation as no library source code is present');
-    return;
-  }
+//   if (!existsSync(path.resolve('lib'))) {
+//     console.warn('Skipping ts declaration file generation as no library source code is present');
+//     return;
+//   }
 
-  // Build declaration files for the library only
-  const tsConfig = readJSONSync(path.resolve('tsconfig.json'));
-  tsConfig.include = ["lib", "dts"];
-  tsConfig.exclude = tsConfig.exclude || [];
-  tsConfig.exclude.push("lib/stories");
-  writeJSONSync(path.resolve('tsconfig.temp.json'), tsConfig);
-  await wait(500);
+//   // Build declaration files for the library only
+//   const tsConfig = readJSONSync(path.resolve('tsconfig.json'));
+//   tsConfig.include = ["lib", "dts"];
+//   tsConfig.exclude = tsConfig.exclude || [];
+//   tsConfig.exclude.push("lib/stories");
+//   writeJSONSync(path.resolve('tsconfig.temp.json'), tsConfig);
+//   await wait(500);
 
-  if (
-    shell.exec(
-      `tsc -d ${emitDeclaration} --outDir ${path.resolve('dist/lib')} --project ${path.resolve('tsconfig.temp.json')}`
-    ).code !== 0
-  ) {
-    console.log('Failed to compile type declarations');
-    removeSync(path.resolve('tsconfig.temp.json'));
-    process.exit(1);
-  }
+//   if (
+//     shell.exec(
+//       `tsc -d ${emitDeclaration} --outDir ${path.resolve('dist/lib')} --project ${path.resolve('tsconfig.temp.json')}`
+//     ).code !== 0
+//   ) {
+//     console.log('Failed to compile type declarations');
+//     removeSync(path.resolve('tsconfig.temp.json'));
+//     process.exit(1);
+//   }
 
-  removeSync(path.resolve('tsconfig.temp.json'));
-}
+//   removeSync(path.resolve('tsconfig.temp.json'));
+// }
 
 /**
  * This performs all bundling procedures and set up needed to bundle the project.
  */
-async function bundleProject(bundleMode) {
-  // Check to see if we should be bundling or not
-  switch (bundleMode) {
-    case 'no-bundle': return;
+// async function bundleProject(bundleMode) {
+//   // Check to see if we should be bundling or not
+//   switch (bundleMode) {
+//     case 'no-bundle': return;
 
-    case 'bundle':
-    default:
-      break;
-  }
+//     case 'bundle':
+//     default:
+//       break;
+//   }
 
-  await releaseLibrary();
-}
+//   await releaseLibrary();
+// }
 
 /**
  * This clears out the distribution folder so no lingering irrelevant fragments exists.
  */
-async function clearPreviousDistribution() {
-  try {
-    removeSync(path.resolve('dist'));
-  }
-  catch (err) {
-    console.log('No dist folder to clean out.');
-  }
+// async function clearPreviousDistribution() {
+//   try {
+//     removeSync(path.resolve('dist'));
+//   }
+//   catch (err) {
+//     console.log('No dist folder to clean out.');
+//   }
 
-  ensureDirSync(path.resolve('dist'));
-}
+//   ensureDirSync(path.resolve('dist'));
+// }
 
 /**
  * This copies all necessary elements from the project into the distribution
  */
-async function copyAndCleanFragments() {
-  // Clean out the compiled test file typings
-  try {
-    removeSync(path.resolve('dist/test'));
-  }
-  catch (err) {
-    console.log('No test folder to clean out');
-  }
+// async function copyAndCleanFragments() {
+//   // Clean out the compiled test file typings
+//   try {
+//     removeSync(path.resolve('dist/test'));
+//   }
+//   catch (err) {
+//     console.log('No test folder to clean out');
+//   }
 
-  // Clean out unit-tests
-  try {
-    removeSync(path.resolve('dist/unit-test'));
-  }
-  catch (err) {
-    console.log('No unit-test folder to clean out');
-  }
-}
+//   // Clean out unit-tests
+//   try {
+//     removeSync(path.resolve('dist/unit-test'));
+//   }
+//   catch (err) {
+//     console.log('No unit-test folder to clean out');
+//   }
+// }
 
 /**
  * Determines the last release type based on the contents placed within the
@@ -220,7 +223,7 @@ async function copyAndCleanFragments() {
  * Update our release notes and determine what our next version is going to be
  * based on commit messages.
  */
- async function updateVersion(alternate) {
+async function updateVersion(alternate) {
   // Get our current version so we can ensure our version changed.
   const currentVersion = await targetProjectVersion();
 
@@ -261,57 +264,7 @@ async function copyAndCleanFragments() {
     }
   }
 
-  // Get the version generated by the runner release notes commit
-  const lastCommitProcess = shell.exec('git log -1 --pretty=%B');
-
-  if (lastCommitProcess.code !== 0 || !lastCommitProcess.stdout) {
-    console.log('Could not read the last commit version information');
-    process.exit(1);
-  }
-
-  const version = (
-    lastCommitProcess.stdout.toString()
-    .trim()
-    .toLowerCase()
-    .split('release ')[1] || ''
-  ).trim();
-
-  if (!version) {
-    console.log(
-      'Could not determine release version from the last commit:\n\n',
-      lastCommitProcess.stdout.toString(),
-      "\n\n"
-    );
-    process.exit(1);
-  }
-
-  // Update the release version json in the source
-  if (existsSync(path.resolve('lib/release.json'))) {
-    try {
-      const contents = readJSONSync(path.resolve('lib/release.json'));
-      contents.version = version;
-      writeJSONSync(path.resolve('lib/release.json'), contents);
-    }
-
-    catch (err) {
-      console.log('Could not update the release.json file with current library version.');
-      process.exit(1);
-    }
-
-    // Add the changes to the release json file
-    if (shell.exec('git add -A').code !== 0) {
-      console.log('Could not ensure the release json was updated for the new version.');
-      process.exit(1);
-    }
-
-    // Amend the release commit
-    if (shell.exec('git commit --amend --no-edit').code !== 0) {
-      console.log('Could not amend the release commit to include the release json file.');
-      process.exit(1);
-    }
-  }
-
-  return version;
+  return newVersion
 }
 
 /**
@@ -370,7 +323,7 @@ async function pushToRemote(version) {
   // Build the monolithic distribution
   // await bundleProject(bundleMode);
   // Copy and delete any fragments in the dist folder that is necessary
-  await copyAndCleanFragments();
+  // await copyAndCleanFragments();
 
   if (!TEST) {
     // Get the new version this release is going to become.

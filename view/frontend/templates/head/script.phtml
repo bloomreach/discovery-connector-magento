@@ -38,7 +38,7 @@ if ($viewModel->isProductListingPage()) {
     <?php endif; ?>
     <script id="bloomreach_connector">
         window.bloomreachConnector = {
-            version: "1.2.5.qa3"
+            version: "<?= $viewModel->getVersion()?>.qa1"
         };
 
         bloomreachConnector.config = <?= json_encode([
