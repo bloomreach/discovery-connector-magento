@@ -40,9 +40,9 @@ function getReleaseType(notes) {
  * Update versions found in additional locations in this project.
  */
 async function updateMagentoVersions(newVersion) {
-  const composerJson = readJSONSync(path.resolve('composer.json'));
+  const composerJson = readJSONSync(resolve('composer.json'));
   composerJson.version = newVersion;
-  writeJSONSync(path.resolve('composer.json'), composerJson, { spaces: 2 });
+  writeJSONSync(resolve('composer.json'), composerJson, { spaces: 2 });
 }
 
 /**
