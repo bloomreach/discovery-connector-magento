@@ -456,8 +456,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             $response = [];
             foreach ($orderItems as $_item) {
                 $response[] = [
-                    "prod_id" => $_item->getProduct()->getId(),
-                    "sku" => $_item->getSku(),
+                    "prod_id" => $_item->getProduct()->getSku(),
+                    "sku" => ($_item->getSku() == $_item->getProduct()->getSku()) ? "" : $_item->getSku(),
                     "name" => $_item->getName(),
                     "quantity" => sprintf('%.2f', $_item->getQtyOrdered()),
                     "price" => sprintf('%.2f', $_item->getPriceInclTax())
