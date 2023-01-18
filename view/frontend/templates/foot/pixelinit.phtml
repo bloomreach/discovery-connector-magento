@@ -1,0 +1,51 @@
+<?php
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+use Bloomreach\Connector\ViewModel\Head\ScriptInit;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $escaper Escaper */
+/** @var $viewModel ScriptInit */
+if (!isset($escaper)) {
+    $escaper = $block;
+}
+$viewModel = $block->getViewModel();
+?>
+<?php if ($viewModel->isPixelEnabled()): ?>
+    <div data-bind="scope: 'brsmPixel'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "brsmPixel": {
+                            "component": "Bloomreach_Connector/js/view/pixel",
+                            "template" : "Bloomreach_Connector/widget/pixel",
+                            "widgetConfig": {"account_id": "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>"},
+                            "productEventSdkUrl": "<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::js/product-events.929cb026.js")) ?>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>
+<?php if (($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage()) || ($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage())): ?>
+   <script type="text/javascript">
+       require(['jquery'],function (jQuery){jQuery("<?= strip_tags($viewModel->getStoreConfigValue($viewModel::COLLECTIONS_CSS_SELECTOR)); ?>").append("<div class=\"custom-loader\" style=\"text-align: center;\"><img alt=\"Loading...\" src=\"<?= $escaper->escapeUrl($block->getViewFileUrl("images/loader-2.gif")); ?>\"> <p>Please wait...</p></div>");});
+   </script>
+<?php endif; ?>

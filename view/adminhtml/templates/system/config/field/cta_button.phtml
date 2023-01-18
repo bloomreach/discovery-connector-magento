@@ -1,0 +1,41 @@
+<?php
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+?>
+<?php
+use Magento\Framework\Escaper;
+
+/* @var $block \Bloomreach\Connector\Block\System\Config\Form\Field\CtaButtonAbstract */
+/** @var Escaper $escaper */
+if (!isset($escaper)) {
+    $escaper = $block;
+}
+?>
+<?php
+if (!empty($block->getBeforeButtonAdditionalText())) {
+    echo '<div class="note" style="margin-top: 0px;">' . $escaper->escapeHtml($block->getBeforeButtonAdditionalText()) . '</div>';
+}
+?>
+<a class="action-default scalable"
+   target="_blank" style="display: block"
+   href="<?= $escaper->escapeUrl($block->getButtonUrl()) ?>"
+   id="<?= $escaper->escapeHtmlAttr($block->getButtonId()) ?>">
+    <span><?= $escaper->escapeHtml($block->getButtonLabel()) ?></span>
+</a>
+<?php
+if (!empty($block->getAfterButtonAdditionalText())) {
+    echo '<div class="note">' . $block->getAfterButtonAdditionalText() . '</div>';
+}
+?>
+
+

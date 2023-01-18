@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<page xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <body>
+        <referenceBlock name="product.info.addtocart">
+            <action method="setTemplate" ifconfig="bloomreach_settings/pixel/enable_atc_template">
+                <argument name="template" xsi:type="string">Bloomreach_Connector::product/view/addtocart.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart.additional">
+            <action method="setTemplate" ifconfig="bloomreach_settings/pixel/enable_atc_template">
+                <argument name="template" xsi:type="string">Bloomreach_Connector::product/view/addtocart.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
