@@ -50,3 +50,6 @@ Thumbs.db
 *.wmv
 
 .magento.zip
+
+# Local environment
+*.local.*

@@ -29,6 +29,8 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 use Magento\Swatches\Helper\Data as SwatchHelper;
 use Magento\Catalog\Model\Layer\Resolver;
+use Magento\Framework\App\Utility\Files;
+use Magento\Framework\Filesystem\Driver;
 
 
 /**
@@ -124,6 +126,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     private $swatchHelper;
 
     private $catalogLayer;
+    private $files;
 
     /**
      * ScriptInit constructor.
@@ -146,7 +149,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         Configurable $configurable,
         Grouped $grouped,
         SwatchHelper $swatchHelper,
-        Resolver $layerResolver
+        Resolver $layerResolver,
+        Files $files
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
@@ -159,7 +163,33 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         $this->grouped = $grouped;
         $this->swatchHelper = $swatchHelper;
         $this->catalogLayer = $layerResolver->get();
+        $this->files = $files;
         $this->initAppSetting();
+    }
+
+    public function getVersion()
+    {
+        try {
+            $pathToNeededModule = realpath(__DIR__."/../../composer.json");
+
+            if ($pathToNeededModule) {
+                $content = file_get_contents($pathToNeededModule);
+
+                if ($content) {
+                    $jsonContent = json_decode($content, true);
+
+                    if (!empty($jsonContent['version'])) {
+                        return $jsonContent['version'];
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        catch (\Exception $e) {
+            return "Unable to determine version";
+        }
     }
 
     public function hasProduct() {
