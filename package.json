@@ -6,6 +6,7 @@
   "scripts": {
     "deploy-qa": "ts-node --transpile-only bin/main deploy-qa",
     "dev": "nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node scripts/sync.js\"",
+    "install-magento": "ts-node --transpile-only bin/main install-magento",
     "pr": "ts-node --transpile-only bin/main url \"https://code.bloomreach.com/engineering/sm/usage-app\"",
     "pr-release": "ts-node --transpile-only bin/main pr-release \"https://code.bloomreach.com/engineering/sm/usage-app\" gitlab",
     "release": "ts-node --transpile-only bin/main release",
