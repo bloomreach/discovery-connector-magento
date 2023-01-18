@@ -36,4 +36,5 @@
             <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>
     </type>
+    <preference for="Bloomreach\Connector\Api\ProductSkusInterface" type="Bloomreach\Connector\Model\Api\ProductSkusImpl"/>
 </config>

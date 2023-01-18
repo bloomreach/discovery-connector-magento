@@ -28,6 +28,7 @@ use Magento\Catalog\Block\Category\View;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 use Magento\Swatches\Helper\Data as SwatchHelper;
+use Magento\Catalog\Model\Layer\Resolver;
 
 
 /**
@@ -122,6 +123,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     private $swatchHelper;
 
+    private $catalogLayer;
+
     /**
      * ScriptInit constructor.
      * @param ScopeConfigInterface $scopeConfig
@@ -142,7 +145,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         View $categoryView,
         Configurable $configurable,
         Grouped $grouped,
-        SwatchHelper $swatchHelper
+        SwatchHelper $swatchHelper,
+        Resolver $layerResolver
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
@@ -154,6 +158,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         $this->configurable = $configurable;
         $this->grouped = $grouped;
         $this->swatchHelper = $swatchHelper;
+        $this->catalogLayer = $layerResolver->get();
         $this->initAppSetting();
     }
 
@@ -395,6 +400,20 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
+     * This will load the current product collection displayed on the user's
+     * screen and generate metrics for each of those products.
+     */
+    public function getProductCollectionMetrics() {
+        $productCollection = $this->catalogLayer->getProductCollection();
+        $productIds = [];
+
+        foreach ($productCollection as $product) {
+            $productIds[] = $product->getId();
+        }
+        return $productIds;
+    }
+
+    /**
      * Get Current page name
      *
      * @return string
@@ -543,6 +562,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentPageTitle($block)
     {
+        if (!$block) return '';
+
         $response = '';
         try {
             $response = $block->getLayout()->getBlock('page.main.title')->getPageTitle();
@@ -560,8 +581,17 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentCmsPage($block)
     {
+        if (!$block) return '';
+
         $response = '';
         try {
+            $cmsBlock = $block->getLayout()->getBlock('page.main.title');
+
+            // Ensure the method exists
+            if (!is_object($cmsBlock) || method_exists(!$cmsBlock, 'getPage')) {
+                return '';
+            }
+
             $response = $block->getLayout()->getBlock('cms_page')->getPage();
         } catch (\Exception $e) {
             $this->logger->error("Error: " . $e->getMessage());

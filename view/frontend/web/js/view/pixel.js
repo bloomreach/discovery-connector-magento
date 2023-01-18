@@ -35,12 +35,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
          * @param {Record<string, string>} attributeValues The { name: value }
          * to search for.
          */
-        function getSimpleProductSkuFromAttributes(attributeValues) {
-            const connectorData = window.bloomreachConnector || {};
-            const config = connectorData.config || {};
-            const events = config.events || {};
-            const attributeMap = events.product_child_attributes_map;
-
+        function getSimpleProductSkuFromAttributes(attributeMap, attributeValues) {
             if (!attributeMap) return;
 
             // Loop the sku keys in the map
@@ -108,14 +103,21 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
              * the pixel script executes.
              */
             initBaseEvents: async function () {
+                let productSkuInfo = {};
+
                 // Finds the data-selector that specifies the super attributes
                 // used
-                const getAttributeId = function (jq) {
+                const getAttributeId = function (dataSelector) {
                     try {
-                        const superAttr = jq.find('[data-selector]').attr('data-selector');
-                        const id = superAttr.split('[').pop().split(']').shift();
+                        const superAttr = dataSelector.getAttribute('data-selector');
+                        const hasIndexAccessor = superAttr.includes('[') && superAttr.includes(']');
 
-                        return id;
+                        if (hasIndexAccessor) {
+                            const id = superAttr.split('[').pop().split(']').shift();
+                            return id;
+                        }
+
+                        return superAttr;
                     }
 
                     catch (e) {
@@ -123,16 +125,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                     }
                 }
 
-                const getAttributeMetricsFromField = function (jq) {
-                    // Try to get the associated input control
-                    let input = jq.find('[data-selector]')[0];
-
-                    // If a normal control is not available, we can just try
-                    // to find an immediate child and hope it has similar properties.
-                    if (!input) {
-                        input = jq.find('.control > *')[0];
-                    }
-
+                const getAttributeMetricsFromField = function (input) {
                     if (!input) return;
 
                     let passValidation = true;
@@ -146,13 +139,13 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
 
                     // Do a validation check based on if the field is required
                     // or not.
-                    if (isRequired && optionSelected) {
+                    if (isRequired && !optionSelected) {
                         passValidation = false;
                     }
 
                     return {
-                        id: getAttributeId(jq),
-                        name: jq[0].dataset.attributeCode || input.getAttribute("id"),
+                        id: getAttributeId(input),
+                        name: input.dataset.attributeCode || input.getAttribute("id"),
                         value: optionSelected,
                         required: isRequired,
                         passValidation
@@ -162,19 +155,37 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                 // This queries for all options the user has for picking from a
                 // configurable product. This uses some varying strategies for a
                 // wider range of support of magento versions.
-                const getAttributesMetrics = function() {
+                const getAttributesMetrics = function(jq) {
                     const out = [];
+                    const addToCartElement = jq[0];
 
-                    // This is the check we can perform for the magento 2 Swatch
-                    // options.
-                    jQuery('.swatch-attribute').each(function() {
-                        out.push(getAttributeMetricsFromField(jQuery(this)));
-                    });
+                    // Find the product top container relative to the button
+                    let addToCartContainer;
 
-                    // This aggregates attributes for systems that have fields
-                    // instead of swatch values
-                    jQuery('.field.configurable').each(function() {
-                        out.push(getAttributeMetricsFromField(jQuery(this)));
+                    const findContainer = function() {
+                        const container = jQuery(this);
+
+                        container.find(ADD_TO_CART_SELECTOR).each(function() {
+                            if (jQuery(this)[0] === addToCartElement) {
+                                addToCartContainer = container;
+                            }
+                        });
+                    }
+
+                    // Search for the container for a product grid context
+                    jQuery('.product-item').each(findContainer);
+                    // Search for the container for a product page context
+                    jQuery('.product-add-form').each(findContainer);
+
+                    if (!addToCartContainer) {
+                        console.warn("Could not determine product container of the Add to Cart button.");
+                        return out;
+                    }
+
+
+                    // Find all data selectors to retrieve the attribute metrics
+                    addToCartContainer.find('[data-selector]').each(function() {
+                        out.push(getAttributeMetricsFromField(jQuery(this)[0]));
                     });
 
                     return out.filter(m => m !== void 0 && m !== null);
@@ -182,63 +193,110 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
 
                 // Looks through the swatches/fields to determine if the add to
                 // cart will execute or not.
-                const checkValidation = function() {
-                    const attributes = getAttributesMetrics();
-                    console.log("VALIDATION", attributes);
+                const checkValidation = function(jq) {
+                    const attributes = getAttributesMetrics(jq);
                     // Not valid if an attribute does not pass validation
                     return !attributes.find(attr => !attr.passValidation);
+                }
+
+                // Finds the product id for the identified add to cart button.
+                // There can be many add to cart buttons on a page due to
+                // "product collections"
+                const getProductSkuForCart = function(jq) {
+                    const form = jq.closest('form');
+                    const productId = form.attr('data-product-sku');
+
+                    return productId;
+                }
+
+                const getProductIdForCart = function(jq) {
+                    const input = jq.closest('form').find('input[name="product"]');
+                    const productId = input[0].value;
+
+                    return productId;
                 }
 
                 // Handles when the user clicks the add to cart element. Checks
                 // if the validations pass (ie - all required options/swatches
                 // are selected)
                 const handleClickAddToCart = function (event) {
-                    let allowEvent = checkValidation();
+                    // Ensure the global pixel data config object is instantiated
+                    const br_data = window.br_data || {};
+                    // Get the clicked button as a jq object
+                    const addToCartJq = jQuery(event.currentTarget);
+                    // Validate the input for the given add to cart button
+                    let allowEvent = checkValidation(addToCartJq);
+                    // Adjust the event to be disabled if the validation
+                    // fails.
+                    addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_DISABLE, `${!allowEvent}`);
 
-                    jQuery(ADD_TO_CART_SELECTOR).each(function () {
-                        const br_data = window.br_data || {};
-                        // Adjust the event to be disabled if the validation
-                        // fails.
-                        jQuery(this).attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_DISABLE, `${!allowEvent}`);
+                    // We only update the SKU as this is the only item that
+                    // will change in the event of a configurable product vs
+                    // simple product. If we are on a simple product page,
+                    // there will be no child product attribute mapping
+                    // which will blank this field out which is appropriate
+                    // for simple product pages. This should only be
+                    // populated in the event of a configurable product.
+                    const productId = getProductIdForCart(addToCartJq);
+                    const productInfo = productSkuInfo.data[productId];
 
-                        // Adjust the product sku and the product id
-                        // NOTE: The following is a means for using the wrapping
-                        // form to determine the product...This is not exactly a
-                        // reliable solution and would need improving upon. The
-                        // following also is a means to apply the product per
-                        // add to cart available if multiple buttons are
-                        // present.
-                        // const form = jQuery(this).closest('form');
-                        // jQuery(this).attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_SKU, form.attr('data-product-sku'));
-                        // jQuery(this).attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_PROD_ID, form.attr('data-product-sku'));
-                        // let itemName = jQuery(this).closest("li.product-item").find(".product-item-name").text();
-                        // jQuery(this).attr('data-blm-add-to-cart-prod-name',
-                        // itemName.trim());
+                    if (!productInfo) {
+                        console.warn("Bloomreach Connector: Unable to determine product information for pixel event");
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_DISABLE, 'true');
+                    }
 
-                        // NOTE: For now we only support a single product
-                        // selection with a single add to cart button. So we
-                        // just apply the properties to the brtk configuration
-                        // object for now.
+                    // If the childAttributeMap is present, then this is a
+                    // configurable product.
+                    if (productInfo.childAttributeMap && allowEvent) {
+                        br_data.sku = getSimpleProductSkuFromAttributes(productInfo.childAttributeMap, getAttributesMetrics(addToCartJq));
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_SKU, br_data.sku);
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_PROD_ID, productInfo.sku);
+                    }
 
-                        // We only update the SKU as this is the only item that
-                        // will change in the event of a configurable product vs
-                        // simple product. If we are on a simple product page,
-                        // there will be no child product attribute mapping
-                        // which will blank this field out which is appropriate
-                        // for simple product pages. This should only be
-                        // populated in the event of a configurable product.
-                        br_data.sku = getSimpleProductSkuFromAttributes(getAttributesMetrics());
-                        jQuery(this).attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_SKU, br_data.sku);
-                    });
+                    // Otherwise, this is a simple product
+                    else if (allowEvent) {
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_SKU, "");
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_PROD_ID, productInfo.sku);
+                    }
+
+                    else {
+                        addToCartJq.attr(sdkConstants.ADD_TO_CART_ATTRIBUTE_DISABLE, `true`);
+                    }
                 };
+
+                const needsProductSkuInfo = [];
 
                 // We add an event to every add to cart button. This enables us
                 // to do a quick check to see if the button being clicked will
                 // pass validation. If it does not pass validation, then we will
                 // disable the add to cart event that pixel would normally fire.
                 jQuery(ADD_TO_CART_SELECTOR).each(function() {
-                    jQuery(this).on('click', handleClickAddToCart);
+                    const productId = getProductIdForCart(jQuery(this));
+
+                    if (productId) {
+                        needsProductSkuInfo.push(productId);
+                        jQuery(this).on('click', handleClickAddToCart);
+                    }
                 });
+
+                if (needsProductSkuInfo.length > 0) {
+                    fetch("rest/V1/bloomreach/product/skus", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "productIds": needsProductSkuInfo
+                        })
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
+                        productSkuInfo = JSON.parse(data);
+                    }).catch((error) => {
+                        console.error(error);
+                    });
+                }
             },
 
             /**
