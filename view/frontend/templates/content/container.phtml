@@ -19,7 +19,11 @@ use Magento\Framework\View\Element\Template;
 
 $viewModel = $block->getViewModel();
 ?>
-<?php if (($viewModel->isSearchEnabled() && $viewModel->isSearchResultPage()) || ($viewModel->isCollectionEnabled() && $viewModel->isProductListingPage())): ?>
+<?php if (($viewModel->isSearchEnabled()
+    && $viewModel->isSearchResultPage())
+    || ($viewModel->isCollectionEnabled()
+    && $viewModel->isProductListingPage())
+    ): ?>
     <div class="brsm-dynamic-datacontainer"></div>
     <style>
         #maincontent > .columns > .column.main{display: none;}

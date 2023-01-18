@@ -26,12 +26,6 @@
         <field id="auth_key" translate="label" type="password" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Auth Key</label>
         </field>
-        <!--field id="tracking_cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Tracking Cookie</label>
-        </field-->
-        <!--field id="autosuggest_endpoint" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Autosuggest Endpoint</label>
-        </field-->
     </group>
     <group id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
         <label>Api Endpoint Urls</label>
@@ -52,7 +46,10 @@
             <label>Widgets Endpoint</label>
             <source_model>Bloomreach\Connector\Model\Config\Source\EndPoint</source_model>
         </field>
-        <field id="endpoint_cta" translate="label" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
+        <field id="catalog_views" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Catalog Views</label>
+        </field>
+        <field id="endpoint_cta" translate="label" type="button" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="0">
             <label></label>
             <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\EndPointCta</frontend_model>
         </field>
@@ -65,6 +62,7 @@
             <comment>This setting injects the Bloomreach Javascript pixel into your front end to track how users interact with products across your site.</comment>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
+
         <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
             <label></label>
             <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>

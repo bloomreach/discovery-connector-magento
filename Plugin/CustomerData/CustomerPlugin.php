@@ -47,7 +47,9 @@ class CustomerPlugin
     public function afterGetSectionData(Customer $subject, $result)
     {
         if ($this->currentCustomer->getCustomerId()) {
-            $result['uniqueId'] = hash('sha256', $this->currentCustomer->getCustomerId() . ':' . $this->currentCustomer->getCustomer()->getEmail());
+            $result['uniqueId'] =
+            hash('sha256', $this->currentCustomer->getCustomerId() . ':' .
+            $this->currentCustomer->getCustomer()->getEmail());
         }
         return $result;
     }

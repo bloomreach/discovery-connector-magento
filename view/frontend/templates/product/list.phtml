@@ -73,7 +73,9 @@ $_helper = $block->getData('outputHelper');
                             <strong class="product name product-item-name">
                                 <a class="product-item-link"
                                    href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>">
-                                    <?=/* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name')?>
+                                    <?=
+                                    /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name')
+                                    ?>
                                 </a>
                             </strong>
                             <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
@@ -96,15 +98,20 @@ $_helper = $block->getData('outputHelper');
                                                 <input type="hidden"
                                                        name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>"
                                                        value="<?=
-                                                       /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
+                                                       /* @noEscape */
+                                                        $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
                                                         ?>">
                                                 <?= $block->getBlockHtml('formkey') ?>
                                                 <button type="submit"
                                                         data-blm-add-to-cart
-                                                        data-blm-add-to-cart-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
-                                                        data-blm-add-to-cart-prod-id="<?=  /* @noEscape */ $_product->getSku() ?>"
-                                                        data-blm-add-to-cart-prod-name="<?= $block->escapeHtml($_product->getName()) ?>"
-                                                        title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                        data-blm-add-to-cart-sku="
+                                                        <?= $block->escapeHtml($_product->getSku()) ?>"
+                                                        data-blm-add-to-cart-prod-id="
+                                                        <?=  /* @noEscape */ $_product->getSku() ?>"
+                                                        data-blm-add-to-cart-prod-name="
+                                                        <?= $block->escapeHtml($_product->getName()) ?>"
+                                                        title="
+                                                        <?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
                                                         class="action tocart primary"
                                                         disabled>
                                                     <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
