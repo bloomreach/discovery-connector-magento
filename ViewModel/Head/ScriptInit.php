@@ -25,6 +25,10 @@ use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Catalog\Helper\Data;
 use Magento\Catalog\Block\Category\View;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Swatches\Helper\Data as SwatchHelper;
+
 
 /**
 
@@ -92,16 +96,31 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * @var LoggerInterface
      */
     private $logger;
-    
+
     /**
      * @var Data
      */
     private $catalogHelper;
-    
+
     /**
      * @var View
      */
     private $categoryView;
+
+    /**
+     * @var Configurable
+     */
+    private $configurable;
+
+    /**
+     * @var Grouped
+     */
+    private $grouped;
+
+    /**
+     * @var SwatchHelper
+     */
+    private $swatchHelper;
 
     /**
      * ScriptInit constructor.
@@ -120,7 +139,10 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         Json $jsonSerializer,
         LoggerInterface $logger,
         Data $catalogHelper,
-        View $categoryView
+        View $categoryView,
+        Configurable $configurable,
+        Grouped $grouped,
+        SwatchHelper $swatchHelper,
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
@@ -129,7 +151,247 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         $this->logger = $logger;
         $this->catalogHelper = $catalogHelper;
         $this->categoryView = $categoryView;
+        $this->configurable = $configurable;
+        $this->grouped = $grouped;
+        $this->swatchHelper = $swatchHelper;
         $this->initAppSetting();
+    }
+
+    public function hasProduct() {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this is a parent product by seeing if this product has any children.
+     */
+    public function isParentProduct() {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            $childIds = $this->configurable->getChildrenIds($product->getId());
+            if (empty($childIds)) {
+                $childIds = $this->grouped->getChildrenIds($product->getId());
+            }
+            if (empty($childIds)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this is a child product by seeing if this product has any
+     * parents.
+     */
+    public function isChildProduct() {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            $parentIds = $this->configurable->getParentIdsByChild($product->getId());
+            if (empty($parentIds)) {
+                $parentIds = $this->grouped->getParentIdsByChild($product->getId());
+            }
+            if (empty($parentIds)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the current magento product child product ids mapped to their sku
+     * numbers.
+     */
+    public function getChildProductIdSkuMap()
+    {
+        // if ($this->isChildProduct()) return "Not a parent product";
+
+        $product = $this->catalogHelper->getProduct();
+        if (!$product) return "";
+
+        $childProducts = $this->configurable->getUsedProducts($product);
+
+        if (empty($childProducts)) {
+            $childProducts = $this->grouped->getAssociatedProducts($product);
+        }
+
+        $childProductIds = [];
+        foreach ($childProducts as $childProduct) {
+            $childProductIds[$childProduct->getId()] = $childProduct->getSku();
+        }
+
+        return $this->jsonSerializer->serialize($childProductIds);
+    }
+
+    /**
+     * Get the current magento child product sku to it's name.
+     */
+    public function getChildProductNameMap()
+    {
+        // if ($this->isChildProduct()) return "Not a parent product";
+
+        $product = $this->catalogHelper->getProduct();
+        if (!$product) return "";
+
+        $childProducts = $this->configurable->getUsedProducts($product);
+
+        if (empty($childProducts)) {
+            $childProducts = $this->grouped->getAssociatedProducts($product);
+        }
+
+        $childProductIds = [];
+        foreach ($childProducts as $childProduct) {
+            $childProductIds[$childProduct->getSku()] = $childProduct->getName();
+        }
+
+        return $this->jsonSerializer->serialize($childProductIds);
+    }
+
+    /**
+     * This provides a map of product attribute ids to the attribute's name.
+     */
+    public function getProductAttributeIdToName()
+    {
+        $product = $this->catalogHelper->getProduct();
+        if (!$product) return "";
+
+        $attributes = $product->getAttributes();
+
+        $attrIds = [];
+        foreach ($attributes as $attr) {
+            $attrIds[$attr->getAttributeId()] = $attr->getName();
+        }
+
+        return $this->jsonSerializer->serialize($attrIds);
+    }
+
+    /**
+     * This generates a map of child product SKU numbers to the available swatch
+     * attribute values for that product. Making this mapping available will
+     * allow the client to analyze
+     */
+    public function getChildProductAttributesMap()
+    {
+        try {
+            $product = $this->catalogHelper->getProduct();
+            if (!$product) return "";
+
+            $childProducts = $this->configurable->getUsedProducts($product);
+
+            if (empty($childProducts)) {
+                $childProducts = $this->grouped->getAssociatedProducts($product);
+            }
+
+            if (empty($childProducts)) return "";
+
+            $childProductAttributes = [];
+
+            foreach ($childProducts as $childProduct) {
+                if ($childProduct == null) continue;
+
+                $attrIds = [];
+                $attributes = $childProduct->getAttributes();
+
+                // Retrieve the value of the attribute for the simple product
+                foreach ($attributes as $attr) {
+                    $values = (array)$childProduct->getData($attr->getName());
+
+                    if (!empty($values) && ($this->swatchHelper->isSwatchAttribute($attr) || $attr->getIsVisibleOnFront())) {
+                        // Look up via name or via attribute id
+                        $attrIds[$attr->getName()] = $values;
+                        $attrIds[$attr->getId()] = $values;
+                    }
+                }
+
+                $childProductAttributes[$childProduct->getSku()] = $attrIds;
+            }
+
+            return $this->jsonSerializer->serialize($childProductAttributes);
+        } catch (\Exception $e) {
+            return "";
+        }
+    }
+
+    /**
+     * Get the current magento product sku number
+     */
+    public function getProductSku()
+    {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            return $product->getSku();
+        }
+        return '';
+    }
+
+    /**
+     * Get the current magento parent product sku number or list of numbers if
+     * it is located under multiple products.
+     */
+    public function getParentProductSku()
+    {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            $parentIds = $this->configurable->getParentIdsByChild($product->getId());
+
+            if (empty($parentIds)) {
+                $parentIds = $this->grouped->getParentIdsByChild($product->getId());
+            }
+
+            if (!empty($parentIds)) {
+                $parentProducts = $this->catalogHelper->getProduct($parentIds[0]);
+                return $parentProducts->getSku();
+            }
+        }
+        return '';
+    }
+
+    /**
+     * The pixel prod ID should always be the base product id which will be the
+     * parent product sku if it exists. If the parent sku does not exist, we use
+     * the simple product sku of the current product.
+     */
+    public function getPixelProdId()
+    {
+        $product = $this->catalogHelper->getProduct();
+        if ($product) {
+            $parentIds = $this->configurable->getParentIdsByChild($product->getId());
+
+            // TODO: This is an attempted fail safe for group products. Picking
+            //  the first id of the the group product may not be correct for the
+            //  business use case.
+            if (empty($parentIds)) {
+                $parentIds = $this->grouped->getParentIdsByChild($product->getId());
+            }
+
+            // If we have parents, get the first available parent product for
+            // it's sku number.
+            if (!empty($parentIds)) {
+                $parentProducts = $this->catalogHelper->getProduct($parentIds[0]);
+                return $parentProducts->getSku();
+            }
+
+            // Otherwise, use the sku of the product
+            else {
+                return $product->getSku();
+            }
+        }
+        return '';
+    }
+
+    /**
+     * The pixel sku should be the product sku if the product is a simple
+     * product (is the child of a parent). If this product is a parent, then sku
+     * should be empty.
+     */
+    public function getPixelSku()
+    {
+        if ($this->isChildProduct()) {
+            return $this->getProductSku();
+        }
+        return '';
     }
 
     /**

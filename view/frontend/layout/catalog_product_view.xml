@@ -25,5 +25,8 @@
                 <argument name="template" xsi:type="string">Bloomreach_Connector::product/view/addtocart.phtml</argument>
             </action>
         </referenceBlock>
+        <referenceContainer name="Content">
+            <block class="Magento\Framework\View\Element\Template" template="Bloomreach_Connector::base-events.phtml" />
+        </referenceContainer>
     </body>
 </page>

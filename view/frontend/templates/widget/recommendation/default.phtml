@@ -16,7 +16,7 @@
 $randonId = $block->getRandomString();
 ?>
 <?php if ($block->isWidgetVisible()): ?>
-    <div class="widget recommendation pathways-recommendation-widget"          
+    <div class="widget recommendation pathways-recommendation-widget"
     data-bind="scope: 'brsmRecommendationWidget<?= /* @noEscape */ $randonId ?>'">
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
