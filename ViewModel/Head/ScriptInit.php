@@ -142,7 +142,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         View $categoryView,
         Configurable $configurable,
         Grouped $grouped,
-        SwatchHelper $swatchHelper,
+        SwatchHelper $swatchHelper
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;

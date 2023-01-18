@@ -37,7 +37,9 @@ if ($viewModel->isProductListingPage()) {
         </style>
     <?php endif; ?>
     <script id="bloomreach_connector">
-        window.bloomreachConnector = {};
+        window.bloomreachConnector = {
+            version: "1.2.5"
+        };
 
         try {
             bloomreachConnector.config = <?= json_encode([

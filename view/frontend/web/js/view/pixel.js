@@ -146,7 +146,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
 
                     // Do a validation check based on if the field is required
                     // or not.
-                    if (isRequired && optionSelected === void 0) {
+                    if (isRequired && optionSelected) {
                         passValidation = false;
                     }
 
@@ -183,8 +183,9 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                 // Looks through the swatches/fields to determine if the add to
                 // cart will execute or not.
                 const checkValidation = function() {
+                    const attributes = getAttributesMetrics();
                     // Not valid if an attribute does not pass validation
-                    return !getAttributesMetrics().find(attr => !attr.passValidation);
+                    return !attributes.find(attr => !attr.passValidation);
                 }
 
                 // Handles when the user clicks the add to cart element. Checks
