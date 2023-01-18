@@ -4,7 +4,6 @@
   "description": "NPM tools to aid in developing this connector application",
   "main": "index.js",
   "scripts": {
-    "clean": "",
     "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/var/www/html/vendor/bloomreach/bloomreach-connector-magento\"",
     "dev": "nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node scripts/sync.js\"",
     "install-magento": "ts-node --transpile-only bin/main install-magento",
