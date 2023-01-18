@@ -1,3 +1,9 @@
+## 1.3.3
+
+## Fixed
+
+- [`FIXED`]: Additional release script fixes
+
 ## 1.3.0
 
 ## Added
