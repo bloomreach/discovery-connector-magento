@@ -4,12 +4,25 @@
   "description": "NPM tools to aid in developing this connector application",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node scripts/sync.js\""
+    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa",
+    "dev": "nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node scripts/sync.js\"",
+    "pr": "ts-node --transpile-only bin/main url \"https://code.bloomreach.com/engineering/sm/usage-app\"",
+    "pr-release": "ts-node --transpile-only bin/main pr-release \"https://code.bloomreach.com/engineering/sm/usage-app\" gitlab",
+    "release": "ts-node --transpile-only bin/main release",
+    "ts": "ts-node --transpile-only bin/main ts",
+    "view-release": "node bin/main release-notes"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "change-case": "4.1.2",
+    "colors": "1.4.0",
+    "commander": "10.0.0",
+    "fs-extra": "11.1.0",
     "nodemon": "2.0.20",
-    "rsync": "0.6.1"
+    "rimraf": "4.1.1",
+    "rsync": "0.6.1",
+    "shelljs": "0.8.5",
+    "ts-node": "10.9.1"
   }
 }

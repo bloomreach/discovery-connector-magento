@@ -1,0 +1,46 @@
+import classnames from 'classnames';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { debugProps } from '../../primitive';
+import './${name-kebab}.scss';
+
+/** Rendering modes of this component */
+export const ${name}Mode = {
+
+} as const;
+
+export type ${name}ModeType = typeof ${name}Mode[keyof typeof ${name}Mode];
+
+/**
+ * ${name} props
+ */
+export interface I${name} {
+  /** Provides a custom class name to the container of this component */
+  className?: string;
+  /** Props to apply directly to the container div of this component */
+  containerProps?: React.HTMLProps<HTMLDivElement>;
+  /** Rendering mode of this component */
+  mode?: ${name}ModeType;
+}
+
+interface IState {}
+
+/**
+ *
+ */
+@observer
+export class ${name} extends React.Component<I${name}, IState> {
+  state: IState = {};
+
+  render() {
+    const { className, containerProps, mode } = this.props;
+
+    return (
+      <div className={classnames("${name}", mode, className)} {...containerProps}>
+      </div>
+    );
+  }
+}
+
+/** Debug mode of the related component. */
+export const ${name}Debug = debugProps(${name});

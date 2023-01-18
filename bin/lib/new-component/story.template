@@ -1,0 +1,25 @@
+import React from "react";
+import { ${name}, ${name}Mode } from "../../../components";
+import { ${name}Props } from '../../data/${directory}/${name-kebab}-props';
+import { enumOptions } from "../../util/enum-options";
+
+export default {
+  title: "Components/${directory}/${name}",
+  component: ${name},
+  args: {},
+  argTypes: {
+    mode: { type: "selection", options: enumOptions("${name}Mode", ${name}Mode) },
+    children: { table: { disable: true } },
+    className: { table: { disable: true } },
+    containerProps: { table: { disable: true } },
+  },
+};
+
+const Template = (children?: any) => (args: any) => (
+  <${name} {...args}>
+    {children}
+  </${name}>
+);
+
+export const Basic = Template().bind({});
+Basic.args = ${name}Props();

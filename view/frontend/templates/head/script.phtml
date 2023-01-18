@@ -196,7 +196,6 @@ if ($viewModel->isProductListingPage()) {
             br_data.basket = {
                 "items": <?= /* @noEscape */ $viewModel->getOrderLineItemJson($lastOrder) ?>
             };
-            console.log(br_data.basket);
             <?php endif; ?>
             <?php endif; ?>
         </script>
@@ -227,8 +226,7 @@ if ($viewModel->isProductListingPage()) {
               rel="stylesheet">
     <?php endif; ?>
 
-    <?php if ($viewModel->hasProduct()): $requireSdk[] = 'productsEventsSdk'; ?>
-    <?php endif; ?>
+    <?php $requireSdk[] = 'productsEventsSdk'; ?>
 
     <link href="
     <?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/recommendations.css"));

@@ -1,0 +1,8 @@
+import { makeObservable } from "mobx";
+import { I${name} } from "../../../components";
+
+class Store implements I${name} {
+  constructor() { makeObservable(this); }
+}
+
+export const ${name}Props = () => new Store();
