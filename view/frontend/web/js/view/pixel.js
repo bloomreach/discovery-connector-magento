@@ -13,6 +13,8 @@
 define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEventsSdk'],
     function (jQuery, Component, customerData) {
         'use strict';
+        window.pixelReady = window.pixelReady || new Promise(r => (window.pixelResolve = r));
+
         return Component.extend({
             initialize: function (config) {
                 this._super();
@@ -23,6 +25,9 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
             initPixelScript: function () {
                 br_data.user_id = this.customer().uniqueId ? this.customer().uniqueId : "";
                 let brtrk = document.createElement("script");
+                brtrk.addEventListener('load', function() {
+                    window.pixelResolve();
+                });
                 brtrk.type = "text/javascript";
                 brtrk.async = true;
                 brtrk.src = "//cdn.brcdn.com/v1/br-trk-"+this.widgetConfig.account_id+".js";

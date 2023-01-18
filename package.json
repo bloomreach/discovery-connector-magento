@@ -1,0 +1,15 @@
+{
+  "name": "magento-connector",
+  "version": "1.0.0",
+  "description": "NPM tools to aid in developing this connector application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node scripts/sync.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "2.0.20",
+    "rsync": "0.6.1"
+  }
+}
