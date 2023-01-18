@@ -382,7 +382,7 @@ async function pushToRemote(version) {
   // Build the monolithic distribution
   // await bundleProject(bundleMode);
   // Copy and delete any fragments in the dist folder that is necessary
-  await copyAndCleanFragments();
+  // await copyAndCleanFragments();
 
   if (!TEST) {
     // Get the new version this release is going to become.
