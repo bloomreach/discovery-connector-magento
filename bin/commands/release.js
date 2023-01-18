@@ -1,11 +1,11 @@
-const { removeSync, ensureDirSync, existsSync, writeJSONSync, readJSONSync } = require('fs-extra');
+const { /** removeSync, ensureDirSync, */ existsSync, writeJSONSync, readJSONSync } = require('fs-extra');
 const path = require('path');
 const shell = require('shelljs');
 
-const releaseLibrary = require('../lib/library/release-library');
+// const releaseLibrary = require('../lib/library/release-library');
 const targetProjectRepo = require('../lib/target-project/target-project-repo');
 const targetProjectVersion = require('../lib/target-project/target-project-version');
-const wait = require('../lib/util/wait');
+// const wait = require('../lib/util/wait');
 const colors = require('colors');
 
 /** This is the required remote name that must be present for the release script to work */
@@ -101,97 +101,97 @@ async function validateRepository() {
  * We always need the declaration files to be generated, and sometimes, we let typescript do all of the transpiling
  * instead of webpack.
  */
-async function runTypescript(bundleMode) {
-  let emitDeclaration = '';
+// async function runTypescript(bundleMode) {
+//   let emitDeclaration = '';
 
-  // See if the bundle mode requires transpilation or only declaration
-  switch (bundleMode) {
-    case 'bundle': {
-      emitDeclaration = "--emitDeclarationOnly";
-      break;
-    }
+//   // See if the bundle mode requires transpilation or only declaration
+//   switch (bundleMode) {
+//     case 'bundle': {
+//       emitDeclaration = "--emitDeclarationOnly";
+//       break;
+//     }
 
-    case 'no-bundle':
-    default:
-      break;
-  }
+//     case 'no-bundle':
+//     default:
+//       break;
+//   }
 
-  if (!existsSync(path.resolve('lib'))) {
-    console.warn('Skipping ts declaration file generation as no library source code is present');
-    return;
-  }
+//   if (!existsSync(path.resolve('lib'))) {
+//     console.warn('Skipping ts declaration file generation as no library source code is present');
+//     return;
+//   }
 
-  // Build declaration files for the library only
-  const tsConfig = readJSONSync(path.resolve('tsconfig.json'));
-  tsConfig.include = ["lib", "dts"];
-  tsConfig.exclude = tsConfig.exclude || [];
-  tsConfig.exclude.push("lib/stories");
-  writeJSONSync(path.resolve('tsconfig.temp.json'), tsConfig);
-  await wait(500);
+//   // Build declaration files for the library only
+//   const tsConfig = readJSONSync(path.resolve('tsconfig.json'));
+//   tsConfig.include = ["lib", "dts"];
+//   tsConfig.exclude = tsConfig.exclude || [];
+//   tsConfig.exclude.push("lib/stories");
+//   writeJSONSync(path.resolve('tsconfig.temp.json'), tsConfig);
+//   await wait(500);
 
-  if (
-    shell.exec(
-      `tsc -d ${emitDeclaration} --outDir ${path.resolve('dist/lib')} --project ${path.resolve('tsconfig.temp.json')}`
-    ).code !== 0
-  ) {
-    console.log('Failed to compile type declarations');
-    removeSync(path.resolve('tsconfig.temp.json'));
-    process.exit(1);
-  }
+//   if (
+//     shell.exec(
+//       `tsc -d ${emitDeclaration} --outDir ${path.resolve('dist/lib')} --project ${path.resolve('tsconfig.temp.json')}`
+//     ).code !== 0
+//   ) {
+//     console.log('Failed to compile type declarations');
+//     removeSync(path.resolve('tsconfig.temp.json'));
+//     process.exit(1);
+//   }
 
-  removeSync(path.resolve('tsconfig.temp.json'));
-}
+//   removeSync(path.resolve('tsconfig.temp.json'));
+// }
 
 /**
  * This performs all bundling procedures and set up needed to bundle the project.
  */
-async function bundleProject(bundleMode) {
-  // Check to see if we should be bundling or not
-  switch (bundleMode) {
-    case 'no-bundle': return;
+// async function bundleProject(bundleMode) {
+//   // Check to see if we should be bundling or not
+//   switch (bundleMode) {
+//     case 'no-bundle': return;
 
-    case 'bundle':
-    default:
-      break;
-  }
+//     case 'bundle':
+//     default:
+//       break;
+//   }
 
-  await releaseLibrary();
-}
+//   await releaseLibrary();
+// }
 
 /**
  * This clears out the distribution folder so no lingering irrelevant fragments exists.
  */
-async function clearPreviousDistribution() {
-  try {
-    removeSync(path.resolve('dist'));
-  }
-  catch (err) {
-    console.log('No dist folder to clean out.');
-  }
+// async function clearPreviousDistribution() {
+//   try {
+//     removeSync(path.resolve('dist'));
+//   }
+//   catch (err) {
+//     console.log('No dist folder to clean out.');
+//   }
 
-  ensureDirSync(path.resolve('dist'));
-}
+//   ensureDirSync(path.resolve('dist'));
+// }
 
 /**
  * This copies all necessary elements from the project into the distribution
  */
-async function copyAndCleanFragments() {
-  // Clean out the compiled test file typings
-  try {
-    removeSync(path.resolve('dist/test'));
-  }
-  catch (err) {
-    console.log('No test folder to clean out');
-  }
+// async function copyAndCleanFragments() {
+//   // Clean out the compiled test file typings
+//   try {
+//     removeSync(path.resolve('dist/test'));
+//   }
+//   catch (err) {
+//     console.log('No test folder to clean out');
+//   }
 
-  // Clean out unit-tests
-  try {
-    removeSync(path.resolve('dist/unit-test'));
-  }
-  catch (err) {
-    console.log('No unit-test folder to clean out');
-  }
-}
+//   // Clean out unit-tests
+//   try {
+//     removeSync(path.resolve('dist/unit-test'));
+//   }
+//   catch (err) {
+//     console.log('No unit-test folder to clean out');
+//   }
+// }
 
 /**
  * Determines the last release type based on the contents placed within the
