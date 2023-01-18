@@ -136,7 +136,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   console.warn("\n\nWaiting for browser windows to be closed...\n\n");
   await Promise.all([
     makePR("release", "dev"),
-    makePR("release", "master"),
+    makePR("release", "main"),
   ]);
 
   // Close after all pages closed
