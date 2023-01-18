@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bloomreach Connector extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Bloomreach Proprietary License
+ * that is bundled with this package in the file LICENSE.txt.
+ *
+ * @category       Bloomreach
+ * @package        Connector
+ * @copyright      Copyright (c) 2021-current Bloomreach Inc.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="brcdn-base" type="host">cdn.brcdn.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="brcdn-img" type="host">*.brsrvr.com</value>
+                <value id="bloomreach-cloud" type="host">*.bloomreach.cloud</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="dxpapi-conn" type="host">*.dxpapi.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
