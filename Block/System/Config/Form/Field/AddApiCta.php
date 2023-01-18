@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class AddApiCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class AddApiCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()
@@ -42,6 +43,7 @@ class AddApiCta extends CtaButtonAbstract
 
     /**
      * Get additional text after button
+     *
      * @return string
      */
     public function getAfterButtonAdditionalText()
@@ -49,8 +51,14 @@ class AddApiCta extends CtaButtonAbstract
         return '<a href="#"><span>' . __('Learn More') . '</span></a>';
     }
 
+    /**
+     * Get additional text before button
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
-        return __("We are excited for you to get started with industry leading Search, Merchandising, & Recommendations! To begin, go to the Settings tab and enter your API credentials.");
+        return __("We are excited for you to get started with industry leading Search, Merchandising, 
+            & Recommendations! To begin, go to the Settings tab and enter your API credentials.");
     }
 }

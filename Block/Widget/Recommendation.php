@@ -21,10 +21,12 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Widget\Block\BlockInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Recommendation
- * @package Bloomreach\Connector\Block\Widget
+ * package Bloomreach\Connector\Block\Widget
  */
 class Recommendation extends Template implements BlockInterface
 {
@@ -44,11 +46,23 @@ class Recommendation extends Template implements BlockInterface
     private $randomGenerator;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Recommendation constructor.
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
      * @param Json $jsonSerializer
      * @param Random $randomGenerator
+     * @param ProductRepositoryInterface $productRepository
+     * @param LoggerInterface $logger
      * @param array $data
      */
     public function __construct(
@@ -56,39 +70,59 @@ class Recommendation extends Template implements BlockInterface
         ScopeConfigInterface $scopeConfig,
         Json $jsonSerializer,
         Random $randomGenerator,
+        ProductRepositoryInterface $productRepository,
+        LoggerInterface $logger,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->scopeConfig = $scopeConfig;
         $this->jsonSerializer = $jsonSerializer;
         $this->randomGenerator = $randomGenerator;
+        $this->productRepository = $productRepository;
+        $this->logger = $logger;
     }
 
     /**
-     * Check if widget can be render, based on pixel and widget is enabled
-     * from store config
+     * Check if widget can be render, based on pixel and widget is enabled from store config
+     *
      * @return bool
      */
     public function isWidgetVisible(): bool
     {
-        //$isPixelEnabled = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::RECOMM_PIXEL_ENABLED);
         $isWidgetEnabled = (int) $this->getStoreConfigValue(ConfigurationSettingsInterface::RECOMM_WIDGET_ENABLED);
         return 1===$isWidgetEnabled;
     }
 
     /**
      * Get json configuration to initialize widget
+     *
      * @return bool|string
      */
     public function getWidgetJsonConfig()
     {
+        if ($this->getData('item_ids')) {
+            $itemIds = explode(",", $this->getData('item_ids'));
+            $itemSkus = [];
+            foreach ($itemIds as $key => $value) {
+                try {
+                    $sku = $this->productRepository->getById($value)->getSku();
+                    array_push($itemSkus, $sku);
+                } catch (\Exception $e) {
+                    $this->logger->error("Error in loading item.".$e->getMessage());
+                    continue;
+                }
+            }
+            $itemSkus = implode(",", $itemSkus);
+        } else {
+            $itemSkus = null;
+        }
         $response = [
             'title'=>$this->getData('title'),
             'widget_id' => $this->getData('rec_widget_id'),
             'widget_type' => $this->getData('rec_widget_type'),
             'category_id' => $this->getData('category_id'),
             'query'=> $this->getData('keyword_query'),
-            'item_ids'=> $this->getData('item_ids'),
+            'item_ids'=> $itemSkus,
             'products_visible'=> $this->getData('products_visible'),
             'products_to_fetch'=> $this->getData('products_to_fetch')
         ];
@@ -96,7 +130,10 @@ class Recommendation extends Template implements BlockInterface
     }
 
     /**
-     *returning store config value
+     * Returning store config value
+     *
+     * @param string $path
+     * @return string
      **/
     public function getStoreConfigValue($path)
     {
@@ -106,6 +143,7 @@ class Recommendation extends Template implements BlockInterface
 
     /**
      * Get Random String upto 5 chars
+     *
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */

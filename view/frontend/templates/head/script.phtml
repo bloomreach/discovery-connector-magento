@@ -35,8 +35,7 @@ if ($viewModel->isProductListingPage()) {
         bloomreachConnector.config = <?= json_encode([
             "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
             "domain_key"=>  $escaper->escapeHtml($viewModel->getDomainKey()),
-            "auth_key"=>  $escaper->escapeHtml($viewModel->getAuthKey()),
-            //"tracking_cookie"=>  $escaper->escapeHtml($viewModel->getTrackingCookie()),
+            "auth_key"=>  "",
             "default_search_parameter"=> "q",
             "search_page_url"=>  $escaper->escapeUrl($block->getUrl('catalogsearch/result/', ['_secure'=>true])),
             "search"=> [
@@ -94,8 +93,11 @@ if ($viewModel->isProductListingPage()) {
                 "template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_MAIN),
                 "product_list_template"=> $viewModel->getStoreConfigValue($viewModel::COLLECTIONS_TEMPLATE_PRODUCTLIST)
             ],
-            "widget_endpoint"=> $escaper->escapeUrl($viewModel->getBrWidgetEndPointUrl()),
-            "widget_fields"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::RECOMM_FIELD_LIST))
+            "widget"=> [
+                "endpoint"=> $escaper->escapeUrl($viewModel->getBrWidgetEndPointUrl()),
+                "fields"=> $escaper->escapeUrl($viewModel->getStoreConfigValue($viewModel::RECOMM_FIELD_LIST)),
+                "template"=> $viewModel->getStoreConfigValue($viewModel::RECOMM_TEMPLATE_TEXT)
+            ]
         ]); ?>
 
     </script>
@@ -110,18 +112,18 @@ if ($viewModel->isProductListingPage()) {
             br_data.view_id = "NEED_MORE_INFO";
             br_data.tms = "NEED_MORE_INFO";
             <?php if ('product' === $viewModel->getCurrentPageName()):
-            $currentProduct = $viewModel->getCurrentProduct();
-            ?>
+                $currentProduct = $viewModel->getCurrentProduct();
+                ?>
             // Product page view
-            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getId() ?>";
+            br_data.prod_id = "<?= /* @noEscape */ $currentProduct->getSku() ?>";
             br_data.prod_name = "<?= $escaper->escapeHtml($currentProduct->getName()) ?>";
             br_data.sku = "<?= $escaper->escapeHtml($currentProduct->getSku()) ?>";
             <?php endif; ?>
             <?php if ('content' === $viewModel->getCurrentPageName()): ?>
             // Content page view
-            <?php $cmsPage = $viewModel->getCurrentCmsPage($block);
-            if (!empty($cmsPage)):
-            ?>
+                <?php $cmsPage = $viewModel->getCurrentCmsPage($block);
+                if (!empty($cmsPage)):
+                    ?>
             br_data.catalogs = [{name: "<?=  $escaper->escapeHtml($cmsPage->getIdentifier()) ?>"}];
             br_data.item_id = "<?= /* @noEscape */ $cmsPage->getId() ?>";
             br_data.item_name = "<?=  $escaper->escapeHtml($cmsPage->getTitle()) ?>";
@@ -129,8 +131,8 @@ if ($viewModel->isProductListingPage()) {
             <?php endif; ?>
 
             <?php if ('category' === $viewModel->getCurrentPageName()):
-            $currentCategory = $viewModel->getCurrentCategory();
-            ?>
+                $currentCategory = $viewModel->getCurrentCategory();
+                ?>
             // Category page view
             br_data.cat_id = "<?= /* @noEscape */$currentCategory->getId() ?>";
             br_data.cat = "<?= /* @noEscape */ $currentCategory->getId() ?>";
@@ -140,9 +142,9 @@ if ($viewModel->isProductListingPage()) {
             br_data.search_term = "<?=  $escaper->escapeHtml($viewModel->getSearchTerm()) ?>";
             <?php endif; ?>
             <?php if ('checkout_success' === $viewModel->getCurrentPageName()):
-            $lastOrder = $viewModel->getLastRealOrder();
-            if ($lastOrder):
-            ?>
+                $lastOrder = $viewModel->getLastRealOrder();
+                if ($lastOrder):
+                    ?>
             // Conversion page view
             br_data.is_conversion = 1;
             br_data.basket_value = "<?= /* @noEscape */ sprintf('%.2f', $lastOrder->getGrandTotal()) ?>";
@@ -181,6 +183,8 @@ if ($viewModel->isProductListingPage()) {
     <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/pathways-and-recommendations.css")); ?>"
           rel="stylesheet" />
     <link href="<?= $escaper->escapeUrl($block->getViewFileUrl("Bloomreach_Connector::css/module-custom.css")); ?>" rel="stylesheet" />
+    <?php $recomCss = $viewModel->getStoreConfigValue($viewModel::RECOMM_CUSTOM_CSS) ?? ''; ?>
+    <style><?= strip_tags($recomCss) ?></style>
 
     <?php if (!empty($requireSdk)): ?>
         <script type="text/javascript">
@@ -202,10 +206,6 @@ if ($viewModel->isProductListingPage()) {
                     }
                     <?php endif; ?>
                 }
-                /*window.document.dispatchEvent(new Event("DOMContentLoaded", {
-                    bubbles: true,
-                    cancelable: true
-                }));*/
             });
         </script>
     <?php endif; ?>

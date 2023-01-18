@@ -15,12 +15,13 @@ namespace Bloomreach\Connector\Block\System\Config\Form\Field;
 
 /**
  * Class IndexingCta
- * @package Bloomreach\Connector\Block\System\Config\Form\Field
+ * package Bloomreach\Connector\Block\System\Config\Form\Field
  */
 class IndexingCta extends CtaButtonAbstract
 {
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     public function _afterConstruct()

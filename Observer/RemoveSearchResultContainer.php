@@ -22,7 +22,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class RemoveSearchResultContainer
- * @package Bloomreach\Connector\Observer
+ * package Bloomreach\Connector\Observer
  */
 class RemoveSearchResultContainer implements ObserverInterface
 {
@@ -51,6 +51,7 @@ class RemoveSearchResultContainer implements ObserverInterface
 
     /**
      * Remove sidebar and content to remove duplicate values while render
+     *
      * @param Observer $observer
      */
     public function execute(Observer $observer)
@@ -92,8 +93,9 @@ class RemoveSearchResultContainer implements ObserverInterface
     }
 
     /**
-     * returning store config value
-     * @param $path
+     * Returning store config value
+     *
+     * @param string $path
      * @return mixed
      */
     public function getStoreConfigValue($path)

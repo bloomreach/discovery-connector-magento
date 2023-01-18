@@ -18,7 +18,7 @@ use Magento\Customer\Helper\Session\CurrentCustomer;
 
 /**
  * Class CustomerPlugin
- * @package Bloomreach\Connector\Plugin\CustomerData
+ * package Bloomreach\Connector\Plugin\CustomerData
  */
 class CustomerPlugin
 {
@@ -39,8 +39,9 @@ class CustomerPlugin
 
     /**
      * Set uniqueId, a sha256 encrypted hash for logged-in customer in section data
+     *
      * @param Customer $subject
-     * @param $result
+     * @param array $result
      * @return mixed
      */
     public function afterGetSectionData(Customer $subject, $result)

@@ -27,7 +27,15 @@ abstract class CtaButtonAbstract extends Field
      * @var string
      */
     protected $_template = 'Bloomreach_Connector::system/config/field/cta_button.phtml';
+    
+    /**
+     * @var string
+     */
     protected $_buttonId;
+
+    /**
+     * @var string
+     */
     protected $_buttonLabel;
 
     /**
@@ -44,6 +52,7 @@ abstract class CtaButtonAbstract extends Field
 
     /**
      * Initialise class variables after constructor call
+     *
      * @return void
      */
     abstract public function _afterConstruct();
@@ -62,6 +71,7 @@ abstract class CtaButtonAbstract extends Field
 
     /**
      * Return Button Id
+     *
      * @return string
      */
     public function getButtonId()
@@ -71,6 +81,7 @@ abstract class CtaButtonAbstract extends Field
 
     /**
      * Return Button Label
+     *
      * @return string
      */
     public function getButtonLabel()
@@ -96,11 +107,21 @@ abstract class CtaButtonAbstract extends Field
      */
     abstract public function getButtonUrl();
 
+    /**
+     * Return button text
+     *
+     * @return string
+     */
     public function getAfterButtonAdditionalText()
     {
         return '';
     }
 
+    /**
+     * Return button text
+     *
+     * @return string
+     */
     public function getBeforeButtonAdditionalText()
     {
         return '';
