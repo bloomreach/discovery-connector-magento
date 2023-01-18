@@ -184,6 +184,7 @@ define(['jquery','uiComponent','Magento_Customer/js/customer-data','productsEven
                 // cart will execute or not.
                 const checkValidation = function() {
                     const attributes = getAttributesMetrics();
+                    console.log("VALIDATION", attributes);
                     // Not valid if an attribute does not pass validation
                     return !attributes.find(attr => !attr.passValidation);
                 }
