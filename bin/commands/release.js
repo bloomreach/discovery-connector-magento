@@ -217,15 +217,6 @@ async function validateRepository() {
 }
 
 /**
- * Update versions found in additional locations in this project.
- */
-async function updateMagentoVersions(newVersion) {
-  const composerJson = readJSONSync(path.resolve('composer.json'));
-  composerJson.version = newVersion;
-  writeJSONSync(path.resolve('composer.json'), composerJson, { spaces: 2 });
-}
-
-/**
  * Update our release notes and determine what our next version is going to be
  * based on commit messages.
  */
@@ -248,9 +239,6 @@ async function updateMagentoVersions(newVersion) {
 
   // Get the version runner should have updated to
   const newVersion = await targetProjectVersion();
-  // Special to this project, we need to update additional version values found
-  // in additional locations
-  await updateMagentoVersions(newVersion);
 
   // If our version has not changed, then there were no commits with release notes
   if (currentVersion === newVersion) {
