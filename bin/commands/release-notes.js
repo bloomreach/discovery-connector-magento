@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { existsSync, readFileSync, writeFileSync } = require('fs');
 const { inc, compare } = require('semver');
 const { groupBy, uniq, upperFirst } = require('lodash');
-const { writeJSONSync } = require("fs-extra");
+const { readJSONSync, writeJSONSync } = require("fs-extra");
 
 /** @type {{[key: string]: 'breaking' | 'added' | 'fixed' | 'task'}} */
 const releaseTags = {
