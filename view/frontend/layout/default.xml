@@ -17,11 +17,6 @@
     <body>
         <referenceContainer name="columns.top">
             <container name="dynamic.container" label="Dynamic top container" htmlTag="div" htmlClass="dynamic-top-container"/>
-            <!--block name="dynamic.datacontainer" template="Bloomreach_Connector::content/container.phtml">
-                <arguments>
-                    <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
-                </arguments>
-            </block-->
         </referenceContainer>
         <referenceBlock name="head.additional">
             <block name="bloomreach.connector.init" template="Bloomreach_Connector::head/script.phtml">
@@ -31,7 +26,7 @@
             </block>
         </referenceBlock>
         <referenceContainer name="before.body.end">
-            <block name="bloomreach.connector.pixelinit"  ifconfig="bloomreach_settings/pixel/enable_pixel" template="Bloomreach_Connector::foot/pixelinit.phtml">
+            <block name="bloomreach.connector.pixelinit" ifconfig="bloomreach_settings/pixel/enable_pixel" template="Bloomreach_Connector::foot/pixelinit.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Bloomreach\Connector\ViewModel\Head\ScriptInit</argument>
                 </arguments>

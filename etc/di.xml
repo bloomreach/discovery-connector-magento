@@ -16,15 +16,24 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Bloomreach\Connector\ViewModel\Head\ScriptInit">
         <arguments>
+            <argument name="scopeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface\Proxy</argument>
+            <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
             <argument name="jsonSerializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json\Proxy</argument>
-            <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Bloomreach\Connector\Block\Widget\Recommendation">
         <arguments>
+            <argument name="context" xsi:type="object">Magento\Framework\View\Element\Template\Context\Proxy</argument>
+            <argument name="scopeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface\Proxy</argument>
             <argument name="jsonSerializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json\Proxy</argument>
             <argument name="randomGenerator" xsi:type="object">Magento\Framework\Math\Random\Proxy</argument>
+            <argument name="productRepository" xsi:type="object">Magento\Catalog\Api\ProductRepositoryInterface\Proxy</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface\Proxy</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
+            <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>
     </type>
 </config>

@@ -23,6 +23,8 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Widget\Block\BlockInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\Registry;
 
 /**
  * Class Recommendation
@@ -56,6 +58,16 @@ class Recommendation extends Template implements BlockInterface
     private $logger;
 
     /**
+     * @var Http
+     */
+    private $request;
+
+    /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
      * Recommendation constructor.
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
@@ -63,6 +75,8 @@ class Recommendation extends Template implements BlockInterface
      * @param Random $randomGenerator
      * @param ProductRepositoryInterface $productRepository
      * @param LoggerInterface $logger
+     * @param Registry $registry
+     * @param Http $request
      * @param array $data
      */
     public function __construct(
@@ -72,6 +86,8 @@ class Recommendation extends Template implements BlockInterface
         Random $randomGenerator,
         ProductRepositoryInterface $productRepository,
         LoggerInterface $logger,
+        Registry $registry,
+        Http $request,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -80,6 +96,8 @@ class Recommendation extends Template implements BlockInterface
         $this->randomGenerator = $randomGenerator;
         $this->productRepository = $productRepository;
         $this->logger = $logger;
+        $this->registry = $registry;
+        $this->request = $request;
     }
 
     /**
@@ -100,7 +118,9 @@ class Recommendation extends Template implements BlockInterface
      */
     public function getWidgetJsonConfig()
     {
-        if ($this->getData('item_ids')) {
+        if ($this->request->getFullActionName() == 'catalog_product_view') {
+            $itemSkus = $this->getCurrentProduct()->getSku();
+        } elseif ($this->getData('item_ids')) {
             $itemIds = explode(",", $this->getData('item_ids'));
             $itemSkus = [];
             foreach ($itemIds as $key => $value) {
@@ -150,5 +170,15 @@ class Recommendation extends Template implements BlockInterface
     public function getRandomString()
     {
         return $this->randomGenerator->getRandomString(5);
+    }
+
+    /**
+     * Get Current product from registry
+     *
+     * @return array
+     */
+    public function getCurrentProduct()
+    {
+        return $this->registry->registry('current_product');
     }
 }

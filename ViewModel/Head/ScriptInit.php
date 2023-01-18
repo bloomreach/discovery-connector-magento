@@ -15,8 +15,6 @@
 namespace Bloomreach\Connector\ViewModel\Head;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
-
-//use Magento\Catalog\Model\Session as CatalogSession;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Request\Http;
