@@ -1,7 +1,7 @@
 {
-    "name": "borngroup/bloomreach-connector-magento",
-    "description": "Bloomreach connector for autosuggest,collection and product search",
-    "version": "1.1.0",
+    "name": "bloomreach/bloomreach-connector-magento",
+    "description": "Bloomreach connector for Search, Merchandising, Recommendations, & Pathways",
+    "version": "1.0.0",
     "type": "magento2-module",
     "license": "proprietary",
     "authors": [
