@@ -6,10 +6,15 @@
 const shell = require('shelljs');
 const path = require('path');
 const fs = require('fs-extra');
+const { prompt } = require('enquirer');
 
 function tutorialMessage() {
   console.error("You may need to consult the tutorials at https://courses.m.academy/courses/set-up-magento-2-development-environment-docker/lectures/9205849");
   console.error("Please note the goal of the tutorial is to install magento 2.4.5-p1 within the '<project root>/.magento' directory.");
+  console.error("TOUBLE SHOOTING:");
+  console.error("- Run 'npm run magento-uninstall' then retry installing again");
+  console.error("- Your Access tokens entered are wrong:\n\t* Look in the logs from the install to see if the tokens were not accepted\n\t* go to ~/.composer/auth.json and modify the values there to correct.");
+  console.error("- Your demo data didn't load: try running '.magento/bin/magento sampledata:deploy' or reinstall");
 }
 
 /**
@@ -17,6 +22,15 @@ function tutorialMessage() {
  */
 async function run(_options) {
   const projectPath = path.resolve(__dirname, "../../");
+
+  // Tell the user they will need to have an adobe market place account created
+  await prompt([
+    {
+      type: 'input',
+      name: 'ok',
+      message: 'Make sure you have API tokens available.\n\t* sign in here https://marketplace.magento.com/\n\t* go to https://marketplace.magento.com/customer/accessKeys/ and create a new token\n\t* THis script will ask for a user name and password. User is the public key, password is the private key. (press enter to continue)',
+    }
+  ]);
 
   // Ensure we start at the project root for proper context
   if (shell.cd(projectPath).code !== 0) {
@@ -80,6 +94,12 @@ async function run(_options) {
   console.warn("* Installing sample data...   *");
   console.warn("*******************************");
   console.warn("\n\n");
+  // Delete the magento installation git repo as nested repos is just confusing
+  if (shell.rm("-rf", path.resolve(projectPath, ".magento/.git")).code !== 0) {
+    console.error("Error: Failed to delete the magento installation git repo.");
+    process.exit(1);
+  }
+
   if (shell.exec("bin/magento sampledata:deploy").code !== 0) {
     console.error("Error: Failed to install sample data.");
     process.exit(1);
@@ -99,12 +119,6 @@ async function run(_options) {
   // Final cache flush
   if (shell.exec("bin/magento cache:flush").code !== 0) {
     console.error("Error: Failed to flush cache.");
-    process.exit(1);
-  }
-
-  // Delete the magento installation git repo as nested repos is just confusing
-  if (shell.rm("-rf", path.resolve(projectPath, ".magento/.git")).code !== 0) {
-    console.error("Error: Failed to delete the magento installation git repo.");
     process.exit(1);
   }
 
