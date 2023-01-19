@@ -73,10 +73,10 @@ program
 .command('dev')
 .description(`
   Starts up a developer environment that performs incremental builds while
-  developing within the lib and app folders.
+  developing within this project.
 `)
 .action(() => {
-  require('./commands/dev')(path.resolve(process.cwd()), getOptions())
+  require('./commands/dev')(getOptions())
   .catch(err => {
     console.warn('dev process exited unexpectedly');
     if (program.verbose) console.warn(err.stack || err.message);
@@ -473,6 +473,40 @@ program
   require('./commands/deploy-qa')({ src, dest })
   .catch(err => {
     console.warn('deploy-qa process exited unexpectedly');
+    console.warn(err.stack || err.message);
+  });
+})
+;
+
+program
+.command('magento-install')
+.description(`
+  This performs the initial configuration of this project to have a magento
+  installation available in this project folder. This script will create a
+  .magento folder that will contain the magento installation.
+
+  You MUST have docker desktop installed and runnig for this to work.
+`)
+.action((src, dest) => {
+  require('./commands/magento-install')({ src, dest })
+  .catch(err => {
+    console.warn('install-magento process exited unexpectedly');
+    console.warn(err.stack || err.message);
+  });
+})
+;
+
+program
+.command('magento-uninstall')
+.description(`
+  Performs the tasks necessary to remove the magento installation. This includes
+  deleting the .magento folder and removing the magento docker containers and
+  volumes.
+`)
+.action((src, dest) => {
+  require('./commands/magento-uninstall')({ src, dest })
+  .catch(err => {
+    console.warn('install-magento process exited unexpectedly');
     console.warn(err.stack || err.message);
   });
 })
