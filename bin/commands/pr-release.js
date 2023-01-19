@@ -34,10 +34,10 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   });
 
   let page = await browser.newPage();
+  let shouldExit = true;
 
   if (showLogIn) {
     console.warn("User login required...");
-    let shouldExit = true;
 
     browser.on('disconnected', () => {
       if (!shouldExit) return;
@@ -86,6 +86,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   console.warn("Project ID found:", projectId, "\nOpening merge request...");
   await browser.close();
 
+  console.log("Launching Repo PRs");
   browser = await puppeteer.launch({
     headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
