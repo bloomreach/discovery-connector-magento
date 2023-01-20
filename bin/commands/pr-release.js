@@ -32,7 +32,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
-
+  const stayAlive = await browser.newPage();
   let page = await browser.newPage();
   let shouldExit = true;
 
@@ -83,18 +83,9 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   }
 
   console.warn("Project ID found:", projectId, "\nOpening merge request...");
-  await browser.close();
-
   console.log("Launching Repo PRs");
-  browser = await puppeteer.launch({
-    headless: false,
-    userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
-    defaultViewport: null
-  });
 
   const makePR = async (source, target, includeUtf) => {
-    const page = await browser.newPage();
-
     // Use the proper URL structure to generate the page with the correct merge request
     await page.goto(`${
         repoUrl
@@ -134,10 +125,8 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
 
   // Wait for both PRs to come to completion
   console.warn("\n\nWaiting for browser windows to be closed...\n\n");
-  await Promise.all([
-    makePR("release", "dev"),
-    makePR("release", "main"),
-  ]);
+  await makePR("release", "dev");
+  await makePR("release", "main");
 
   // Close after all pages closed
   browser.close();
