@@ -25,6 +25,9 @@ function requestAsync(url) {
  * ID is available on the body of the page loaded for the repo.
  */
 async function openGitlabPR(repoUrl, releaseVersion) {
+  // Indicates if browser closing was supposed to happen or not
+  let shouldExit = false;
+
   let browser = await puppeteer.launch({
     // If showLogIn, then we must present the browser so the user can enter
     // their credentials.
@@ -33,8 +36,15 @@ async function openGitlabPR(repoUrl, releaseVersion) {
     defaultViewport: null
   });
 
+  browser.on('disconnected', () => {
+    if (!shouldExit) {
+      console.warn("Browser was closed or crashed. Try the command again.");
+    }
+
+    process.exit(1);
+  });
+
   let page = await browser.newPage();
-  let shouldExit = true;
 
   console.warn("Opening project url...");
   await page.goto(repoUrl);
@@ -50,19 +60,11 @@ async function openGitlabPR(repoUrl, releaseVersion) {
   if (!projectId) {
     console.warn("No project id found, login might be needed...");
 
-    browser.on('disconnected', () => {
-      if (!shouldExit) return;
-      console.warn("Browser was closed or crashed. Try the command again.");
-      process.exit(1);
-    });
-
     await page.goto(repoUrl);
     await page.waitForFunction(() => {
       projectId = document?.body?.getAttribute("data-project-id");
       return projectId !== null && projectId !== void 0;
     }, { timeout: 0 });
-
-    shouldExit = false;
   }
 
   if (!projectId) {
@@ -121,6 +123,7 @@ async function openGitlabPR(repoUrl, releaseVersion) {
   await makePR("release", "main");
 
   // Close after all pages closed
+  shouldExit = true;
   browser.close();
 }
 
