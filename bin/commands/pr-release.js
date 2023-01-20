@@ -116,7 +116,8 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
 
     // Wait for the page to close
     await new Promise(r => {
-      page.on('close', () => {
+      page.on('close', async () => {
+        page = await browser.newPage();
         r();
         console.warn("Gitlab ticket process finished\n\n");
       });
