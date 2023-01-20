@@ -1,3 +1,16 @@
+## 1.4.0
+
+## Added
+
+- [`ADDED`]: Devops scripts for dev and installation have been added in
+
+## Fixed
+
+- [`FIXED`]: Updated README and added magento shut down process when dev is exited
+- [`FIXED`]: Pr-release script has been fixed to work quicker and more stable within the gitlab environment
+- [`FIXED`]: Magento Install has now been tested with troubleshooting across multiple devices
+- [`FIXED`]: Pr-release adjusted from use of master to main
+
 ## 1.3.3
 
 ## Fixed

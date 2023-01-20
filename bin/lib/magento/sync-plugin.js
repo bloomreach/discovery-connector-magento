@@ -12,32 +12,48 @@
 const Rsync = require('rsync');
 const path = require('path');
 const rmrf = require('rimraf');
+const fs = require('fs-extra');
+
+// Ensure reliable project root path.
+const projectRoot = path.resolve(__dirname, '../../../');
+
+if (!fs.existsSync(path.resolve(projectRoot, ".magento"))) {
+  console.error(".magento directory not found. Please run `npm run magento-install` to install magento for this project.");
+  process.exit(1);
+}
+
+// Ensure the plugin directory exists.
+if (!fs.existsSync(path.resolve(projectRoot, ".magento/src/app/code/Bloomreach/Connector"))) {
+  fs.ensureDirSync(path.resolve(projectRoot, ".magento/src/app/code/Bloomreach/Connector"));
+}
 
 // Ensure all files all cleaned so they sync correctly and won't leave behind
 // fragments
-rmrf.sync(path.resolve("./.magento/src/app/code/Bloomreach/Connector"));
+rmrf.sync(path.resolve(projectRoot, ".magento/src/app/code/Bloomreach/Connector"));
 
 // Build the command
 const rsync = new Rsync()
   .shell('ssh')
   .flags('az')
-  .source(path.resolve(".") + "/")
-  .destination(path.resolve("./.magento/src/app/code/Bloomreach/Connector"));
+  .source(projectRoot + "/")
+  .destination(path.resolve(projectRoot, ".magento/src/app/code/Bloomreach/Connector"));
 
 rsync.exclude([
   '.git',
   '.idea',
   'node_modules',
   'scripts',
-  '.magento'
+  '.magento',
+  '*.local.*',
+  'project.tar.gz'
 ]);
 
 // Log output
 rsync.output(
   function(data){
-    console.log(data);
+    console.log(data.toString());
   }, function(data) {
-    console.error(data);
+    console.error(data.toString());
   }
 );
 

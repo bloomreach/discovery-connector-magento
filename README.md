@@ -2,7 +2,7 @@
 
 The Connector module provides the option to connect with Bloomreach Search Merchandise and other API and pixel integration.
 
-## Get Magento Started
+## Installing Magento
 
 - Ensure you have installed Docker and it is up to date
 - Go to https://marketplace.magento.com and create an account or log into that
@@ -11,17 +11,89 @@ The Connector module provides the option to connect with Bloomreach Search Merch
 - Have a key ready to be used (create a new one if you need one. Key name does
   not matter)
 
-Please run the `install_magento.sh` script.
+Please then run:
+
+```sh
+npm i
+npm run magento-install
+```
 
 - You will be prompted for a user name and password:
   UserName = Public Key from marketplace.magento.com
   Password = Private Key from marketplace.magento.com
 
+- You will later be asked to enter your system password.
+
+After completing all of the steps the server should be running.
+
 Troubleshooting:
 
 All of the videos to understand magento set up via docker is discussed here:
-
 https://courses.m.academy/courses/set-up-magento-2-development-environment-docker/lectures/9064350
+
+- Many issues can be resolved by reinstalling
+  ```
+  npm run magento-uninstall
+  npm run magento-install
+  ```
+- If you have a chmod failure, there is a chance your Adobe keys were not
+  entered in correctly. Please remember to NOT use your account user/pass and
+  use the public and private keys as user/pass.
+  - Once the creds have failed they get cached on your local machine. You can
+    find the creds at: `~/.composer/auth.json`. Modify the values there to be
+    correct to make the install script work properly.
+- If your demo data didn't load: try running:
+  ```sh
+  # Note, the . at the beginning makes it easier to cd into the folder first or
+  # bash will interpret the . as an execute command instead of the path.
+  cd .magento
+  bin/magento sampledata:deploy
+  ```
+  or reinstall
+
+## Developing
+
+After magento is installed, you can being developing by using:
+
+```sh
+# Ensure docker desktop is running
+npm run dev
+```
+
+THe process will be completed when you see the message:
+
+`Development server started.`
+
+This will start your magento instance and make the URL `https://magento.test`
+available on your local machine. This will also automatically distribute changes
+to your magento server for viewing in the local environment.
+
+Most changes will appear automatically, but some changes will require magento
+commands such as the following:
+
+```sh
+cd .magento
+# Run when you change any dependency injected parameters in your classes
+bin/magento setup:di:compile
+# Run when all else fails
+bin/magento setup:upgrade
+# Run when you think something should be there but isn't loading in the browser
+bin/magento cache:flush
+```
+
+When you are done developing, if quitting the developer script does not
+succeed, you can ensure the magento server and resources are stopped via:
+
+```sh
+bin/stop
+```
+
+NOTE: You can use the opposite to run your server without any special npm
+commands:
+
+```sh
+bin/start
+```
 
 ## Configure App First
 

@@ -37,6 +37,7 @@ if ($viewModel->isProductListingPage()) {
         </style>
     <?php endif; ?>
     <script id="bloomreach_connector">
+        console.log("T");
         window.bloomreachConnector = {
             version: "<?= $viewModel->getVersion()?>.qa1"
         };
@@ -134,14 +135,6 @@ if ($viewModel->isProductListingPage()) {
                 "template"=> $viewModel->getStoreConfigValue($viewModel::RECOMM_TEMPLATE_TEXT)
             ]
         ]); ?>
-
-        try {
-            bloomreachConnector.config.events.product_child_attributes_map = JSON.parse(bloomreachConnector.config.events.product_child_attributes_map);
-            bloomreachConnector.config.events.product_attribute_id_name_map = JSON.parse(bloomreachConnector.config.events.product_attribute_id_name_map);
-            // bloomreachConnector.config.events.product_collection_metrics = JSON.parse(bloomreachConnector.config.events.product_collection_metrics);
-        } catch (e) {
-            console.error(e);
-        }
     </script>
     <?php if ($viewModel->isPixelEnabled()): ?>
         <script>

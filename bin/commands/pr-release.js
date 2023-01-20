@@ -24,76 +24,62 @@ function requestAsync(url) {
  * To open up gitlab merge request, we need to fetch the project ID. The project
  * ID is available on the body of the page loaded for the repo.
  */
-async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
+async function openGitlabPR(repoUrl, releaseVersion) {
+  // Indicates if browser closing was supposed to happen or not
+  let shouldExit = false;
+
+  // Make our browser with a profile directory so we can reuse the login
   let browser = await puppeteer.launch({
-    // If showLogIn, then we must present the browser so the user can enter
-    // their credentials.
-    headless: !showLogIn,
-    userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
-    defaultViewport: null
-  });
-
-  let page = await browser.newPage();
-
-  if (showLogIn) {
-    console.warn("User login required...");
-    let shouldExit = true;
-
-    browser.on('disconnected', () => {
-      if (!shouldExit) return;
-      console.warn("Browser was closed or crashed. Try the command again.");
-      process.exit(1);
-    });
-
-    await page.goto(repoUrl);
-    await page.waitForFunction(() => {
-      const projectId = document?.body?.getAttribute("data-project-id");
-      return projectId !== null && projectId !== void 0;
-    }, { timeout: 0 });
-
-    shouldExit = false;
-    await page.close();
-  }
-
-  else {
-    console.warn("Opening project url...");
-    await page.goto(repoUrl);
-  }
-
-  // The project ID is located on the body within attribute
-  // data-project-id="722"
-  const projectId = await page.evaluate(() => {
-    return document.body.getAttribute("data-project-id");
-  });
-
-  // IF we attempted a login AND there is no project ID available, then we are
-  // unable to determine the project ID.
-  if (!projectId && showLogIn) {
-    await browser.close();
-    console.error("Failed to retrieve project ID for the repository.");
-    process.exit(1);
-  }
-
-  // If we could not get a project ID, present a non-headless browser to allow
-  // the user to login.
-  else if (!projectId) {
-    console.warn("No project id found, login might be needed...");
-    await browser.close();
-    openGitlabPR(repoUrl, releaseVersion, true);
-    return;
-  }
-
-  console.warn("Project ID found:", projectId, "\nOpening merge request...");
-  await browser.close();
-
-  browser = await puppeteer.launch({
     headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
 
+  // Watch for browser disconnects
+  browser.on('disconnected', () => {
+    console.log("Browser was closed or crashed.");
+
+    if (!shouldExit) {
+      console.warn("Browser was closed or crashed. Try the command again.");
+    }
+
+    process.exit(1);
+  });
+
+  let page = await browser.newPage();
+
+  console.warn("Opening project url...");
+  await page.goto(repoUrl);
+
+  // The project ID is located on the body within attribute
+  // data-project-id="722"
+  let projectId = await page.evaluate(() => {
+    return document.body.getAttribute("data-project-id");
+  });
+
+  // If we could not get a project ID, present a non-headless browser to allow
+  // the user to login.
+  if (!projectId) {
+    console.warn("No project id found, login might be needed...");
+    await page.goto(repoUrl);
+
+    while (!projectId) {
+      const fn = 'document?.body?.getAttribute("data-project-id")';
+      await page.waitForFunction(fn, { timeout: 0 });
+      projectId = await page.evaluate(fn);
+    }
+  }
+
+  if (!projectId) {
+    console.warn("Could not log in or find project id. Rerun the command or debug the issue.");
+    process.exit(1);
+  }
+
+  console.warn("Project ID found:", projectId, "\nOpening merge request...");
+  console.log("Launching Repo PRs");
+
   const makePR = async (source, target, includeUtf) => {
-    const page = await browser.newPage();
+    console.log("Creating PR", source, target);
 
     // Use the proper URL structure to generate the page with the correct merge request
     await page.goto(`${
@@ -121,11 +107,13 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     await page.evaluate((releaseVersion) => {
       document.querySelector("#merge_request_title").value = `Release ${releaseVersion}`;
       document.querySelector("#merge_request_description").value = `Release ${releaseVersion}`;
+      document.querySelector("#merge_request_force_remove_source_branch").checked = false;
     }, releaseVersion);
 
     // Wait for the page to close
     await new Promise(r => {
-      page.on('close', () => {
+      page.on('close', async () => {
+        page = await browser.newPage();
         r();
         console.warn("Gitlab ticket process finished\n\n");
       });
@@ -134,51 +122,38 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
 
   // Wait for both PRs to come to completion
   console.warn("\n\nWaiting for browser windows to be closed...\n\n");
-  await Promise.all([
-    makePR("release", "dev"),
-    makePR("release", "master"),
-  ]);
+  await makePR("release", "dev");
+  await makePR("release", "main");
 
   // Close after all pages closed
+  shouldExit = true;
   browser.close();
 }
 
 async function openGitPR(repoUrl, releaseVersion, showLogIn) {
+  let shouldExit = false;
   let browser = await puppeteer.launch({
     // If showLogIn, then we must present the browser so the user can enter
     // their credentials.
-    headless: !showLogIn,
+    headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
 
-  let page = await browser.newPage();
+  // Watch for browser disconnects
+  browser.on('disconnected', () => {
+    console.log("Browser was closed or crashed.");
 
-  if (showLogIn) {
-    console.warn("User login required...");
-    let shouldExit = true;
-
-    browser.on('disconnected', () => {
-      if (!shouldExit) return;
+    if (!shouldExit) {
       console.warn("Browser was closed or crashed. Try the command again.");
-      process.exit(1);
-    });
+    }
 
-    const loginUrl = "https://github.com/login";
-    console.warn("Opening github login page: ", loginUrl)
-    await page.goto(loginUrl);
-    await page.waitForFunction(() => {
-      const projectId = document?.body?.getAttribute("class").split(" ").find(c => c.startsWith("logged-in"));
-      return projectId !== null && projectId !== void 0;
-    }, { timeout: 0 });
+    process.exit(1);
+  });
 
-    shouldExit = false;
-  }
-
-  else {
-    console.warn("Opening project url: ", repoUrl);
-    await page.goto(repoUrl);
-  }
+  let page = await browser.newPage();
+  console.warn("Opening project url: ", repoUrl);
+  await page.goto(repoUrl);
 
   // The project ID is located on the body within attribute
   // data-project-id="722"
@@ -190,37 +165,23 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
 
   console.warn("Loggin in check:", loggedIn);
 
-  // IF we attempted a login AND there is no project ID available, then we are
-  // unable to determine the project ID.
-  if (!loggedIn && showLogIn) {
-    await browser.close();
-    console.error("Failed to log in the user for github.");
-    process.exit(1);
-  }
+  // If no login detected, then we need to allow the user to log into their
+  // github account.
+  if (!loggedIn) {
+    console.warn("User login required...");
+    const loginUrl = "https://github.com/login";
+    console.warn("Opening github login page: ", loginUrl)
+    await page.goto(loginUrl);
+    const fn = 'document?.body?.getAttribute("class").split(" ").find(c => c.startsWith("logged-in"))';
 
-  // If we could not get a project ID, present a non-headless browser to allow
-  // the user to login.
-  else if (!loggedIn) {
-    console.warn("Logged-in not found on body, login might be needed...");
-    await browser.close();
-    openGitPR(repoUrl, releaseVersion, true);
-    return;
+    while (!loggedIn) {
+      await page.waitForFunction(fn, { timeout: 0 });
+      loggedIn = await page.evaluate(fn);
+    }
   }
-
-  // Log in validated, close the log in browser as it may be in headless mode
-  else {
-    browser.close();
-  }
-
-  // Reopen the browser but ensure we're not headless anymore
-  browser = await puppeteer.launch({
-    headless: false,
-    userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
-    defaultViewport: null
-  });
 
   const makePR = async (source, target) => {
-    const page = await browser.newPage();
+    console.log("Creating PR", source, target);
 
     // https://github.com/Diniden/simple-data-provider/compare/master...release
     // Use the proper URL structure to generate the page with the correct merge request
@@ -240,11 +201,6 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
       return node !== null && node !== void 0;
     });
 
-    // Click the create PR button to open next dialog
-    // await page.evaluate(async () => {
-    //   document.querySelector('#repo-content-pjax-container > div > div.js-details-container.Details.js-compare-pr > div > button').click();
-    // });
-
     // Populate the elements with expected configuration
     await page.evaluate(async (releaseVersion) => {
       document.querySelector('[name="pull_request[title]"]').value = `Release ${releaseVersion}`;
@@ -253,7 +209,8 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
 
     // Wait for the page to close
     await new Promise(r => {
-      page.on('close', () => {
+      page.on('close', async () => {
+        page = await browser.newPage();
         r();
         console.warn("Github ticket process finished\n\n");
       });
@@ -262,10 +219,8 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
 
   // Wait for both PRs to come to completion
   console.warn("\n\nWaiting for browser windows to be closed...\n\n");
-  await Promise.all([
-    makePR("release", "dev"),
-    makePR("release", "master"),
-  ]);
+  await makePR("release", "dev"),
+  await makePR("release", "master"),
 
   // Close after all pages closed
   browser.close();
@@ -294,12 +249,6 @@ async function run(repoUrl, repoType) {
     console.error("You have uncommitted changes or the current state of the project can not be determined. Please commit or stash them before continuing.");
     process.exit(1);
   }
-
-  // const checkBranch = shell.exec("git symbolic-ref --short HEAD", { silent: true });
-  // if (checkBranch !== "release") {
-  //   console.error("You must be on the release branch to create a release PR");
-  //   process.exit(1);
-  // }
 
   // Get the current project version from the package.json file
   const packageJson = fs.readJsonSync(path.resolve(__dirname, "../../package.json"));
