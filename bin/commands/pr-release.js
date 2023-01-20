@@ -24,7 +24,7 @@ function requestAsync(url) {
  * To open up gitlab merge request, we need to fetch the project ID. The project
  * ID is available on the body of the page loaded for the repo.
  */
-async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
+async function openGitlabPR(repoUrl, releaseVersion) {
   let browser = await puppeteer.launch({
     // If showLogIn, then we must present the browser so the user can enter
     // their credentials.
@@ -36,8 +36,19 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   let page = await browser.newPage();
   let shouldExit = true;
 
-  if (showLogIn) {
-    console.warn("User login required...");
+  console.warn("Opening project url...");
+  await page.goto(repoUrl);
+
+  // The project ID is located on the body within attribute
+  // data-project-id="722"
+  let projectId = await page.evaluate(() => {
+    return document.body.getAttribute("data-project-id");
+  });
+
+  // If we could not get a project ID, present a non-headless browser to allow
+  // the user to login.
+  if (!projectId) {
+    console.warn("No project id found, login might be needed...");
 
     browser.on('disconnected', () => {
       if (!shouldExit) return;
@@ -47,39 +58,16 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
 
     await page.goto(repoUrl);
     await page.waitForFunction(() => {
-      const projectId = document?.body?.getAttribute("data-project-id");
+      projectId = document?.body?.getAttribute("data-project-id");
       return projectId !== null && projectId !== void 0;
     }, { timeout: 0 });
 
     shouldExit = false;
   }
 
-  else {
-    console.warn("Opening project url...");
-    await page.goto(repoUrl);
-  }
-
-  // The project ID is located on the body within attribute
-  // data-project-id="722"
-  const projectId = await page.evaluate(() => {
-    return document.body.getAttribute("data-project-id");
-  });
-
-  // IF we attempted a login AND there is no project ID available, then we are
-  // unable to determine the project ID.
-  if (!projectId && showLogIn) {
-    await browser.close();
-    console.error("Failed to retrieve project ID for the repository.");
+  if (!projectId) {
+    console.warn("Could not log in or find project id. Rerun the command or debug the issue.");
     process.exit(1);
-  }
-
-  // If we could not get a project ID, present a non-headless browser to allow
-  // the user to login.
-  else if (!projectId) {
-    console.warn("No project id found, login might be needed...");
-    await browser.close();
-    openGitlabPR(repoUrl, releaseVersion, true);
-    return;
   }
 
   console.warn("Project ID found:", projectId, "\nOpening merge request...");
@@ -140,7 +128,7 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
   let browser = await puppeteer.launch({
     // If showLogIn, then we must present the browser so the user can enter
     // their credentials.
-    headless: !showLogIn,
+    headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
@@ -200,20 +188,8 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
     return;
   }
 
-  // Log in validated, close the log in browser as it may be in headless mode
-  else {
-    browser.close();
-  }
-
-  // Reopen the browser but ensure we're not headless anymore
-  browser = await puppeteer.launch({
-    headless: false,
-    userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
-    defaultViewport: null
-  });
-
   const makePR = async (source, target) => {
-    const page = await browser.newPage();
+    console.log("Creating PR", source, target);
 
     // https://github.com/Diniden/simple-data-provider/compare/master...release
     // Use the proper URL structure to generate the page with the correct merge request
@@ -246,7 +222,8 @@ async function openGitPR(repoUrl, releaseVersion, showLogIn) {
 
     // Wait for the page to close
     await new Promise(r => {
-      page.on('close', () => {
+      page.on('close', async () => {
+        page = await browser.newPage();
         r();
         console.warn("Github ticket process finished\n\n");
       });
