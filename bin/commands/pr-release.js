@@ -61,12 +61,13 @@ async function openGitlabPR(repoUrl, releaseVersion) {
   // the user to login.
   if (!projectId) {
     console.warn("No project id found, login might be needed...");
-
     await page.goto(repoUrl);
-    await page.waitForFunction(() => {
-      projectId = document?.body?.getAttribute("data-project-id");
-      return projectId !== null && projectId !== void 0;
-    }, { timeout: 0 });
+
+    while (!projectId) {
+      const fn = 'document?.body?.getAttribute("data-project-id")';
+      await page.waitForFunction(fn, { timeout: 0 });
+      projectId = await page.evaluate(fn);
+    }
   }
 
   if (!projectId) {
@@ -269,12 +270,6 @@ async function run(repoUrl, repoType) {
     console.error("You have uncommitted changes or the current state of the project can not be determined. Please commit or stash them before continuing.");
     process.exit(1);
   }
-
-  // const checkBranch = shell.exec("git symbolic-ref --short HEAD", { silent: true });
-  // if (checkBranch !== "release") {
-  //   console.error("You must be on the release branch to create a release PR");
-  //   process.exit(1);
-  // }
 
   // Get the current project version from the package.json file
   const packageJson = fs.readJsonSync(path.resolve(__dirname, "../../package.json"));
