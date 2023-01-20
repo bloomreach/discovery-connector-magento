@@ -33,7 +33,6 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     defaultViewport: null
   });
 
-  const stayAlive = await browser.newPage();
   let page = await browser.newPage();
   let shouldExit = true;
 
@@ -115,6 +114,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     await page.evaluate((releaseVersion) => {
       document.querySelector("#merge_request_title").value = `Release ${releaseVersion}`;
       document.querySelector("#merge_request_description").value = `Release ${releaseVersion}`;
+      document.querySelector("#merge_request_force_remove_source_branch").checked = false;
     }, releaseVersion);
 
     // Wait for the page to close
