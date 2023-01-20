@@ -28,15 +28,17 @@ async function openGitlabPR(repoUrl, releaseVersion) {
   // Indicates if browser closing was supposed to happen or not
   let shouldExit = false;
 
+  // Make our browser with a profile directory so we can reuse the login
   let browser = await puppeteer.launch({
-    // If showLogIn, then we must present the browser so the user can enter
-    // their credentials.
     headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
 
+  // Watch for browser disconnects
   browser.on('disconnected', () => {
+    console.log("Browser was closed or crashed.");
+
     if (!shouldExit) {
       console.warn("Browser was closed or crashed. Try the command again.");
     }
