@@ -28,7 +28,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   let browser = await puppeteer.launch({
     // If showLogIn, then we must present the browser so the user can enter
     // their credentials.
-    headless: !showLogIn,
+    headless: false,
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
@@ -87,6 +87,8 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
   console.log("Launching Repo PRs");
 
   const makePR = async (source, target, includeUtf) => {
+    console.log("Creating PR", source, target);
+
     // Use the proper URL structure to generate the page with the correct merge request
     await page.goto(`${
         repoUrl
