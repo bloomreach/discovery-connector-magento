@@ -373,6 +373,7 @@ program
   .catch(err => {
     console.warn('pr-release process exited unexpectedly');
     console.warn(err.stack || err.message);
+    process.exit(1);
   });
 })
 ;
