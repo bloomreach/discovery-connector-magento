@@ -3,13 +3,12 @@ const path = require('path');
 const shell = require('shelljs');
 const wait = require('../lib/util/wait');
 
+const projectRoot = path.resolve(__dirname, "../../");
 
 /**
  * Entry method for the dev process
  */
 async function run() {
-  const projectRoot = path.resolve(__dirname, "../../");
-
   // Ensure the magento directory exists.
   if (!fs.existsSync(path.resolve(projectRoot, ".magento"))) {
     console.error("Error: Magento is not installed. Please run `npm run magento-install` to install magento for this project.");
@@ -51,5 +50,31 @@ async function run() {
     shell.cd(projectRoot);
   }
 }
+
+async function handleExit() {
+  if (shell.cd(path.resolve(projectRoot, ".magento")).code !== 0) {
+    console.error("Error: Could not shut down magento");
+    process.exit(0);
+  }
+
+  // Upgrade server to register module
+  if (shell.exec("bin/stop").code !== 0)  {
+    console.error("Error: Could not shut down magento");
+    process.exit(0);
+  }
+
+  process.exit(0);
+}
+
+// Catch when app is closing
+process.on("exit", handleExit);
+// Catch ctrl+c event
+process.on("SIGINT", handleExit);
+// Catch "kill pid" (for example: nodemon restart)
+process.on("SIGUSR1", handleExit);
+process.on("SIGUSR2", handleExit);
+process.on("SIGTERM", handleExit);
+// Catch uncaught exceptions
+process.on("uncaughtException", handleExit);
 
 module.exports = run;
