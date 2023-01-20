@@ -52,7 +52,6 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     }, { timeout: 0 });
 
     shouldExit = false;
-    await page.close();
   }
 
   else {
