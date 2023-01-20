@@ -32,6 +32,7 @@ async function openGitlabPR(repoUrl, releaseVersion, showLogIn) {
     userDataDir: path.resolve(__dirname, "../../node_modules/.cache/pr-ticket"),
     defaultViewport: null
   });
+
   const stayAlive = await browser.newPage();
   let page = await browser.newPage();
   let shouldExit = true;
