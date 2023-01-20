@@ -43,7 +43,9 @@ rsync.exclude([
   '.idea',
   'node_modules',
   'scripts',
-  '.magento'
+  '.magento',
+  '*.local.*',
+  'project.tar.gz'
 ]);
 
 // Log output

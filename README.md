@@ -60,6 +60,10 @@ After magento is installed, you can being developing by using:
 npm run dev
 ```
 
+THe process will be completed when you see the message:
+
+`Development server started.`
+
 This will start your magento instance and make the URL `https://magento.test`
 available on your local machine. This will also automatically distribute changes
 to your magento server for viewing in the local environment.

@@ -21,7 +21,22 @@ async function run() {
   }
 
   // Spin up magento server
-  shell.exec("bin/start", { async: true });
+  let resolveStart;
+  const startPromise = new Promise((resolve) => resolveStart = resolve);
+  const startProcess = shell.exec("bin/start", { async: true });
+
+  startProcess.stdout.on('data', (data) => {
+    if (data.toString().includes("Container magento-app-1  Started")) {
+      resolveStart();
+    }
+  });
+
+  startProcess.on("exit", function() {
+    resolveStart();
+  });
+
+  await startPromise;
+
   // Return to project root dir
   shell.cd(projectRoot);
 
@@ -43,12 +58,32 @@ async function run() {
     }
 
     // Upgrade server to register module
-    shell.exec("bin/magento setup:upgrade");
+    //
+    let resolveUpgrade;
+    const upgradePromise = new Promise((resolve) => resolveUpgrade = resolve);
+    const upgradeProcess = shell.exec("bin/magento setup:upgrade", { async: true });
+
+    upgradeProcess.stdout.on('data', (data) => {
+      if (data.toString().includes("Enabling caches:")) {
+        resolveUpgrade();
+      }
+    });
+
+    upgradeProcess.on("exit", function() {
+      resolveUpgrade();
+    });
+
+    await upgradePromise;
+
     // Enable the module for use
     shell.exec("bin/magento module:enable Bloomreach_Connector");
     // Return to project root dir
     shell.cd(projectRoot);
   }
+
+  await wait(1000);
+  console.log("\n\n\nDevelopment server started. Press Ctrl+C to stop.");
+  console.log("Visit https://magento.test to view the site.\n\n\n");
 }
 
 async function handleExit() {
