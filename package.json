@@ -1,6 +1,6 @@
 {
   "name": "magento-connector",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "NPM tools to aid in developing this connector application",
   "main": "index.js",
   "repository": {
