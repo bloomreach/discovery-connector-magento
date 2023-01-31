@@ -1,3 +1,9 @@
+## 1.4.1
+
+## Fixed
+
+- [`FIXED`]: Forced github to accept case change for api folder to be capitalized
+
 ## 1.4.0
 
 ## Added
