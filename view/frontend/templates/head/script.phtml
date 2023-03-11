@@ -37,9 +37,8 @@ if ($viewModel->isProductListingPage()) {
         </style>
     <?php endif; ?>
     <script id="bloomreach_connector">
-        console.log("T");
         window.bloomreachConnector = {
-            version: "<?= $viewModel->getVersion()?>.qa1"
+            version: "<?= $viewModel->getVersion()?>.qa2"
         };
 
         bloomreachConnector.config = <?= json_encode([
@@ -87,7 +86,7 @@ if ($viewModel->isProductListingPage()) {
             "autosuggest"=> [
                 "enabled"=> (int)$viewModel->isAutoSuggestEnabled() ,
                 "catalog_views"=>
-                $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SETTINGS_CATALOG_VIEWS)),
+                    $escaper->escapeHtml($viewModel->getDomainKey()),
                 "endpoint"=> $escaper->escapeUrl($viewModel->getAutoSuggestEndPointUrl()),
                 "number_of_terms"=>
                 $escaper->escapeHtml($viewModel->getStoreConfigValue($viewModel::SEARCH_SUGGESTED_TERM)),

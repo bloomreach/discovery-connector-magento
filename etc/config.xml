@@ -23,7 +23,8 @@
                 <suggested_products>3</suggested_products>
                 <suggested_collection>4</suggested_collection>
                 <main_template_text>
-                    <![CDATA[<% if (terms.length || productSuggestions.length) { %>
+                    <![CDATA[
+<% if (terms.length || productSuggestions.length) { %>
   <div class="blm-autosuggest">
     <div class="blm-autosuggest__suggestion-terms-container">
       <ul class="blm-autosuggest__suggestion-terms">
@@ -97,7 +98,7 @@
     </div>
 
   </div>
-  <% } %>
+<% } %>
 ]]>
                 </main_template_text>
             </autosuggest>
