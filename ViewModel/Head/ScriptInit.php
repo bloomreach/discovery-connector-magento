@@ -618,7 +618,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             $cmsBlock = $block->getLayout()->getBlock('page.main.title');
 
             // Ensure the method exists
-            if (!is_object($cmsBlock) || method_exists(!$cmsBlock, 'getPage')) {
+            if (!is_object($cmsBlock) || !method_exists($cmsBlock, 'getPage')) {
                 return '';
             }
 
