@@ -1,3 +1,16 @@
+## 1.5.0
+
+## Added
+
+- [`ADDED`]: Created a DNS command to make it easier to visit the magento dev environment from a mobile device. Simply run the dns command then set your mobile device dns to the IP of your dev machine. Then magento.test will become available to the mobile device. (Mac only)
+- [`ADDED`]: Template and SDK fixes have been applied, along with the introduction of additional properties being available within the search template like 'autoCorrectQuery' and response and facet sections with the raw property. Some of these properties represent the raw data retrieved from the API to provide wide open access to those details in the template.
+
+## Fixed
+
+- [`FIXED`]: Corrected method exists logic in ScriptInit to prevent errors on pages where the method does not exist.
+- [`FIXED`]: SDK javascript is no longer minified, allowing for easier patching and debugging
+- [`FIXED`]: Fetch method used has been modified to account for some nuances of magento automatically modifying/validating AJAX requests
+
 ## 1.4.1
 
 ## Fixed
