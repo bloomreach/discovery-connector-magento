@@ -1,3 +1,9 @@
+## 1.5.1
+
+## Fixed
+
+- [`FIXED`]: Addressed more SDK issues and reliability with loading and re-entrant problems
+
 ## 1.5.0
 
 ## Added
