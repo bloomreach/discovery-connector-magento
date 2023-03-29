@@ -13,7 +13,14 @@
  * @copyright      Copyright (c) 2021-current Bloomreach Inc.
  */
 -->
-<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="plugin" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
+        <label>Extension Details</label>
+        <field id="version" disabled="true" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Version</label>
+        </field>
+    </group>
     <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"  showInStore="1">
         <label>Credentials</label>
         <comment>Add your Api credentials to authenticate Magento with your Bloomreach Account.</comment>

@@ -11,6 +11,7 @@
     "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/var/www/html/vendor/bloomreach/bloomreach-connector-magento\"",
     "dev": "ts-node --transpile-only bin/main dev",
     "magento-install": "ts-node --transpile-only bin/main magento-install",
+    "magento-post-install": "ts-node --transpile-only bin/main magento-post-install",
     "magento-uninstall": "ts-node --transpile-only bin/main magento-uninstall",
     "magento-refresh": "ts-node --transpile-only bin/main magento-refresh",
     "pr": "ts-node --transpile-only bin/main url \"https://code.bloomreach.com/engineering/sm/magento-discovery-connector\"",

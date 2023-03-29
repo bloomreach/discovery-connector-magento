@@ -525,7 +525,23 @@ program
   )
   .action((src, dest) => {
     require("./commands/magento-install")({ src, dest }).catch((err) => {
-      console.warn("install-magento process exited unexpectedly");
+      console.warn("magento-install process exited unexpectedly");
+      console.warn(err.stack || err.message);
+    });
+  });
+
+program
+  .command("magento-post-install")
+  .description(
+    `
+  Performs all of the post install tasks for magento. Normally this is run from
+  the install script, but if you need to run it again or the install script failed to run this portion
+  you can use this command.
+`
+  )
+  .action(() => {
+    require("./commands/magento-post-install")().catch((err) => {
+      console.warn("magento-post-install process exited unexpectedly");
       console.warn(err.stack || err.message);
     });
   });
@@ -541,7 +557,7 @@ program
   )
   .action((src, dest) => {
     require("./commands/magento-uninstall")({ src, dest }).catch((err) => {
-      console.warn("install-magento process exited unexpectedly");
+      console.warn("magento-uninstall process exited unexpectedly");
       console.warn(err.stack || err.message);
     });
   });
