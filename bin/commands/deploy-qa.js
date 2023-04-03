@@ -18,7 +18,10 @@ async function updateRemote(deployInfo) {
 
   if (
     shell.exec(
-      `ssh ${deployInfo.host} "cd /var/www/html/.magento; bin/magento setup:upgrade; bin/magento cache:flush"`
+      `ssh ${deployInfo.host} "cd ${path.resolve(
+        deployInfo.dest,
+        ".magento"
+      )}; bin/magento setup:upgrade; bin/magento cache:flush"`
     ).code !== 0
   ) {
     console.error(
@@ -36,7 +39,10 @@ async function sync(deployInfo) {
   console.log(
     "Syncing files",
     deployInfo.src,
-    `${deployInfo.host}:${deployInfo.dest}`
+    `${deployInfo.host}:${path.resolve(
+      deployInfo.dest,
+      ".magento/src/app/code/Bloomreach/Connector"
+    )}`
   );
   let resolve;
   const promise = new Promise((r) => (resolve = r));
@@ -46,7 +52,7 @@ async function sync(deployInfo) {
     .shell("ssh")
     .flags("az")
     .source(deployInfo.src)
-    .destination(`${deployInfo.host}:${deployInfo.dest}`);
+    .destination(`${deployInfo.host}:${path.resolve(deployInfo.dest)}`);
 
   rsync.exclude([".git", ".idea", "node_modules", "scripts"]);
 
