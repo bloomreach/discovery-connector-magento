@@ -15,7 +15,8 @@
 namespace Bloomreach\Connector\ViewModel\Head;
 
 use Bloomreach\Connector\Block\ConfigurationSettingsInterface;
-use Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -31,6 +32,13 @@ use Magento\Swatches\Helper\Data as SwatchHelper;
 use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\App\Utility\Files;
 use Magento\Framework\Filesystem\Driver;
+use Magento\Framework\Stdlib\CookieManagerInterface;
+use Magento\Customer\Model\Visitor;
+use Magento\Customer\Model\SessionFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Directory\Model\Currency;
 
 
 /**
@@ -40,93 +48,35 @@ use Magento\Framework\Filesystem\Driver;
  */
 class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
 {
-    /**
-     * @var string
-     */
-    protected $_accId='';
-
-    /**
-     * @var string
-     */
-    protected $_domainKey='';
-
-    /**
-     * @var string
-     */
-    protected $_authKey='';
-
-    /**
-     * @var string
-     */
-    protected $_trackingCookie='';
-
-    /**
-     * @var string
-     */
-    protected $_searchEp='';
-
-    /**
-     * @var string
-     */
-    protected $_autoSuggestEp='';
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
-     * Recipient email config path
-     */
     public const XML_PATH_EMAIL_RECIPIENT = 'contact/email/recipient_email';
 
-    /**
-     * @var Http
-     */
+    protected $_accId='';
+    protected $_domainKey='';
+    protected $_authKey='';
+    protected $_trackingCookie='';
+    protected $_searchEp='';
+    protected $_autoSuggestEp='';
+    protected $_currencySymbol='';
+
+    protected $scopeConfig;
     private $request;
-
-    /**
-     * @var Session
-     */
-    protected $_checkoutSession;
-
-    /**
-     * @var Json
-     */
+    protected $checkoutSession;
     private $jsonSerializer;
-
-    /**
-     * @var LoggerInterface
-     */
     private $logger;
-
-    /**
-     * @var Data
-     */
     private $catalogHelper;
-
-    /**
-     * @var View
-     */
     private $categoryView;
-
-    /**
-     * @var Configurable
-     */
     private $configurable;
-
-    /**
-     * @var Grouped
-     */
     private $grouped;
-
-    /**
-     * @var SwatchHelper
-     */
     private $swatchHelper;
-
     private $catalogLayer;
     private $files;
+    private $cookieManager;
+    private $visitor;
+    private $customerSession;
+    private $sessionFactory;
+    private $storeManager;
+    private $priceCurrency;
+    private $currency;
 
     /**
      * ScriptInit constructor.
@@ -141,7 +91,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Http $request,
-        Session $checkoutSession,
+        CheckoutSession $checkoutSession,
         Json $jsonSerializer,
         LoggerInterface $logger,
         Data $catalogHelper,
@@ -150,11 +100,18 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         Grouped $grouped,
         SwatchHelper $swatchHelper,
         Resolver $layerResolver,
-        Files $files
+        Files $files,
+        CookieManagerInterface $cookieManager,
+        Visitor $visitor,
+        CustomerSession $customerSession,
+        SessionFactory $sessionFactory,
+        StoreManagerInterface $storeManager,
+        PriceCurrencyInterface $priceCurrency,
+        Currency $currency
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
-        $this->_checkoutSession = $checkoutSession;
+        $this->checkoutSession = $checkoutSession;
         $this->jsonSerializer = $jsonSerializer;
         $this->logger = $logger;
         $this->catalogHelper = $catalogHelper;
@@ -164,6 +121,13 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         $this->swatchHelper = $swatchHelper;
         $this->catalogLayer = $layerResolver->get();
         $this->files = $files;
+        $this->cookieManager = $cookieManager;
+        $this->visitor = $visitor;
+        $this->customerSession = $customerSession;
+        $this->sessionFactory = $sessionFactory;
+        $this->storeManager = $storeManager;
+        $this->priceCurrency = $priceCurrency;
+        $this->currency = $currency;
         $this->initAppSetting();
     }
 
@@ -488,7 +452,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getLastRealOrder()
     {
-        return $this->_checkoutSession->getLastRealOrder();
+        return $this->checkoutSession->getLastRealOrder();
     }
 
     /**
@@ -748,6 +712,62 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
+     * Get current customer unique id. This will become a visitor ID if customer
+     * is not logged in.
+     */
+    public function getCustomerId()
+    {
+        $customerSession = $this->sessionFactory->create();;
+        $customer = $customerSession->getCustomer();
+
+        if ($customer) {
+            $customerId = $customer->getId();
+
+            if ($customerId) {
+                return "Customer.".$customerId;
+            }
+        }
+
+        return $this->getVisitorId();
+    }
+
+    /**
+     * Get visitor unique id
+     */
+    public function getVisitorId()
+    {
+        $session = $this->customerSession;
+
+        // From session
+        if ($session) {
+            $visitorData = $session->getVisitorData();
+
+            if ($visitorData) {
+                $visitorId = $visitorData->getId();
+
+                if ($visitorId) {
+                    return "Visitor.".$visitorId;
+                }
+            }
+        }
+
+        // From cookie
+        $visitorId = $this->cookieManager->getCookie('visitor_id');
+        if ($visitorId) {
+            return "Visitor".$visitorId;
+        }
+
+        // From internal manager
+        $visitorId = $this->visitor->getId();
+        if ($visitorId) {
+            return "Visitor".$visitorId;
+        }
+
+        // Unable to form a visitor ID
+        return "UnknownVisitor";
+    }
+
+    /**
      * Get Setting Auth Key
      *
      * @return string
@@ -765,6 +785,26 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getDomainKey()
     {
         return $this->_domainKey;
+    }
+
+    /**
+     * Get the currency symbol to display for the module features
+     */
+    public function getCurrencySymbol()
+    {
+        $symbol = $this->getStoreConfigValue(self::SETTINGS_CURRENCY_SYMBOL);
+
+        // Use config currency synbol if set
+        if (isset($symbol) && $symbol != '') {
+            return $symbol;
+        }
+
+        else {
+            return "FAIL";
+        }
+
+        // Try to use system currency symbol
+        return $this->currency->getCurrencySymbol();
     }
 
     /**

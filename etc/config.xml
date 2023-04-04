@@ -848,6 +848,9 @@
             </general>
         </bloomreach_collections>
         <bloomreach_settings>
+            <extension>
+              <currency_symbol>$</currency_symbol>
+            </extension>
             <pixel>
                 <enable_pixel>1</enable_pixel>
                 <enable_atc_template>0</enable_atc_template>

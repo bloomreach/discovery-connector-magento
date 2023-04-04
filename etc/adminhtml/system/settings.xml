@@ -35,6 +35,10 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_incl
         <field id="auth_key" translate="label" type="password" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Auth Key</label>
         </field>
+        <field id="currency_symbol" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Currency Symbol</label>
+            <comment>Set the rendered currency for your store. The Bloomreach service in conjunction with this connector, currently only supports a single site, thus only a single currency type. This also only supports leading denomination currencies such as $ or £</comment>
+        </field>
     </group>
     <group id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"  showInStore="1">
         <label>Api Endpoint Urls</label>
