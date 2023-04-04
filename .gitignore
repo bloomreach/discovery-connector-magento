@@ -54,3 +54,5 @@ Thumbs.db
 # Local environment
 *.local.*
 project.tar.gz
+project.tgz
+compress-project

@@ -1,6 +1,6 @@
 {
   "name": "magento-connector",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "NPM tools to aid in developing this connector application",
   "main": "index.js",
   "repository": {
@@ -8,11 +8,12 @@
     "url": "git@code-ssh.bloomreach.com:engineering/sm/magento-discovery-connector.git"
   },
   "scripts": {
-    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/var/www/html/vendor/bloomreach/bloomreach-connector-magento\"",
+    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/home/magento/server\"",
     "dev": "ts-node --transpile-only bin/main dev",
     "magento-install": "ts-node --transpile-only bin/main magento-install",
+    "magento-post-install": "ts-node --transpile-only bin/main magento-post-install",
     "magento-uninstall": "ts-node --transpile-only bin/main magento-uninstall",
-    "magento-refresh": "ts-node --transpile-only bin/main magento-refresh",
+    "magento-sync-plugin": "ts-node --transpile-only bin/main magento-sync-plugin",
     "pr": "ts-node --transpile-only bin/main url \"https://code.bloomreach.com/engineering/sm/magento-discovery-connector\"",
     "pr-release": "ts-node --transpile-only bin/main pr-release \"https://code.bloomreach.com/engineering/sm/magento-discovery-connector\" gitlab",
     "release": "ts-node --transpile-only bin/main release",

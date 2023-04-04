@@ -90,16 +90,6 @@ define([
     afterRender: function () {
       this.initBaseEvents();
       this.initWidgetProductAttr();
-      this.initPixelScript();
-
-      // Force a Dom loaded event to ensure the pixel page view event
-      // is fired.
-      window.document.dispatchEvent(
-        new Event("DOMContentLoaded", {
-          bubbles: true,
-          cancelable: true,
-        })
-      );
     },
 
     /**
@@ -216,6 +206,7 @@ define([
 
       const getProductIdForCart = function (jq) {
         const input = jq.closest("form").find('input[name="product"]');
+        if (input.length === 0) return null;
         const productId = input[0].value;
 
         return productId;
@@ -318,26 +309,6 @@ define([
             console.error(error);
           });
       }
-    },
-
-    /**
-     * Loads in the pixel. This should be executed after the widget init
-     * so the dom will be prepped for the SDK.
-     */
-    initPixelScript: async function () {
-      br_data.user_id = this.customer().uniqueId
-        ? this.customer().uniqueId
-        : "";
-      let brtrk = document.createElement("script");
-      brtrk.addEventListener("load", function () {
-        window.pixelResolve();
-      });
-      brtrk.type = "text/javascript";
-      brtrk.async = true;
-      brtrk.src =
-        "//cdn.brcdn.com/v1/br-trk-" + this.widgetConfig.account_id + ".js";
-      let s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(brtrk, s);
     },
 
     /**

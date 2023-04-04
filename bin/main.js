@@ -501,8 +501,9 @@ program
   .command("deploy-qa [src] [dest]")
   .description(
     `
-  Deploys the dev branch to the QA environment. This resets the dev branch to
-  the latest commit in the remote repo.
+  This deploys the extension as is applied to YOUR CURRENT LOCAL dev server. The
+  dest provided should be the project folder on the QA server (such as
+  /home/magento/server/) where the .magento folder is located.
 `
   )
   .action((src, dest) => {
@@ -525,7 +526,23 @@ program
   )
   .action((src, dest) => {
     require("./commands/magento-install")({ src, dest }).catch((err) => {
-      console.warn("install-magento process exited unexpectedly");
+      console.warn("magento-install process exited unexpectedly");
+      console.warn(err.stack || err.message);
+    });
+  });
+
+program
+  .command("magento-post-install")
+  .description(
+    `
+  Performs all of the post install tasks for magento. Normally this is run from
+  the install script, but if you need to run it again or the install script failed to run this portion
+  you can use this command.
+`
+  )
+  .action(() => {
+    require("./commands/magento-post-install")().catch((err) => {
+      console.warn("magento-post-install process exited unexpectedly");
       console.warn(err.stack || err.message);
     });
   });
@@ -541,7 +558,22 @@ program
   )
   .action((src, dest) => {
     require("./commands/magento-uninstall")({ src, dest }).catch((err) => {
-      console.warn("install-magento process exited unexpectedly");
+      console.warn("magento-uninstall process exited unexpectedly");
+      console.warn(err.stack || err.message);
+    });
+  });
+
+program
+  .command("magento-sync-plugin")
+  .description(
+    `
+  Syncs all dev files into your local magento instance. This is the same as the
+  dev command but only runs once.
+`
+  )
+  .action((src, dest) => {
+    require("./commands/magento-sync-plugin")({ src, dest }).catch((err) => {
+      console.warn("magento-sync-plugin process exited unexpectedly");
       console.warn(err.stack || err.message);
     });
   });

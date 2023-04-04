@@ -23,6 +23,7 @@ interface ConfigurationSettingsInterface
      * Store config path public constants for settings tab
      */
     public const SETTINGS_GENERAL_PATH = 'bloomreach_settings/general';
+    public const SETTINGS_CURRENCY_SYMBOL = self::SETTINGS_GENERAL_PATH . '/currency_symbol';
     public const SETTINGS_ACC_ID = self::SETTINGS_GENERAL_PATH . '/accountid';
     public const SETTINGS_AUTH_KEY = self::SETTINGS_GENERAL_PATH . '/auth_key';
     public const SETTINGS_DOMAIN_KEY = self::SETTINGS_GENERAL_PATH . '/domain_key';

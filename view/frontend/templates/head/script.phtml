@@ -41,6 +41,9 @@ if ($viewModel->isProductListingPage()) {
             version: "<?= $viewModel->getVersion()?>.qa2"
         };
 
+        window.bloomreachDefaultCurrency = "<?= $escaper->escapeHtml($viewModel->getCurrencySymbol())?>";
+        console.log("<?= $escaper->escapeHtml($viewModel->getCurrencySymbol())?>");
+
         bloomreachConnector.config = <?= json_encode([
             "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
             "domain_key"=>  $escaper->escapeHtml($viewModel->getDomainKey()),
@@ -139,6 +142,7 @@ if ($viewModel->isProductListingPage()) {
         <script>
             // domain_key view_id catalogs tms sid
             var br_data = window.br_data || {};
+            br_data.user_id = "<?= /* @noEscape */ $viewModel->getCustomerId() ?>";
             br_data.acct_id = "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>";
             br_data.ptype = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageName()) ?>";
             br_data.title = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageTitle($block)) ?>";
@@ -191,6 +195,8 @@ if ($viewModel->isProductListingPage()) {
             <?php endif; ?>
             <?php endif; ?>
         </script>
+        <!-- Load in Pixel script -->
+        <script id="br-pixel-sdk-2" src="<?="//cdn.brcdn.com/v1/br-trk-".$viewModel->getAccountId().".js"?>"></script>
     <?php endif; ?>
     <?php
     $requireSdk = [];
