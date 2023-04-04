@@ -1,3 +1,17 @@
+## 1.6.0
+
+## Added
+
+- [`ADDED`]: Currency Symbol can now be configured in the extension settings
+
+## Fixed
+
+- [`FIXED`]: Addressed additional pixel event issues with the search page
+- [`FIXED`]: Addressed issues with facets renering in the search results
+- [`FIXED`]: Display Module version information in the module configuration Settings
+- [`FIXED`]: Updated deploy-qa to target the Vultr Magento-Docker instance
+- [`FIXED`]: Magento installation stabilized to a project hash instead of master to ensure the installation does not fail.
+
 ## 1.5.1
 
 ## Fixed
