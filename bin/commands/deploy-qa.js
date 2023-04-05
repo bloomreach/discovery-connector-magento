@@ -36,13 +36,14 @@ async function updateRemote(deployInfo) {
  * rsync -av --exclude files src host:dest
  */
 async function sync(deployInfo) {
+  const deployDir = path.resolve(
+    deployInfo.dest,
+    ".magento/src/app/code/Bloomreach/Connector"
+  );
   console.log(
     "Syncing files",
     deployInfo.src,
-    `${deployInfo.host}:${path.resolve(
-      deployInfo.dest,
-      ".magento/src/app/code/Bloomreach/Connector"
-    )}`
+    `${deployInfo.host}:${deployDir}`
   );
   let resolve;
   const promise = new Promise((r) => (resolve = r));
@@ -52,7 +53,7 @@ async function sync(deployInfo) {
     .shell("ssh")
     .flags("az")
     .source(deployInfo.src)
-    .destination(`${deployInfo.host}:${path.resolve(deployInfo.dest)}`);
+    .destination(`${deployInfo.host}:${deployDir}`);
 
   rsync.exclude([".git", ".idea", "node_modules", "scripts"]);
 
