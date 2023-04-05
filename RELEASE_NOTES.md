@@ -1,3 +1,9 @@
+## 1.6.1
+
+## Fixed
+
+- [`FIXED`]: Removed some debugging fragments left behind
+
 ## 1.6.0
 
 ## Added
