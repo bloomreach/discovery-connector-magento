@@ -799,10 +799,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             return $symbol;
         }
 
-        else {
-            return "FAIL";
-        }
-
         // Try to use system currency symbol
         return $this->currency->getCurrencySymbol();
     }

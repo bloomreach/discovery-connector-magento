@@ -38,11 +38,10 @@ if ($viewModel->isProductListingPage()) {
     <?php endif; ?>
     <script id="bloomreach_connector">
         window.bloomreachConnector = {
-            version: "<?= $viewModel->getVersion()?>.qa2"
+            version: "<?= $viewModel->getVersion()?>"
         };
 
         window.bloomreachDefaultCurrency = "<?= $escaper->escapeHtml($viewModel->getCurrencySymbol())?>";
-        console.log("<?= $escaper->escapeHtml($viewModel->getCurrencySymbol())?>");
 
         bloomreachConnector.config = <?= json_encode([
             "account_id"=>  $escaper->escapeHtml($viewModel->getAccountId()),
