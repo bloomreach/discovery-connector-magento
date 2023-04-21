@@ -852,6 +852,7 @@
               <currency_symbol>$</currency_symbol>
             </extension>
             <pixel>
+                <development_mode>1</development_mode>
                 <enable_pixel>1</enable_pixel>
                 <enable_atc_template>0</enable_atc_template>
                 <enable_productlist_template>0</enable_productlist_template>

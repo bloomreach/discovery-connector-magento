@@ -93,6 +93,7 @@ interface ConfigurationSettingsInterface
     public const RECOMM_PATH = 'bloomreach_recommendations/general';
     public const PIXEL_PATH = 'bloomreach_settings/pixel';
     public const RECOMM_PIXEL_ENABLED = self::PIXEL_PATH . '/enable_pixel';
+    public const RECOMM_PIXEL_DEVELOPMENT = self::PIXEL_PATH . '/development_mode';
     public const RECOMM_WIDGET_ENABLED = self::RECOMM_PATH . '/enable_recommendations';
     public const RECOMM_FIELD_LIST = self::RECOMM_PATH . '/field_list';
     public const RECOMM_CUSTOM_CSS = self::RECOMM_PATH . '/custom_css';

@@ -12,6 +12,7 @@
 const Rsync = require("rsync");
 const path = require("path");
 const rmrf = require("rimraf");
+const shell = require("shelljs");
 const fs = require("fs-extra");
 
 async function run() {
@@ -23,11 +24,18 @@ async function run() {
   const MAGENTO_INSTALL_FOLDER =
     process.env.MAGENTO_INSTALL_FOLDER || path.resolve(projectRoot, ".magento");
   const MAGENTO_REMOTE = process.env.MAGENTO_REMOTE || false;
-  let rsync;
+  const MAGENTO_MODULE = process.env.MAGENTO_MODULE;
   const INSTALL_DIR = path.resolve(
     MAGENTO_INSTALL_FOLDER,
-    "src/app/code/Bloomreach/Connector"
+    `src/app/code/${MAGENTO_MODULE}`
   );
+
+  let rsync;
+
+  if (!MAGENTO_MODULE) {
+    console.log("No MAGENTO_MODULE environment specified. Sync aborted.");
+    process.exit(1);
+  }
 
   // Checks remote file system
   if (MAGENTO_REMOTE) {
@@ -71,6 +79,11 @@ async function run() {
     // Ensure the plugin directory exists.
     fs.ensureDirSync(INSTALL_DIR);
 
+    console.log("Syncing", {
+      from: projectRoot,
+      to: INSTALL_DIR,
+    });
+
     // Build the command
     rsync = new Rsync()
       .shell("ssh")
@@ -102,9 +115,14 @@ async function run() {
   // Execute the command
   rsync.execute(function (error, code, cmd) {
     console.log("Sync complete", cmd);
+    resolve();
   });
 
   await promise;
+}
+
+if (process.argv[2] === "run") {
+  run();
 }
 
 module.exports = run;

@@ -8,9 +8,9 @@
     "url": "git@code-ssh.bloomreach.com:engineering/sm/magento-discovery-connector.git"
   },
   "scripts": {
-    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/home/magento/server\"",
-    "deploy-dev": "ts-node --transpile-only bin/main deploy-dev",
-    "dev": "ts-node --transpile-only bin/main dev",
+    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"/home/magento/server\" Bloomreach/Connector",
+    "deploy-dev": "ts-node --transpile-only bin/main deploy-dev Bloomreach/Connector",
+    "dev": "ts-node --transpile-only bin/main dev Bloomreach/Connector",
     "magento-install": "ts-node --transpile-only bin/main magento-install",
     "magento-post-install": "ts-node --transpile-only bin/main magento-post-install",
     "magento-uninstall": "ts-node --transpile-only bin/main magento-uninstall",

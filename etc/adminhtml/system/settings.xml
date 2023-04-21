@@ -76,6 +76,12 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_incl
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
 
+        <field id="development_mode" translate="label,comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
+            <label>Development Mode</label>
+            <comment>When active, the pixel events will include a test data property, making it easier to filter out tests.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+
         <field id="pixel_cta" translate="label,comment" type="button" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="0">
             <label></label>
             <frontend_model>Bloomreach\Connector\Block\System\Config\Form\Field\PixelCta</frontend_model>

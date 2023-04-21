@@ -42,7 +42,6 @@ use Magento\Directory\Model\Currency;
 
 
 /**
-
  * Class ScriptInit
  * package Bloomreach\Connector\ViewModel\Head
  */
@@ -50,13 +49,13 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
 {
     public const XML_PATH_EMAIL_RECIPIENT = 'contact/email/recipient_email';
 
-    protected $_accId='';
-    protected $_domainKey='';
-    protected $_authKey='';
-    protected $_trackingCookie='';
-    protected $_searchEp='';
-    protected $_autoSuggestEp='';
-    protected $_currencySymbol='';
+    protected $_accId = '';
+    protected $_domainKey = '';
+    protected $_authKey = '';
+    protected $_trackingCookie = '';
+    protected $_searchEp = '';
+    protected $_autoSuggestEp = '';
+    protected $_currencySymbol = '';
 
     protected $scopeConfig;
     private $request;
@@ -134,7 +133,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getVersion()
     {
         try {
-            $pathToNeededModule = realpath(__DIR__."/../../composer.json");
+            $pathToNeededModule = realpath(__DIR__ . "/../../composer.json");
 
             if ($pathToNeededModule) {
                 $content = file_get_contents($pathToNeededModule);
@@ -149,14 +148,13 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             }
 
             return null;
-        }
-
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return "Unable to determine version";
         }
     }
 
-    public function hasProduct() {
+    public function hasProduct()
+    {
         $product = $this->catalogHelper->getProduct();
         if ($product) {
             return true;
@@ -167,7 +165,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     /**
      * Checks if this is a parent product by seeing if this product has any children.
      */
-    public function isParentProduct() {
+    public function isParentProduct()
+    {
         $product = $this->catalogHelper->getProduct();
         if ($product) {
             $childIds = $this->configurable->getChildrenIds($product->getId());
@@ -185,7 +184,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * Checks if this is a child product by seeing if this product has any
      * parents.
      */
-    public function isChildProduct() {
+    public function isChildProduct()
+    {
         $product = $this->catalogHelper->getProduct();
         if ($product) {
             $parentIds = $this->configurable->getParentIdsByChild($product->getId());
@@ -208,7 +208,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         // if ($this->isChildProduct()) return "Not a parent product";
 
         $product = $this->catalogHelper->getProduct();
-        if (!$product) return "";
+        if (!$product)
+            return "";
 
         $childProducts = $this->configurable->getUsedProducts($product);
 
@@ -232,7 +233,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         // if ($this->isChildProduct()) return "Not a parent product";
 
         $product = $this->catalogHelper->getProduct();
-        if (!$product) return "";
+        if (!$product)
+            return "";
 
         $childProducts = $this->configurable->getUsedProducts($product);
 
@@ -254,7 +256,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getProductAttributeIdToName()
     {
         $product = $this->catalogHelper->getProduct();
-        if (!$product) return "";
+        if (!$product)
+            return "";
 
         $attributes = $product->getAttributes();
 
@@ -275,7 +278,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     {
         try {
             $product = $this->catalogHelper->getProduct();
-            if (!$product) return "";
+            if (!$product)
+                return "";
 
             $childProducts = $this->configurable->getUsedProducts($product);
 
@@ -283,19 +287,21 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
                 $childProducts = $this->grouped->getAssociatedProducts($product);
             }
 
-            if (empty($childProducts)) return "";
+            if (empty($childProducts))
+                return "";
 
             $childProductAttributes = [];
 
             foreach ($childProducts as $childProduct) {
-                if ($childProduct == null) continue;
+                if ($childProduct == null)
+                    continue;
 
                 $attrIds = [];
                 $attributes = $childProduct->getAttributes();
 
                 // Retrieve the value of the attribute for the simple product
                 foreach ($attributes as $attr) {
-                    $values = (array)$childProduct->getData($attr->getName());
+                    $values = (array) $childProduct->getData($attr->getName());
 
                     if (!empty($values) && ($this->swatchHelper->isSwatchAttribute($attr) || $attr->getIsVisibleOnFront())) {
                         // Look up via name or via attribute id
@@ -397,7 +403,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      * This will load the current product collection displayed on the user's
      * screen and generate metrics for each of those products.
      */
-    public function getProductCollectionMetrics() {
+    public function getProductCollectionMetrics()
+    {
         $productCollection = $this->catalogLayer->getProductCollection();
         $productIds = [];
 
@@ -556,7 +563,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentPageTitle($block)
     {
-        if (!$block) return '';
+        if (!$block)
+            return '';
 
         $response = '';
         try {
@@ -575,7 +583,8 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCurrentCmsPage($block)
     {
-        if (!$block) return '';
+        if (!$block)
+            return '';
 
         $response = '';
         try {
@@ -673,6 +682,18 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
+     * Check if pixel is in development mode
+     *
+     * @return bool
+     */
+    public function isPixelDevelopment()
+    {
+        $val = $this->getStoreConfigValue(self::RECOMM_PIXEL_DEVELOPMENT);
+        return 1 == $val;
+
+    }
+
+    /**
      * Check if recommendation widget is enabled
      *
      * @return bool
@@ -717,14 +738,15 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
      */
     public function getCustomerId()
     {
-        $customerSession = $this->sessionFactory->create();;
+        $customerSession = $this->sessionFactory->create();
+        ;
         $customer = $customerSession->getCustomer();
 
         if ($customer) {
             $customerId = $customer->getId();
 
             if ($customerId) {
-                return "Customer.".$customerId;
+                return "Customer." . $customerId;
             }
         }
 
@@ -746,7 +768,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
                 $visitorId = $visitorData->getId();
 
                 if ($visitorId) {
-                    return "Visitor.".$visitorId;
+                    return "Visitor." . $visitorId;
                 }
             }
         }
@@ -754,13 +776,13 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
         // From cookie
         $visitorId = $this->cookieManager->getCookie('visitor_id');
         if ($visitorId) {
-            return "Visitor".$visitorId;
+            return "Visitor" . $visitorId;
         }
 
         // From internal manager
         $visitorId = $this->visitor->getId();
         if ($visitorId) {
-            return "Visitor".$visitorId;
+            return "Visitor" . $visitorId;
         }
 
         // Unable to form a visitor ID
@@ -811,7 +833,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getSearchEndPointUrl()
     {
         $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_SEARCH);
-        if ($val=='stage') {
+        if ($val == 'stage') {
             return self::STAGING_API_ENDPOINT_SEARCH;
         }
         return self::PRODUCTION_API_ENDPOINT_SEARCH;
@@ -825,7 +847,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getAutoSuggestEndPointUrl()
     {
         $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_AUTOSUGGEST);
-        if ($val=='stage') {
+        if ($val == 'stage') {
             return self::STAGING_API_ENDPOINT_AUTOSUGGEST;
         }
         return self::PRODUCTION_API_ENDPOINT_AUTOSUGGEST;
@@ -839,7 +861,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getCollectionEndPointUrl()
     {
         $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_CATEGORY);
-        if ($val=='stage') {
+        if ($val == 'stage') {
             return self::STAGING_API_ENDPOINT_COLLECTION;
         }
         return self::PRODUCTION_API_ENDPOINT_COLLECTION;
@@ -853,7 +875,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     public function getBrWidgetEndPointUrl()
     {
         $val = $this->getStoreConfigValue(self::SETTINGS_ENDPOINT_WIDGETS);
-        if ($val=='stage') {
+        if ($val == 'stage') {
             return self::STAGING_API_ENDPOINT_WIDGET;
         }
         return self::PRODUCTION_API_ENDPOINT_WIDGET;

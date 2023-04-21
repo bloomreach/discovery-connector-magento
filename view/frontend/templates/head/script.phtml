@@ -152,6 +152,12 @@ if ($viewModel->isProductListingPage()) {
             // br_data.view_id = "";
             // br_data.tms = "NEED_MORE_INFO";
 
+            var isPixelDevelopment = <?=  $viewModel->isPixelDevelopment() ? 'true' : 'false' ?>;
+
+            if (isPixelDevelopment) {
+                br_data.test_data = true;
+            }
+
             <?php if ($viewModel->hasProduct()):
                 $currentProduct = $viewModel->getCurrentProduct();
                 ?>
