@@ -1,3 +1,14 @@
+## 1.7.0
+
+## Added
+
+- [`ADDED`]: Added development mode for pixels. Can be configured from the settings
+
+## Fixed
+
+- [`FIXED`]: Added in better deploy and sync scripts for the QA environment and for sharing with another local dev environment
+- [`FIXED`]: Removed user_id from the pixel events.
+
 ## 1.6.1
 
 ## Fixed
