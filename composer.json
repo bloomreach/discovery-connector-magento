@@ -1,7 +1,7 @@
 {
   "name": "bloomreach/bloomreach-connector-magento",
   "description": "Bloomreach connector for autosuggest,collection and product search",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "type": "magento2-module",
   "license": "proprietary",
   "authors": [
