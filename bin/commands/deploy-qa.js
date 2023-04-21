@@ -36,45 +36,19 @@ async function updateRemote(deployInfo) {
  * rsync -av --exclude files src host:dest
  */
 async function sync(deployInfo) {
-  const deployDir = path.resolve(
+  process.env.MAGENTO_INSTALL_FOLDER = path.resolve(
     deployInfo.dest,
-    ".magento/src/app/code/Bloomreach/Connector"
+    ".magento"
   );
+  process.env.MAGENTO_REMOTE = deployInfo.host;
+
   console.log(
     "Syncing files",
     deployInfo.src,
-    `${deployInfo.host}:${deployDir}`
-  );
-  let resolve;
-  const promise = new Promise((r) => (resolve = r));
-
-  // Build the command
-  const rsync = new Rsync()
-    .shell("ssh")
-    .flags("az")
-    .source(deployInfo.src)
-    .destination(`${deployInfo.host}:${deployDir}`);
-
-  rsync.exclude([".git", ".idea", "node_modules", "scripts"]);
-
-  // Log output
-  rsync.output(
-    function (data) {
-      console.log(data.toString());
-    },
-    function (data) {
-      console.error(data.toString());
-    }
+    `${process.env.MAGENTO_REMOTE}:${process.env.MAGENTO_INSTALL_FOLDER}`
   );
 
-  // Execute the command
-  rsync.execute(function (error, code, cmd) {
-    console.log("Deploy cmd", cmd);
-    console.log("Deploy errors:", error || "none");
-    resolve();
-  });
-
-  await promise;
+  await require("../lib/magento/sync-plugin")();
 }
 
 /**

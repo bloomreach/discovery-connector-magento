@@ -1,7 +1,7 @@
-const fs = require('fs-extra');
-const path = require('path');
-const shell = require('shelljs');
-const wait = require('../lib/util/wait');
+const fs = require("fs-extra");
+const path = require("path");
+const shell = require("shelljs");
+const wait = require("../lib/util/wait");
 
 const projectRoot = path.resolve(__dirname, "../../");
 
@@ -11,7 +11,9 @@ const projectRoot = path.resolve(__dirname, "../../");
 async function run() {
   // Ensure the magento directory exists.
   if (!fs.existsSync(path.resolve(projectRoot, ".magento"))) {
-    console.error("Error: Magento is not installed. Please run `npm run magento-install` to install magento for this project.");
+    console.error(
+      "Error: Magento is not installed. Please run `npm run magento-install` to install magento for this project."
+    );
     process.exit(1);
   }
 
@@ -22,16 +24,16 @@ async function run() {
 
   // Spin up magento server
   let resolveStart;
-  const startPromise = new Promise((resolve) => resolveStart = resolve);
+  const startPromise = new Promise((resolve) => (resolveStart = resolve));
   const startProcess = shell.exec("bin/start", { async: true });
 
-  startProcess.stdout.on('data', (data) => {
+  startProcess.stdout.on("data", (data) => {
     if (data.toString().includes("Container magento-app-1  Started")) {
       resolveStart();
     }
   });
 
-  startProcess.on("exit", function() {
+  startProcess.on("exit", function () {
     resolveStart();
   });
 
@@ -42,8 +44,14 @@ async function run() {
 
   // Fire up a watcher for the project that will sync the files to the .magento
   // directory correctly.
-  const syncPath = path.resolve(__dirname, "../lib/magento/sync-plugin.js")
-  shell.exec(`nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node ${syncPath}\"`, { async: true });
+  const syncPath = path.resolve(__dirname, "../lib/magento/sync-plugin.js");
+  shell.exec(
+    `nodemon -e \"*\" --ignore node_modules --ignore .magento -x \"node ${syncPath}\"`,
+    {
+      async: true,
+      env: process.env,
+    }
+  );
 
   // Wait for the sync to complete once
   await wait(5000);
@@ -60,16 +68,18 @@ async function run() {
     // Upgrade server to register module
     //
     let resolveUpgrade;
-    const upgradePromise = new Promise((resolve) => resolveUpgrade = resolve);
-    const upgradeProcess = shell.exec("bin/magento setup:upgrade", { async: true });
+    const upgradePromise = new Promise((resolve) => (resolveUpgrade = resolve));
+    const upgradeProcess = shell.exec("bin/magento setup:upgrade", {
+      async: true,
+    });
 
-    upgradeProcess.stdout.on('data', (data) => {
+    upgradeProcess.stdout.on("data", (data) => {
       if (data.toString().includes("Enabling caches:")) {
         resolveUpgrade();
       }
     });
 
-    upgradeProcess.on("exit", function() {
+    upgradeProcess.on("exit", function () {
       resolveUpgrade();
     });
 
@@ -93,7 +103,7 @@ async function handleExit() {
   }
 
   // Upgrade server to register module
-  if (shell.exec("bin/stop").code !== 0)  {
+  if (shell.exec("bin/stop").code !== 0) {
     console.error("Error: Could not shut down magento");
     process.exit(0);
   }

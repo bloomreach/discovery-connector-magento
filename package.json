@@ -9,6 +9,7 @@
   },
   "scripts": {
     "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/home/magento/server\"",
+    "deploy-dev": "ts-node --transpile-only bin/main deploy-dev",
     "dev": "ts-node --transpile-only bin/main dev",
     "magento-install": "ts-node --transpile-only bin/main magento-install",
     "magento-post-install": "ts-node --transpile-only bin/main magento-post-install",
@@ -19,7 +20,8 @@
     "release": "ts-node --transpile-only bin/main release",
     "ts": "ts-node --transpile-only bin/main ts",
     "view-release": "node bin/main release-notes",
-    "dns": "ts-node --transpile-only bin/main dns"
+    "dns": "ts-node --transpile-only bin/main dns",
+    "command-help": "ts-node --transpile-only bin/main"
   },
   "author": "",
   "license": "ISC",

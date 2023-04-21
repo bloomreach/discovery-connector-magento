@@ -501,9 +501,16 @@ program
   .command("deploy-qa [src] [dest]")
   .description(
     `
-  This deploys the extension as is applied to YOUR CURRENT LOCAL dev server. The
+  This deploys the extension from you dev environment to the qa server. The
   dest provided should be the project folder on the QA server (such as
   /home/magento/server/) where the .magento folder is located.
+
+  You should have a deployqa.local.json file that describes the remote
+  connection to the QA server:
+
+  {
+    "host": "username@hostip"
+  }
 `
   )
   .action((src, dest) => {
@@ -511,6 +518,33 @@ program
       console.warn("deploy-qa process exited unexpectedly");
       console.warn(err.stack || err.message);
     });
+  });
+
+program
+  .command("deploy-dev")
+  .description(
+    `
+  This deploys this project to the local .magento folder. This is like a one
+  time npm run dev operation with no watcher. More importantly, this alows this
+  module to be installed into any custom .magento folder installation location,
+  such as, another module project being developed locally.
+
+  Specify the target .magento installation folder via the environment variable:
+  MAGENTO_INSTALL_FOLDER
+
+  NOTE: This command assumes the folder specified is a legitimate magento
+  installation location created via the magento-install command. It will attempt
+  to sync regardless of folder structure of the provided directory so long as
+  the directory exists.
+`
+  )
+  .action((src, dest) => {
+    try {
+      require("./lib/magento/sync-plugin")();
+    } catch (err) {
+      console.warn("deploy-dev process exited unexpectedly");
+      console.warn(err.stack || err.message);
+    }
   });
 
 program
