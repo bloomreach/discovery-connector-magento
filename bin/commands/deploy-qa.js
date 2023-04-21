@@ -10,6 +10,8 @@ const { prompt } = require("enquirer");
 const Rsync = require("rsync");
 const shell = require("shelljs");
 
+const projectRoot = path.resolve(__dirname, "../../");
+
 /**
  * Executes ssh to log into the remote server and run the
  */
@@ -36,52 +38,27 @@ async function updateRemote(deployInfo) {
  * rsync -av --exclude files src host:dest
  */
 async function sync(deployInfo) {
-  const deployDir = path.resolve(
+  process.env.MAGENTO_INSTALL_FOLDER = path.resolve(
     deployInfo.dest,
-    ".magento/src/app/code/Bloomreach/Connector"
+    ".magento"
   );
+  process.env.MAGENTO_REMOTE = deployInfo.host;
+  process.env.MAGENTO_MODULE = deployInfo.module || process.env.MAGENTO_MODULE;
+
   console.log(
     "Syncing files",
     deployInfo.src,
-    `${deployInfo.host}:${deployDir}`
-  );
-  let resolve;
-  const promise = new Promise((r) => (resolve = r));
-
-  // Build the command
-  const rsync = new Rsync()
-    .shell("ssh")
-    .flags("az")
-    .source(deployInfo.src)
-    .destination(`${deployInfo.host}:${deployDir}`);
-
-  rsync.exclude([".git", ".idea", "node_modules", "scripts"]);
-
-  // Log output
-  rsync.output(
-    function (data) {
-      console.log(data.toString());
-    },
-    function (data) {
-      console.error(data.toString());
-    }
+    `${process.env.MAGENTO_REMOTE}:${process.env.MAGENTO_INSTALL_FOLDER}`
   );
 
-  // Execute the command
-  rsync.execute(function (error, code, cmd) {
-    console.log("Deploy cmd", cmd);
-    console.log("Deploy errors:", error || "none");
-    resolve();
-  });
-
-  await promise;
+  await require("../lib/magento/sync-plugin")();
 }
 
 /**
  * Entry method for the deploy-qa process
  */
-async function run({ src, dest }) {
-  let deployInfo = { host: void 0, src, dest };
+async function run({ dest }) {
+  let deployInfo = { host: void 0, src: projectRoot, dest };
 
   // See if the parameters are available in the local json file
   if (fs.existsSync(path.resolve("deployqa.local.json"))) {
@@ -108,13 +85,6 @@ async function run({ src, dest }) {
           name: "host",
           message: "What host should be deployed to?",
         },
-    deployInfo.src
-      ? void 0
-      : {
-          type: "input",
-          name: "src",
-          message: "What src folder should be uploaded?",
-        },
     deployInfo.dest
       ? void 0
       : {
@@ -133,7 +103,7 @@ async function run({ src, dest }) {
   }
 
   deployInfo.src =
-    path.resolve(deployInfo.src) + (src.endsWith("/") ? "/" : "");
+    path.resolve(deployInfo.src) + (deployInfo.src.endsWith("/") ? "/" : "");
 
   console.log("Deploy Target:\n", deployInfo);
 

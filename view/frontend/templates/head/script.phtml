@@ -141,7 +141,9 @@ if ($viewModel->isProductListingPage()) {
         <script>
             // domain_key view_id catalogs tms sid
             var br_data = window.br_data || {};
-            br_data.user_id = "<?= /* @noEscape */ $viewModel->getCustomerId() ?>";
+            // TODO: We will not set the user_id for now. This exact value is in
+            // debate for what it should represent in magento to pixel.
+            // br_data.user_id = "<?= /* @noEscape */ $viewModel->getCustomerId() ?>";
             br_data.acct_id = "<?=  $escaper->escapeHtml($viewModel->getAccountId()); ?>";
             br_data.ptype = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageName()) ?>";
             br_data.title = "<?=  $escaper->escapeHtml($viewModel->getCurrentPageTitle($block)) ?>";
@@ -149,6 +151,12 @@ if ($viewModel->isProductListingPage()) {
             // br_data.catalogs = ["NEED_MORE_INFO"];
             // br_data.view_id = "";
             // br_data.tms = "NEED_MORE_INFO";
+
+            var isPixelDevelopment = <?=  $viewModel->isPixelDevelopment() ? 'true' : 'false' ?>;
+
+            if (isPixelDevelopment) {
+                br_data.test_data = true;
+            }
 
             <?php if ($viewModel->hasProduct()):
                 $currentProduct = $viewModel->getCurrentProduct();

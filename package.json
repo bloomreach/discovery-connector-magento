@@ -1,6 +1,6 @@
 {
   "name": "magento-connector",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "NPM tools to aid in developing this connector application",
   "main": "index.js",
   "repository": {
@@ -8,8 +8,9 @@
     "url": "git@code-ssh.bloomreach.com:engineering/sm/magento-discovery-connector.git"
   },
   "scripts": {
-    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"./.magento/src/app/code/Bloomreach/Connector/\" \"/home/magento/server\"",
-    "dev": "ts-node --transpile-only bin/main dev",
+    "deploy-qa": "ts-node --transpile-only bin/main deploy-qa \"/home/magento/server\" Bloomreach/Connector",
+    "deploy-dev": "ts-node --transpile-only bin/main deploy-dev Bloomreach/Connector",
+    "dev": "ts-node --transpile-only bin/main dev Bloomreach/Connector",
     "magento-install": "ts-node --transpile-only bin/main magento-install",
     "magento-post-install": "ts-node --transpile-only bin/main magento-post-install",
     "magento-uninstall": "ts-node --transpile-only bin/main magento-uninstall",
@@ -19,7 +20,8 @@
     "release": "ts-node --transpile-only bin/main release",
     "ts": "ts-node --transpile-only bin/main ts",
     "view-release": "node bin/main release-notes",
-    "dns": "ts-node --transpile-only bin/main dns"
+    "dns": "ts-node --transpile-only bin/main dns",
+    "command-help": "ts-node --transpile-only bin/main"
   },
   "author": "",
   "license": "ISC",
