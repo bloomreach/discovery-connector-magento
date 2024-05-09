@@ -3017,6 +3017,7 @@
       state = getCurrentRecommendationsUiState();
       const currentWidgets = state.widgets;
       collectWidgetsFromDom();
+      state = getCurrentRecommendationsUiState();
       const foundWidgets = state.widgets;
       if (currentWidgets.length && !foundWidgets.length) ; else if (!currentWidgets.length && foundWidgets.length) {
         // We went from having no widgets to having widgets, so we need to mount the module.
