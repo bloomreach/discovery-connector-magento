@@ -1,3 +1,10 @@
+## 1.7.1
+
+## Fixed
+
+- [`FIXED`]: Incorrect 'ptype' in Pixel config for conversion and cart pages.
+- [`FIXED`]: Recommendations widgets not showing up in storefronts.
+
 ## 1.7.0
 
 ## Added
