@@ -430,9 +430,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
             case 'catalog_category_view':
                 $response = 'category';
                 break;
-            case 'checkout_cart_index':
-                $response = 'cart';
-                break;
             case 'catalogsearch_result_index':
                 $response = 'search';
                 break;
@@ -443,7 +440,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
                 $response = 'content';
                 break;
             case 'checkout_onepage_success':
-                $response = 'checkout_success';
+                $response = 'conversion';
                 break;
             default:
                 $response = 'other';

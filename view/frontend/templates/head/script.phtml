@@ -188,7 +188,7 @@ if ($viewModel->isProductListingPage()) {
             // Search results page view
             br_data.search_term = "<?=  $escaper->escapeHtml($viewModel->getSearchTerm()) ?>";
             <?php endif; ?>
-            <?php if ('checkout_success' === $viewModel->getCurrentPageName()):
+            <?php if ('conversion' === $viewModel->getCurrentPageName()):
                 $lastOrder = $viewModel->getLastRealOrder();
                 if ($lastOrder):
                     ?>
