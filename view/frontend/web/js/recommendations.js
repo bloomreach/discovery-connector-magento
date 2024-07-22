@@ -3046,6 +3046,9 @@
       request_id: generateRequestId()
     });
     storeSegmentationPixelData();
+
+		collectWidgetsFromDom();
+
     // get and populate widgets data into the DOM
     const loadWidgets = getCurrentRecommendationsUiState().widgets.reduce((allPromises, widgetData) => [...allPromises, new Promise(resolve => {
       // build API call parameters
