@@ -2,6 +2,7 @@
 const commander = require("commander");
 const path = require("path");
 const shell = require("shelljs");
+require('dotenv').config();
 
 const { Command } = commander;
 const program = new Command();

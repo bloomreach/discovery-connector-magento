@@ -203,15 +203,9 @@
               <span class="blm-range-slider__values--min">
                 <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>
               </span>
-              <% if (checkedFacets.price) { %>
-                <span class="blm-range-slider__values--max">
-                  <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.start * 100) %>
-                </span>
-              <% } else { %>
-                <span class="blm-range-slider__values--max">
-                  <%= config.format_money(priceRangeFacet.end * 100) %>
-                </span>
-              <% } %>
+              <span class="blm-range-slider__values--max">
+                <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.end * 100) %>
+              </span>
             </div>
           <% if (checkedFacets.price) { %>
             <div class="blm-range-slider__clear-values">
@@ -231,8 +225,8 @@
                 <input
                   type="checkbox"
                   <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
-                  name="<%- facet.original_title %>"
-                  value="<%- escapeSpecialCharacters(item.id) %>"
+                  name="<%= facet.original_title %>"
+                  value="<%= escapeSpecialCharacters(item.id) %>"
                   id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
                   class="blm-product-search-filter-item__checkbox"
                 />
@@ -576,15 +570,9 @@
               <span class="blm-range-slider__values--min">
                 <%= checkedFacets.price ? config.format_money(checkedFacets.price[0] * 100) : config.format_money(priceRangeFacet.start * 100) %>
               </span>
-              <% if (checkedFacets.price) { %>
-                <span class="blm-range-slider__values--max">
-                  <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.start * 100) %>
-                </span>
-              <% } else { %>
-                <span class="blm-range-slider__values--max">
-                  <%= config.format_money(priceRangeFacet.end * 100) %>
-                </span>
-              <% } %>
+              <span class="blm-range-slider__values--max">
+                <%= checkedFacets.price ? config.format_money(checkedFacets.price[1] * 100) : config.format_money(priceRangeFacet.end * 100) %>
+              </span>
             </div>
           <% if (checkedFacets.price) { %>
             <div class="blm-range-slider__clear-values">
@@ -604,8 +592,8 @@
                 <input
                   type="checkbox"
                   <% if (facet.original_title in checkedFacets && checkedFacets[facet.original_title].includes(escapeSpecialCharacters(item.id))) { %>checked<% } %>
-                  name="<%- facet.original_title %>"
-                  value="<%- escapeSpecialCharacters(item.id) %>"
+                  name="<%= facet.original_title %>"
+                  value="<%= escapeSpecialCharacters(item.id) %>"
                   id="<%- facet.original_title + '[' + escapeSpecialCharacters(item.name) + ']' %>"
                   class="blm-product-search-filter-item__checkbox"
                 />

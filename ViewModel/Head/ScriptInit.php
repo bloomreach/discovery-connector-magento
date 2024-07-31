@@ -40,7 +40,6 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Directory\Model\Currency;
 
-
 /**
  * Class ScriptInit
  * package Bloomreach\Connector\ViewModel\Head
@@ -687,7 +686,6 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     {
         $val = $this->getStoreConfigValue(self::RECOMM_PIXEL_DEVELOPMENT);
         return 1 == $val;
-
     }
 
     /**
@@ -730,8 +728,7 @@ class ScriptInit implements ArgumentInterface, ConfigurationSettingsInterface
     }
 
     /**
-     * Get current customer unique id. This will become a visitor ID if customer
-     * is not logged in.
+     * Get current customer unique id. This will become a visitor ID if customer is not logged in.
      */
     public function getCustomerId()
     {
