@@ -1,3 +1,13 @@
+## 1.8.0
+
+## Added
+
+- [`ADDED`]: Added support for [Bloomreach Discovery Facet Response V3](https://documentation.bloomreach.com/discovery/reference/facet-response-v3-unified-ranking).
+
+## Fixed
+
+- [`FIXED`]: When adding multiple Recommendations widgets in storefronts, only one was showing.
+
 ## 1.7.1
 
 ## Fixed
