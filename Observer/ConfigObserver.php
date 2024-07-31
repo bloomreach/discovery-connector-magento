@@ -12,6 +12,10 @@ class ConfigObserver implements ObserverInterface
      * @var RequestInterface
      */
     private $request;
+    /**
+     * @var WriterInterface
+     */
+    private $configWriter;
 
     /**
      * ConfigChange constructor.
