@@ -1,3 +1,9 @@
+## 1.8.1
+
+## Fixed
+
+- [`FIXED`]: Pathways & Recommendations widgets not picking up the `fields` config.
+
 ## 1.8.0
 
 ## Added
