@@ -1,3 +1,9 @@
+## 1.8.2
+
+## Changed
+
+- [`CHANGED`]: Support additional API parameters in Recommendations widgets.
+
 ## 1.8.1
 
 ## Fixed
