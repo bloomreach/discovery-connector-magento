@@ -81,6 +81,10 @@
                     </option>
                 </options>
             </parameter>
+            <parameter name="additional_parameters" xsi:type="text" required="false" visible="true">
+                <label translate="true">Additional Parameters</label>
+                <description>Additional API parameters. For example, "name1=value1&amp;name2=value2"</description>
+            </parameter>
         </parameters>
     </widget>
 </widgets>

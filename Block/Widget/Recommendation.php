@@ -136,15 +136,19 @@ class Recommendation extends Template implements BlockInterface
         } else {
             $itemSkus = null;
         }
+
+        $additionalParams = htmlentities($this->getData('additional_parameters') ?? '');
+        $this->logger->debug("additional_parameters: ".$additionalParams);
         $response = [
-            'title'=>$this->getData('title'),
+            'title' => $this->getData('title'),
             'widget_id' => $this->getData('rec_widget_id'),
             'widget_type' => $this->getData('rec_widget_type'),
             'category_id' => $this->getData('category_id'),
-            'query'=> $this->getData('keyword_query'),
-            'item_ids'=> $itemSkus,
-            'products_visible'=> $this->getData('products_visible'),
-            'products_to_fetch'=> $this->getData('products_to_fetch')
+            'query' => $this->getData('keyword_query'),
+            'item_ids' => $itemSkus,
+            'products_visible' => $this->getData('products_visible'),
+            'products_to_fetch' => $this->getData('products_to_fetch'),
+            'additional_parameters' => $additionalParams,
         ];
         return $this->jsonSerializer->serialize($response);
     }
