@@ -1,6 +1,7 @@
 # Bloomreach Connector Module
 
 The Connector module provides the option to connect with Bloomreach Search Merchandise and other API and pixel integration.
+The Discovery Magento connector is a community-supported tool. It is fully Open-Sourced and open to contributions.
 
 ## Installing Magento
 
@@ -183,7 +184,7 @@ Pixel collect customer's behavioral data, like what they are looking into site (
 - Quick view any product (not integrated by default, can be done manually. See below)
 - Placed an order and went to order success page after order completion
 
-###Data Bloomreach collect:
+### Data Bloomreach collects:
 
 - Page url
 - User id (logged-in customer unique id encrypted hash)
